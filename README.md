@@ -1,2 +1,4 @@
-# emma-toolkit
-Emergency Market Mapper Diagram Tool
+# EMMA Toolkit
+
+- `npm run-script dev`
+- `npm run-script build`
