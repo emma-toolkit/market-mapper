@@ -1,7 +1,9 @@
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 
 export default {
+  context: `${process.cwd()}/app`,
   entry: {
+    index: './index.js',
     app: './app.js'
   },
   output: {
@@ -10,7 +12,10 @@ export default {
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel' }
+      { test: /\.js$/, loader: 'babel' },
+      { test: /\.json$/, loader: 'json' },
+      { test: /\.css$/, loaders: ['style', 'css'] },
+      { test: /\.styl$/, loaders: ['style', 'css', 'stylus'] }
     ]
   },
   plugins: [new HTMLWebpackPlugin({
