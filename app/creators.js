@@ -4,13 +4,13 @@ import data from '../dev/data.json'
 
 const loadNodes = createAction(actions.LOAD_NODES, function() {
   const nodes = {
-    environment: {},
-    chain: {},
-    infrastructure: {}
+    environment: new Map(),
+    chain: new Map(),
+    infrastructure: new Map()
   };
   for (let id in data) {
     const node = data[id];
-    nodes[node.type][id] = node;
+    nodes[node.type].set(id, node);
   };
   return nodes;
 });
