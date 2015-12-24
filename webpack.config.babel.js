@@ -28,7 +28,8 @@ export default {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
       { test: /\.json$/, loader: 'json' },
       { test: /\.css$/, loaders: ['style', 'css'] },
       { test: /\.styl$/, loaders: ['style', 'css', 'stylus'] }
