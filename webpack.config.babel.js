@@ -2,10 +2,10 @@ import { DefinePlugin } from 'webpack'
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 
 export default {
-  context: `${process.cwd()}/app`,
+  // context: `${process.cwd()}/app`,
   entry: {
-    index: './index.js',
-    app: './app.js'
+    css: './styles/app.styl',
+    app: './app/app.js'
   },
   output: {
     path: './build',
