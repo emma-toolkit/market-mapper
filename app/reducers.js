@@ -5,7 +5,7 @@ import actions from './actions'
 
 const chain_handlers = typeHandlers('chain');
 chain_handlers[actions.LAYOUT_CHAIN] = function(state, action) {
-  for (let [id, position] of action.payload.positions) {
+  for (let [id, position] of action.payload) {
     state = state.mergeIn([id], {
       x: position.x,
       y: position.y

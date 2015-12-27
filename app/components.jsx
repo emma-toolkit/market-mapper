@@ -4,6 +4,14 @@ import creators from './creators'
 import DevTools from '../dev/devtools.jsx'
 const createClass = React.createClass
 
+const Edge = createClass({
+  render: function() {
+    return (
+      <svg><line /></svg>
+    );
+  }
+});
+
 const Node = createClass({
   getStyle: function() {
     return {
@@ -35,11 +43,15 @@ const Container = createClass({
     return !next_props.data.equals(this.props.data);
   },
   componentDidMount: function() {
-    if (this.props.doLayout !== undefined) this.props.doLayout();
+    if (this.props.doLayout !== undefined) {
+      const div = this.refs.div;
+      this.props.doLayout(div.offsetWidth, div.offsetHeight);
+    }
+    this.refs.div.className = 'container post-layout';
   },
   render: function() {
     return (
-      <div id={this.props.id} className='container' ref='div'>
+      <div id={this.props.id} className='container pre-layout' ref='div'>
         {
           this.props.data.map((d, id) => {
             return (
@@ -64,7 +76,7 @@ const App = connect(
     return {
       initNode: (id, x, y, w, h) =>
         dispatch(creators.initNode(id, x, y, w, h)),
-      layoutChain: () => dispatch(creators.layoutChain())
+      layoutChain: (w, h) => dispatch(creators.layoutChain(w, h))
     }
   }
 )(createClass({
