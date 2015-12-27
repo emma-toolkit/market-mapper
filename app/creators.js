@@ -31,7 +31,7 @@ export default {
     function(container_width, container_height) {
       // Set graph nodes and edges
       const graph = new GraphLib.Graph();
-      graph.setDefaultEdgeLabel({});
+      graph.setDefaultEdgeLabel(() => {return {}});
       store.getState().get('chain').forEach(function(d, id) {
         graph.setNode(id, {
           width: d.get('w'),
@@ -70,12 +70,15 @@ export default {
       layout(graph);
 
       // Return position payload
-      const positions = new Map();
+      const nodes = new Map();
       for (let id of graph.nodes()) {
         const node = graph.node(id);
-        positions.set(parseInt(id), {x: node.x, y: node.y});
+        nodes.set(parseInt(id), {x: node.x, y: node.y});
       }
-      return positions;
+      const edges = new Map();
+      for (let id of graph.edges())
+        edges.set([parseInt(id.v), parseInt(id.w)], graph.edge(id).points);
+      return {nodes, edges};
     }
   )
 };

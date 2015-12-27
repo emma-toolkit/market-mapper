@@ -5,10 +5,18 @@ import DevTools from '../dev/devtools.jsx'
 const createClass = React.createClass
 
 const Edge = createClass({
+  coordinate: function(n) {
+    const coordinate = this.props.data.get(n);
+    return `${coordinate.x},${coordinate.y}`;
+  },
+  path: function() {
+    const coordinates = [];
+    for (let i = 1; i < this.props.data.size; i++)
+      coordinates.push(this.coordinate(i));
+    return coordinates.join(' ');
+  },
   render: function() {
-    return (
-      <svg><line /></svg>
-    );
+    return <path d={`M${this.coordinate(0)} Q${this.path()}`} />;
   }
 });
 
@@ -59,6 +67,7 @@ const Container = createClass({
             )
           }).toArray()
         }
+        {this.props.children}
       </div>
     );
   }
@@ -69,7 +78,8 @@ const App = connect(
     return {
       environment: state.get('environment'),
       chain: state.get('chain'),
-      infrastructure: state.get('infrastructure')
+      infrastructure: state.get('infrastructure'),
+      edges: state.get('edges')
     };
   },
   function(dispatch) {
@@ -93,7 +103,15 @@ const App = connect(
           data={this.props.chain}
           initNode={this.props.initNode}
           doLayout={this.props.layoutChain}
-        />
+        >
+          <svg id='edges'>
+            {
+              this.props.edges.map(function(edge, id) {
+                return <Edge key={id} data={edge} />
+              }).toArray()
+            }
+          </svg>
+        </Container>
         <Container
           id='infrastructure'
           data={this.props.infrastructure}
