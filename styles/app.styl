@@ -1,22 +1,25 @@
-@import '~HTML5-Reset/assets/css/reset.css'
+@import '~html5-reset/assets/css/reset.css'
 
 html
   font-size 16px
   font-family sans-serif
 
 .container
+  height 33%
+  position relative
   display flex
   justify-content space-around
   align-items center
-  height 33%
 
 .node
   border 1px solid black
   padding 1.5rem
+  display inline-block
 
 #environment .node
   border-radius 50%
 #chain .node
   border-radius 1.5rem
+  position absolute
 #infrastructure .node
   border-radius 0

@@ -5,9 +5,8 @@ import store from './store'
 import creators from './creators'
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Append app wrapper.
+  // Append wrapper.
   const div = document.createElement('DIV');
-  div.id = 'app';
   document.body.appendChild(div);
 
   // Render app.
