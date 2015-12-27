@@ -6,14 +6,15 @@ export default {
   entry: {
     css: './styles/app.styl',
     vendor: [
-      'd3',
+      'dagre',
       'immutable',
       'react',
       'react-dom',
       'react-redux',
       'redux',
       'redux-actions',
-      'redux-immutablejs'
+      'redux-immutablejs',
+      'redux-promise'
     ],
     dev: [
       'redux-devtools',
