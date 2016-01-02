@@ -1,8 +1,10 @@
 import { createAction } from 'redux-actions'
-import { graphlib as GraphLib, layout } from 'dagre'
-import store from './store'
+import Cytoscape from 'cytoscape'
+import Dagre from 'dagre'
+import CytoscapeDagre from 'cytoscape-dagre'
 import actions from './actions'
 import data from '../dev/data.json'
+CytoscapeDagre(Cytoscape, Dagre);
 
 export default {
   loadNodes: createAction(
@@ -20,65 +22,62 @@ export default {
       return nodes;
     }
   ),
-
-  initNode: createAction(
-    actions.INIT_NODE,
-    function (id, x, y, w, h) {return {id, x, y, w, h}}
-  ),
   
-  layoutChain: createAction(
-    actions.LAYOUT_CHAIN,
-    function(container_width, container_height) {
-      // Set graph nodes and edges
-      const graph = new GraphLib.Graph();
-      graph.setDefaultEdgeLabel(() => {return {}});
-      store.getState().get('chain').forEach(function(d, id) {
-        graph.setNode(id, {
-          width: d.get('w'),
-          height: d.get('h'),
-        });
-        for (let edge_id of d.get('edges')) graph.setEdge(id, edge_id);
+  layoutGraph: createAction(
+    actions.LAYOUT_GRAPH,
+    function(environment, chain, infrastructure, div) {
+      const data = {
+        nodes: [],
+        edges: []
+      };
+      addElements('environment', environment, data);
+      addElements('chain', chain, data);
+      addElements('infrastructure', infrastructure, data);
+
+      const graph = Cytoscape({
+        container: div,
+        elements: {
+          nodes: data.nodes,
+          edges: data.edges
+        },
+        layout: {
+          name: 'dagre',
+          rankDir: 'TB',
+          // boundingBox: {
+          //   x1: 0,
+          //   y1: 0,
+          //   w: div.offsetWidth,
+          //   h: div.offsetHeight
+          // }
+        }
       });
-
-      // Perform layout without spacing
-      graph.setGraph({
-        rankdir: 'LR',
-        ranksep: 0,
-        nodesep: 0
-      });
-      layout(graph);
-
-      // Compile column data 
-      const cols = new Map();
-      for (let id of graph.nodes()) {
-        const x = graph.node(id).x;
-        const count = cols.get(x);
-        if (count === undefined) cols.set(x, 1);
-        else cols.set(x, count + 1);
-      }
-
-      // Perform final layout with spacing
-      const graph_data = graph.graph();
-      const space = (container_width - graph_data.width) / (cols.size * 2);
-      graph.setGraph({
-        rankdir: 'LR',
-        ranksep: space * 2,
-        nodesep: (container_height - graph_data.height) /
-          (Math.max(...cols.values()) - 1),
-        marginx: space
-      });
-      layout(graph);
-
-      // Return position payload
-      const nodes = new Map();
-      for (let id of graph.nodes()) {
-        const node = graph.node(id);
-        nodes.set(parseInt(id), {x: node.x, y: node.y});
-      }
-      const edges = new Map();
-      for (let id of graph.edges())
-        edges.set([parseInt(id.v), parseInt(id.w)], graph.edge(id).points);
-      return {nodes, edges};
     }
   )
 };
+
+
+function addElements(type, state, data) {
+  data.nodes.push({
+    group: 'nodes',
+    data: {id: type}
+  });
+  state.forEach(function(d, id) {
+    data.nodes.push({
+      group: 'nodes',
+      data: {
+        id,
+        parent: type
+      }
+    });
+    for (let edge_id of d.get('edges')) {
+      data.edges.push({
+        group: 'edges',
+        data: {
+          id: `[${id},${edge_id}]`,
+          source: id,
+          target: edge_id
+        }
+      });
+    }
+  });
+}

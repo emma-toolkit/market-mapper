@@ -6,6 +6,8 @@ export default {
   entry: {
     css: './styles/app.styl',
     vendor: [
+      'cytoscape',
+      'cytoscape-dagre',
       'dagre',
       'immutable',
       'react',
