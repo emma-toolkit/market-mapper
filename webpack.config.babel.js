@@ -34,8 +34,8 @@ export default {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
       { test: /\.json$/, loader: 'json' },
-      { test: /\.css$/, loaders: ['style', 'css'] },
-      { test: /\.styl$/, loaders: ['style', 'css', 'stylus'] }
+      { test: /^((?!graph).)*\.styl$/, loaders: ['style', 'css', 'stylus'] },
+      { test: /graph\.styl$/, loaders: ['css', 'stylus'] }
     ]
   },
   plugins: [

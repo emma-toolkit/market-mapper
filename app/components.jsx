@@ -14,24 +14,17 @@ const App = connect(
   },
   function(dispatch) {
     return {
-      layoutGraph: function(environment, chain, infrastructure, div) {
-        dispatch(creators.layoutGraph(
-          environment,
-          chain,
-          infrastructure,
-          div
-        ));
-      }
+      layoutGraph: (data, div) => dispatch(creators.layoutGraph(data, div))
     }
   }
 )(createClass({
   componentDidMount: function() {
-    this.props.layoutGraph(
-      this.props.environment,
-      this.props.chain,
-      this.props.infrastructure,
-      this.refs.graph
-    );
+    const data = {
+      environment: this.props.environment,
+      chain: this.props.chain,
+      infrastructure: this.props.infrastructure
+    };
+    this.props.layoutGraph(data, this.refs.graph);
   },
   render: function() {
     return <div id='graph' style={{height: window.innerHeight}} ref='graph' />;

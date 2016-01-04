@@ -1,0 +1,34 @@
+node-padding = 20px
+
+node
+  width label
+  height label
+  background-color white
+  border-width 1px
+  border-color black
+  content data(label)
+  text-valign center
+  text-halign center
+  padding-top node-padding
+  padding-right node-padding
+  padding-bottom node-padding
+  padding-left node-padding
+  &.parent
+    background-color white
+    border-width 0
+  &.environment
+    shape ellipse
+  &.chain
+    shape rectangle
+  &.infrastructure
+    shape octagon
+
+edge
+  line-color gray
+  target-arrow-color gray
+  &.chain
+    width 4px
+    target-arrow-shape triangle
+  &.infrastructure
+    width 1px
+    target-arrow-shape circle
