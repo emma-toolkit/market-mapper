@@ -4,7 +4,7 @@ import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
 import actions from './actions'
 import graph_style from '../styles/graph.styl'
-import data from '../dev/data.json'
+import data from '../dev/rice.json'
 CytoscapeDagre(Cytoscape, Dagre);
 
 export default {
@@ -25,11 +25,12 @@ export default {
   ),
   
   layoutGraph: createAction(
-    actions.LAYOUT_GRAPH,
+    actions.LAYOUT_DONE,
     function(data, div) {
       const margin = 50;
       const one_third = div.offsetHeight / 3;
       
+      // Init nodes and edges
       const elements = {
         nodes: [],
         edges: []
@@ -38,6 +39,7 @@ export default {
       addElements('chain', data, elements);
       addElements('infrastructure', data, elements);
 
+      // Create graph and do layout
       const graph = Cytoscape({
         container: div,
         elements: {
