@@ -29,7 +29,6 @@ export default {
     function(data, div) {
       const margin = 50;
       const one_third = div.offsetHeight / 3;
-      const two_thirds = one_third * 2;
       
       const elements = {
         nodes: [],
@@ -50,28 +49,29 @@ export default {
         zoomingEnabled: false,
         panningEnabled: false,
         ready: function(e) {
-          const environment = e.cy.nodes('.environment');
+          // Layout chain and infrustructure together
+          // in order to determine infrastructure order
+          e.cy.elements('.chain, .infrastructure').layout({
+            name: 'dagre',
+            rankDir: 'LR'
+          });
+          const infrastructure = e.cy.nodes('.infrastructure').sort(
+            (ele1, ele2) => ele1.position().y - ele2.position().y
+          );
+
+          // Layout environment
+          const environment = e.cy.elements('.environment');
           environment.layout({
-            name: 'cose',
-            componentSpacing: 10,
+            name: 'grid',
             boundingBox: {
               x1: 0,
               y1: 0,
               x2: div.offsetWidth,
-              y2: div.offsetHeight / 3
+              y2: one_third
             }
           });
-          environment.layout({
-            name: 'cose',
-            componentSpacing: 10,
-            boundingBox: getBoundingBox(environment, div, {
-              top: margin,
-              right: margin,
-              bottom: margin / 2,
-              left: margin
-            })
-          });
 
+          // Layout chain
           const chain = e.cy.elements('.chain');
           chain.layout({
             name: 'dagre',
@@ -81,33 +81,22 @@ export default {
             name: 'dagre',
             rankDir: 'LR',
             boundingBox: getBoundingBox(chain, div, {
-              top: one_third + margin / 2,
+              top: one_third,
               right: margin,
-              bottom: -one_third + margin / 2,
+              bottom: one_third,
               left: margin
             })
           });
 
-          const infrastructure = e.cy.nodes('.infrastructure');
+          // Layout infrastructure
           infrastructure.layout({
-            name: 'cose',
-            componentSpacing: 10,
+            name: 'grid',
             boundingBox: {
               x1: 0,
-              y1: 0,
+              y1: one_third * 2,
               x2: div.offsetWidth,
-              y2: div.offsetHeight / 3
+              y2: div.offsetHeight
             }
-          });
-          infrastructure.layout({
-            name: 'cose',
-            componentSpacing: 10,
-            boundingBox: getBoundingBox(infrastructure, div, {
-              top: two_thirds + margin / 2,
-              right: margin,
-              bottom: -two_thirds + margin,
-              left: margin
-            })
           });
         }
       });
@@ -117,17 +106,17 @@ export default {
 
 
 function addElements(type, data, elements) {
-  // elements.nodes.push({
-  //   group: 'nodes',
-  //   data: {id: type},
-  //   classes: 'parent'
-  // });
+  elements.nodes.push({
+    group: 'nodes',
+    data: {id: type},
+    classes: 'parent'
+  });
   data[type].forEach(function(d, id) {
     elements.nodes.push({
       group: 'nodes',
       data: {
         id,
-        // parent: type,
+        parent: type,
         label: d.get('name')
       },
       classes: type
@@ -175,6 +164,6 @@ function getBoundingBox(nodes, div, margins) {
     x1: margins.left + extremes.left.outerWidth() / 2,
     y1: margins.top + extremes.top.outerHeight() / 2,
     x2: div.offsetWidth - extremes.right.outerWidth() / 2 - margins.right,
-    y2: div.offsetHeight / 3 - extremes.bottom.outerHeight() / 2 - margins.bottom
+    y2: div.offsetHeight - extremes.bottom.outerHeight() / 2 - margins.bottom
   };
 }
