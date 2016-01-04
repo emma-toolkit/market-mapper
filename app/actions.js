@@ -1,5 +1,6 @@
 const actions = [
-  'LOAD_NODES'
+  'LOAD_NODES',
+  'LAYOUT_DONE'
 ];
 
 export default actions.reduce(function(prev, cur) {

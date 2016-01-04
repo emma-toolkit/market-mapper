@@ -51,6 +51,11 @@ export default {
         zoomingEnabled: false,
         panningEnabled: false,
         ready: function(e) {
+          // Add classes to chain roots and leaves
+          const chain = e.cy.elements('.chain');
+          chain.roots().addClass('endpoint');
+          chain.leaves().addClass('endpoint');
+
           // Layout chain and infrustructure together
           // in order to determine infrastructure order
           e.cy.elements('.chain, .infrastructure').layout({
@@ -74,7 +79,6 @@ export default {
           });
 
           // Layout chain
-          const chain = e.cy.elements('.chain');
           chain.layout({
             name: 'dagre',
             rankDir: 'LR'
