@@ -27,7 +27,7 @@ export default {
   layoutGraph: createAction(
     actions.LAYOUT_DONE,
     function(data, div) {
-      const margin = 50;
+      const margin = div.offsetHeight / 10;
       const one_third = div.offsetHeight / 3;
       
       // Init nodes and edges
@@ -53,8 +53,8 @@ export default {
         ready: function(e) {
           // Add classes to chain roots and leaves
           const chain = e.cy.elements('.chain');
-          chain.roots().addClass('endpoint');
-          chain.leaves().addClass('endpoint');
+          chain.roots().addClass('root');
+          chain.leaves().addClass('leaf');
 
           // Layout chain and infrustructure together
           // in order to determine infrastructure order
@@ -74,7 +74,7 @@ export default {
               x1: 0,
               y1: 0,
               x2: div.offsetWidth,
-              y2: one_third
+              y2: one_third - margin
             }
           });
 
@@ -99,7 +99,7 @@ export default {
             name: 'grid',
             boundingBox: {
               x1: 0,
-              y1: one_third * 2,
+              y1: one_third * 2 + margin,
               x2: div.offsetWidth,
               y2: div.offsetHeight
             }

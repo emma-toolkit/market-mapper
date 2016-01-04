@@ -27,7 +27,16 @@ const App = connect(
     this.props.layoutGraph(data, this.refs.graph);
   },
   render: function() {
-    return <div id='graph' style={{height: window.innerHeight}} ref='graph' />;
+    return (
+      <div style={{height: window.innerHeight}}>
+        <div id='background'>
+          <div id='environment' />
+          <div id='chain' />
+          <div id='infrastructure' />
+        </div>
+        <div id='graph' ref='graph' />
+      </div>
+    );
   }
 }));
 

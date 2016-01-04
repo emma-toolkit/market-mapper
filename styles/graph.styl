@@ -14,13 +14,13 @@ node
   padding-bottom node-padding
   padding-left node-padding
   &.parent
-    background-color white
+    background-opacity 0
     border-width 0
   &.environment
     shape ellipse
   &.chain
     shape roundrectangle
-    &.endpoint
+    &.root, &.leaf
       shape rectangle
   &.infrastructure
     shape octagon
