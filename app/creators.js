@@ -4,7 +4,7 @@ import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
 import actions from './actions'
 import graph_style from '../styles/graph.styl'
-import data from '../dev/rice.json'
+import data from '../dev/fishing.json'
 CytoscapeDagre(Cytoscape, Dagre);
 
 export default {
@@ -19,6 +19,32 @@ export default {
       };
       for (let id in data) {
         const node = data[id];
+        let position, disruption;
+        switch (node.position) {
+          case undefined:
+            position = null;
+            break;
+          case 'initial':
+            position = false;
+            break;
+          case 'final':
+            position = true;
+        }
+        switch (node.disruption) {
+          case undefined:
+            disruption = 0;
+            break;
+          case 'partial':
+            disruption = 1;
+            break;
+          case 'major':
+            disruption = 2;
+            break;
+          case 'critical':
+            disruption = 3;
+        }
+        node.position = position;
+        node.disruption = disruption;
         nodes[node.type].set(id, node);
       };
       return nodes;
@@ -124,6 +150,18 @@ function addElements(type, data, elements) {
         break;
       case true:
         classes.push('final');
+    }
+    switch (d.get('disruption')) {
+      case 0:
+        break;
+      case 1:
+        classes.push('partial');
+        break;
+      case 2:
+        classes.push('major');
+        break;
+      case 3:
+        classes.push('critical');
     }
     elements.nodes.push({
       group: 'nodes',

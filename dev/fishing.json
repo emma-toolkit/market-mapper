@@ -5,11 +5,13 @@
   },
   "2": {
     "type": "environment",
-    "name": "Foreign exchange restrictions"
+    "name": "Foreign exchange restrictions",
+    "disruption": "partial"
   },
   "3": {
     "type": "environment",
-    "name": "Bribery and corruption"
+    "name": "Bribery and corruption",
+    "disruption": "partial"
   },
   "4": {
     "type": "environment",
@@ -22,7 +24,7 @@
   "6": {
     "type": "chain",
     "name": "Thai manufacturers",
-    "position": false,
+    "position": "initial",
     "edges": [7, 8]
   },
   "7": {
@@ -43,17 +45,19 @@
   "10": {
     "type": "chain",
     "name": "Village shops",
+    "disruption": "partial",
     "edges": [12]
   },
   "11": {
     "type": "chain",
     "name": "Large boat owners and fish traders",
+    "disruption": "major",
     "edges": [12]
   },
   "12": {
     "type": "chain",
     "name": "Poor fishing households",
-    "position": true
+    "position": "final"
   },
   "13": {
     "type": "infrastructure",
@@ -63,11 +67,13 @@
   "14": {
     "type": "infrastructure",
     "name": "Credit services",
+    "disruption": "major",
     "edges": [8, 11]
   },
   "15": {
     "type": "infrastructure",
     "name": "Transport and fuel",
+    "disruption": "partial",
     "edges": [11]
   },
   "16": {
