@@ -2,6 +2,8 @@ import { createAction } from 'redux-actions'
 import Cytoscape from 'cytoscape'
 import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
+import debounce from 'lodash.debounce'
+import store from './store'
 import actions from './actions'
 import graph_style from '../styles/graph.styl'
 import data from '../dev/fishing.json'
@@ -25,7 +27,16 @@ const loadNodes = createAction(
   }
 );
   
-const layoutDone = createAction(actions.LAYOUT_DONE);
+const layoutDone = createAction(
+  actions.LAYOUT_DONE,
+  function(nodes) {
+    const payload = new Map();
+    nodes.forEach(function(node) {
+      if (!node.hasClass('parent'))
+        payload.set(parseInt(node.data().id), node.position());
+    });
+    return payload;
+  });
 
 const layoutGraph = function(data, div) {
   const margin = div.offsetHeight / 10;
@@ -54,6 +65,10 @@ const layoutGraph = function(data, div) {
       zoomingEnabled: false,
       panningEnabled: false,
       ready: function(e) {
+        e.cy.nodes().on('free', debounce(function(e) {
+          store.dispatch(layoutDone(e.cy.nodes()));
+        }));
+
         // Layout chain and infrustructure together
         // in order to determine infrastructure order
         e.cy.elements('.chain, .infrastructure').layout({
@@ -104,12 +119,7 @@ const layoutGraph = function(data, div) {
           }
         });
 
-        const payload = new Map();
-        e.cy.nodes().forEach(function(node) {
-          if (!node.hasClass('parent'))
-            payload.set(parseInt(node.data().id), node.position());
-        });
-        resolve(payload);
+        resolve(e.cy.nodes());
       }
     });
   }).then(layoutDone);
