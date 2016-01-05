@@ -8,6 +8,7 @@ import data from '../dev/rice.json'
 CytoscapeDagre(Cytoscape, Dagre);
 
 export default {
+  // This is temporary, for loading sample data
   loadNodes: createAction(
     actions.LOAD_NODES,
     function() {
@@ -51,11 +52,6 @@ export default {
         zoomingEnabled: false,
         panningEnabled: false,
         ready: function(e) {
-          // Add classes to chain roots and leaves
-          const chain = e.cy.elements('.chain');
-          chain.roots().addClass('root');
-          chain.leaves().addClass('leaf');
-
           // Layout chain and infrustructure together
           // in order to determine infrastructure order
           e.cy.elements('.chain, .infrastructure').layout({
@@ -79,6 +75,7 @@ export default {
           });
 
           // Layout chain
+          const chain = e.cy.elements('.chain');
           chain.layout({
             name: 'dagre',
             rankDir: 'LR'
@@ -118,6 +115,16 @@ function addElements(type, data, elements) {
     classes: 'parent'
   });
   data[type].forEach(function(d, id) {
+    const classes = [type];
+    switch (d.get('position')) {
+      case null:
+        break;
+      case false:
+        classes.push('initial');
+        break;
+      case true:
+        classes.push('final');
+    }
     elements.nodes.push({
       group: 'nodes',
       data: {
@@ -125,7 +132,7 @@ function addElements(type, data, elements) {
         parent: type,
         label: d.get('name')
       },
-      classes: type
+      classes: classes.join(' ')
     });
     for (let edge_id of d.get('edges')) {
       elements.edges.push({

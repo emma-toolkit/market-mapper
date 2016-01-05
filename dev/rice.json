@@ -22,16 +22,19 @@
   "6": {
     "type": "chain",
     "name": "Tenant farmers",
+    "position": false,
     "edges": [6, 8, 10, 11]
   },
   "7": {
     "type": "chain",
     "name": "Small-scale landowners",
+    "position": false,
     "edges": [7, 10, 11]
   },
   "8": {
     "type": "chain",
     "name": "Large-scale landowners",
+    "position": false,
     "edges": [8, 10, 11]
   },
   "9": {
@@ -65,19 +68,23 @@
   },
   "15": {
     "type": "chain",
-    "name": "Daily workers"
+    "name": "Daily workers",
+    "position": true
   },
   "16": {
     "type": "chain",
-    "name": "Tenant farmers"
+    "name": "Tenant farmers",
+    "position": true
   },
   "17": {
     "type": "chain",
-    "name": "Small-scale landowners"
+    "name": "Small-scale landowners",
+    "position": true
   },
   "18": {
     "type": "chain",
-    "name": "Large-scale landowners"
+    "name": "Large-scale landowners",
+    "position": true
   },
   "19": {
     "type": "infrastructure",

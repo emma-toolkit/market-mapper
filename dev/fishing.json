@@ -22,6 +22,7 @@
   "6": {
     "type": "chain",
     "name": "Thai manufacturers",
+    "position": false,
     "edges": [7, 8]
   },
   "7": {
@@ -51,7 +52,8 @@
   },
   "12": {
     "type": "chain",
-    "name": "Poor fishing households"
+    "name": "Poor fishing households",
+    "position": true
   },
   "13": {
     "type": "infrastructure",
