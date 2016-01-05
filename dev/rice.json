@@ -1,76 +1,106 @@
 {
   "1": {
     "type": "environment",
-    "name": "Control of import permits"
+    "name": "Seasonality"
   },
   "2": {
     "type": "environment",
-    "name": "Foreign exchange restrictions"
+    "name": "Debt"
   },
   "3": {
     "type": "environment",
-    "name": "Bribery and corruption"
+    "name": "Soil salinity"
   },
   "4": {
     "type": "environment",
-    "name": "Seasonal fishing licenses"
+    "name": "Share-cropping system"
   },
   "5": {
     "type": "environment",
-    "name": "Gender roles in fishing activities"
+    "name": "Security"
   },
   "6": {
     "type": "chain",
-    "name": "Thai manufacturers",
-    "edges": [7, 8]
+    "name": "Tenant farmers",
+    "edges": [6, 8, 10, 11]
   },
   "7": {
     "type": "chain",
-    "name": "Small traders",
-    "edges": [9]
+    "name": "Small-scale landowners",
+    "edges": [7, 10, 11]
   },
   "8": {
     "type": "chain",
-    "name": "Importers and wholesalers",
-    "edges": [9, 11]
+    "name": "Large-scale landowners",
+    "edges": [8, 10, 11]
   },
   "9": {
     "type": "chain",
-    "name": "Market town retailers",
-    "edges": [10, 12]
+    "name": "District-level wholesalers",
+    "edges": [12, 13]
   },
   "10": {
     "type": "chain",
-    "name": "Village shops",
-    "edges": [12]
+    "name": "Large rice mills",
+    "edges": [9, 14]
   },
   "11": {
     "type": "chain",
-    "name": "Large boat owners and fish traders",
-    "edges": [12]
+    "name": "Broker",
+    "edges": [10]
   },
   "12": {
     "type": "chain",
-    "name": "Poor fishing households"
+    "name": "Village retailer",
+    "edges": [15, 16, 17, 18]
   },
   "13": {
-    "type": "infrastructure",
-    "name": "Warehousing storage",
-    "edges": [9]
+    "type": "chain",
+    "name": "Market-level retailer",
+    "edges": [12, 15, 16, 17, 18]
   },
   "14": {
-    "type": "infrastructure",
-    "name": "Credit services",
-    "edges": [8, 11]
+    "type": "chain",
+    "name": "Exporters"
   },
   "15": {
-    "type": "infrastructure",
-    "name": "Transport and fuel",
-    "edges": [11]
+    "type": "chain",
+    "name": "Daily workers"
   },
   "16": {
+    "type": "chain",
+    "name": "Tenant farmers"
+  },
+  "17": {
+    "type": "chain",
+    "name": "Small-scale landowners"
+  },
+  "18": {
+    "type": "chain",
+    "name": "Large-scale landowners"
+  },
+  "19": {
     "type": "infrastructure",
-    "name": "Fishing inputs: boats, nylon, floats",
-    "edges": [11, 12]
+    "name": "Loans/credit"
+  },
+  "20": {
+    "type": "infrastructure",
+    "name": "Roads"
+  },
+  "21": {
+    "type": "infrastructure",
+    "name": "Household-level storage"
+  },
+  "22": {
+    "type": "infrastructure",
+    "name": "Transport"
+  },
+  "23": {
+    "type": "infrastructure",
+    "name": "Village rice mills"
+  },
+  "24": {
+    "type": "infrastructure",
+    "name": "Warehouses"
   }
 }
