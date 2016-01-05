@@ -18,7 +18,7 @@ function typeHandlers(type) {
     },
     [actions.LAYOUT_DONE]: function(state, action) {
       for (let [id, position] of action.payload) {
-        if (state.has(id)) console.log('yup');
+        if (state.has(id))
           state = state.mergeIn([id], position);
       }
       return state;
