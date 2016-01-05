@@ -15,6 +15,13 @@ function typeHandlers(type) {
       for (let [id, val] of action.payload[type])
         state = state.set(parseInt(id), Node(val));
       return state;
+    },
+    [actions.LAYOUT_DONE]: function(state, action) {
+      for (let [id, position] of action.payload) {
+        if (state.has(id)) console.log('yup');
+          state = state.mergeIn([id], position);
+      }
+      return state;
     }
   }
 }

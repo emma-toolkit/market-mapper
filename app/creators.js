@@ -7,132 +7,118 @@ import graph_style from '../styles/graph.styl'
 import data from '../dev/fishing.json'
 CytoscapeDagre(Cytoscape, Dagre);
 
-export default {
-  // This is temporary, for loading sample data
-  loadNodes: createAction(
-    actions.LOAD_NODES,
-    function() {
-      const nodes = {
-        environment: new Map(),
-        chain: new Map(),
-        infrastructure: new Map()
-      };
-      for (let id in data) {
-        const node = data[id];
-        let position, disruption;
-        switch (node.position) {
-          case undefined:
-            position = null;
-            break;
-          case 'initial':
-            position = false;
-            break;
-          case 'final':
-            position = true;
-        }
-        switch (node.disruption) {
-          case undefined:
-            disruption = 0;
-            break;
-          case 'partial':
-            disruption = 1;
-            break;
-          case 'major':
-            disruption = 2;
-            break;
-          case 'critical':
-            disruption = 3;
-        }
-        node.position = position;
-        node.disruption = disruption;
-        nodes[node.type].set(id, node);
-      };
-      return nodes;
-    }
-  ),
+
+// This is temporary, for loading sample data
+const loadNodes = createAction(
+  actions.LOAD_NODES,
+  function() {
+    const nodes = {
+      environment: new Map(),
+      chain: new Map(),
+      infrastructure: new Map()
+    };
+    for (let id in data) {
+      const node = data[id];
+      nodes[node.type].set(id, node);
+    };
+    return nodes;
+  }
+);
   
-  layoutGraph: createAction(
-    actions.LAYOUT_DONE,
-    function(data, div) {
-      const margin = div.offsetHeight / 10;
-      const one_third = div.offsetHeight / 3;
-      
-      // Init nodes and edges
-      const elements = {
-        nodes: [],
-        edges: []
-      };
-      addElements('environment', data, elements);
-      addElements('chain', data, elements);
-      addElements('infrastructure', data, elements);
+const layoutDone = createAction(actions.LAYOUT_DONE);
 
-      // Create graph and do layout
-      const graph = Cytoscape({
-        container: div,
-        elements: {
-          nodes: elements.nodes,
-          edges: elements.edges
-        },
-        layout: {name: 'null'},
-        style: graph_style.toString(),
-        zoomingEnabled: false,
-        panningEnabled: false,
-        ready: function(e) {
-          // Layout chain and infrustructure together
-          // in order to determine infrastructure order
-          e.cy.elements('.chain, .infrastructure').layout({
-            name: 'dagre',
-            rankDir: 'LR'
-          });
-          const infrastructure = e.cy.nodes('.infrastructure').sort(
-            (ele1, ele2) => ele1.position().y - ele2.position().y
-          );
+const layoutGraph = function(data, div) {
+  const margin = div.offsetHeight / 10;
+  const one_third = div.offsetHeight / 3;
+  
+  // Init nodes and edges
+  const elements = {
+    nodes: [],
+    edges: []
+  };
+  addElements('environment', data, elements);
+  addElements('chain', data, elements);
+  addElements('infrastructure', data, elements);
 
-          // Layout environment
-          const environment = e.cy.elements('.environment');
-          environment.layout({
-            name: 'grid',
-            boundingBox: {
-              x1: 0,
-              y1: 0,
-              x2: div.offsetWidth,
-              y2: one_third - margin
-            }
-          });
+  // Return promise that resolves upon graph creation and layout,
+  // then fires LAYOUT_DONE action
+  return new Promise(function(resolve) {
+    Cytoscape({
+      container: div,
+      elements: {
+        nodes: elements.nodes,
+        edges: elements.edges
+      },
+      layout: {name: 'null'},
+      style: graph_style.toString(),
+      zoomingEnabled: false,
+      panningEnabled: false,
+      ready: function(e) {
+        // Layout chain and infrustructure together
+        // in order to determine infrastructure order
+        e.cy.elements('.chain, .infrastructure').layout({
+          name: 'dagre',
+          rankDir: 'LR'
+        });
+        const infrastructure = e.cy.nodes('.infrastructure').sort(
+          (ele1, ele2) => ele1.position().y - ele2.position().y
+        );
 
-          // Layout chain
-          const chain = e.cy.elements('.chain');
-          chain.layout({
-            name: 'dagre',
-            rankDir: 'LR'
-          });
-          chain.layout({
-            name: 'dagre',
-            rankDir: 'LR',
-            boundingBox: getBoundingBox(chain, div, {
-              top: one_third,
-              right: margin,
-              bottom: one_third,
-              left: margin
-            })
-          });
+        // Layout environment
+        const environment = e.cy.elements('.environment');
+        environment.layout({
+          name: 'grid',
+          boundingBox: {
+            x1: 0,
+            y1: 0,
+            x2: div.offsetWidth,
+            y2: one_third - margin
+          }
+        });
 
-          // Layout infrastructure
-          infrastructure.layout({
-            name: 'grid',
-            boundingBox: {
-              x1: 0,
-              y1: one_third * 2 + margin,
-              x2: div.offsetWidth,
-              y2: div.offsetHeight
-            }
-          });
-        }
-      });
-    }
-  )
-};
+        // Layout chain
+        const chain = e.cy.elements('.chain');
+        chain.layout({
+          name: 'dagre',
+          rankDir: 'LR'
+        });
+        chain.layout({
+          name: 'dagre',
+          rankDir: 'LR',
+          boundingBox: getBoundingBox(chain, div, {
+            top: one_third,
+            right: margin,
+            bottom: one_third,
+            left: margin
+          })
+        });
 
+        // Layout infrastructure
+        infrastructure.layout({
+          name: 'grid',
+          boundingBox: {
+            x1: 0,
+            y1: one_third * 2 + margin,
+            x2: div.offsetWidth,
+            y2: div.offsetHeight
+          }
+        });
+
+        const payload = new Map();
+        e.cy.nodes().forEach(function(node) {
+          if (!node.hasClass('parent'))
+            payload.set(parseInt(node.data().id), node.position());
+        });
+        resolve(payload);
+      }
+    });
+  }).then(layoutDone);
+}
+
+export default {
+  loadNodes,
+  layoutGraph
+}
 
 function addElements(type, data, elements) {
   elements.nodes.push({
@@ -142,27 +128,11 @@ function addElements(type, data, elements) {
   });
   data[type].forEach(function(d, id) {
     const classes = [type];
-    switch (d.get('position')) {
-      case null:
-        break;
-      case false:
-        classes.push('initial');
-        break;
-      case true:
-        classes.push('final');
-    }
-    switch (d.get('disruption')) {
-      case 0:
-        break;
-      case 1:
-        classes.push('partial');
-        break;
-      case 2:
-        classes.push('major');
-        break;
-      case 3:
-        classes.push('critical');
-    }
+    const position = d.get('position');
+    if (position !== undefined) classes.push(position);
+    const disruption = d.get('disruption');
+    if (disruption !== undefined) classes.push(disruption);
+    
     elements.nodes.push({
       group: 'nodes',
       data: {
