@@ -14,17 +14,23 @@ const App = connect(
   },
   function(dispatch) {
     return {
-      layoutGraph: (data, div) => dispatch(creators.layoutGraph(data, div))
+      layoutGraph: (data, div) => dispatch(creators.layoutGraph(data, div)),
+      exportData: (data) => dispatch(creators.exportData(data))
     }
   }
 )(createClass({
-  componentDidMount: function() {
-    const data = {
+  getData: function() {
+    return {
       environment: this.props.environment,
       chain: this.props.chain,
       infrastructure: this.props.infrastructure
     };
-    this.props.layoutGraph(data, this.refs.graph);
+  },
+  exportData: function() {
+    this.props.exportData(this.getData());
+  },
+  componentDidMount: function() {
+    this.props.layoutGraph(this.getData(), this.refs.graph);
   },
   render: function() {
     return (
@@ -35,6 +41,9 @@ const App = connect(
           <div id='infrastructure' />
         </div>
         <div id='graph' ref='graph' />
+        <div id='ui'>
+          <button onClick={this.exportData}>Export</button>
+        </div>
       </div>
     );
   }

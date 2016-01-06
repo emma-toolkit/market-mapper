@@ -6,10 +6,13 @@ export default {
   entry: {
     css: './styles/app.styl',
     vendor: [
+      'bluebird',
       'cytoscape',
       'cytoscape-dagre',
       'dagre',
+      'fast-csv',
       'immutable',
+      'lodash.debounce',
       'react',
       'react-dom',
       'react-redux',
@@ -47,5 +50,8 @@ export default {
   ],
   devServer: {
     contentBase: './build'
+  },
+  node: {
+    fs: 'empty'
   }
 };
