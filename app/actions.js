@@ -1,10 +1,10 @@
 const actions = [
-  'LOAD_NODES',
+  'LOAD_DONE',
   'LAYOUT_DONE',
   'EXPORT_DONE'
 ];
 
-export default actions.reduce(function(prev, cur) {
+export default actions.reduce((prev, cur) => {
   prev[cur] = cur;
   return prev;
 }, {});

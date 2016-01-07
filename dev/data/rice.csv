@@ -1,0 +1,50 @@
+id,element,type,label,in,out,disruption
+0,node,environment,Debt,,,
+1,node,environment,Seasonality,,,
+2,node,environment,Displacement,,,3
+3,node,environment,Soil salinity,,,
+4,node,environment,Share-cropping system,,,
+5,node,environment,Security,,,
+6,node,chain,Tenant farmers,-1,,
+7,node,chain,Small-scale landowners,-1,,
+8,node,chain,Large-scale landowners,-1,,
+9,node,chain,District-level wholesalers,,,
+10,node,chain,Large rice mills,,,
+11,node,chain,Broker,,,
+12,node,chain,Village retailer,,,
+13,node,chain,Market-level retailer,,,
+14,node,chain,Exporters,,,
+15,node,chain,Daily workers,,-1,
+16,node,chain,Tenant farmers,,-1,
+17,node,chain,Small-scale landowners,,-1,
+18,node,chain,Large-scale landowners,,-1,
+19,node,infrastructure,Loans/credit,,,3
+20,node,infrastructure,Roads,,,3
+21,node,infrastructure,Household-level storage,,,
+22,node,infrastructure,Transport,,,3
+23,node,infrastructure,Village rice mills,,,
+24,node,infrastructure,Warehouses,,,3
+25,edge,,,6,6,
+26,edge,,,6,8,
+27,edge,,,6,10,
+28,edge,,,6,11,
+29,edge,,,7,7,
+30,edge,,,7,10,
+31,edge,,,7,11,
+32,edge,,,8,8,
+33,edge,,,8,10,
+34,edge,,,8,11,
+35,edge,,,9,12,1
+36,edge,,,9,13,1
+37,edge,,,10,9,
+38,edge,,,10,14,
+39,edge,,,11,10,
+40,edge,,,12,15,1
+41,edge,,,12,16,1
+42,edge,,,12,17,1
+43,edge,,,12,18,1
+44,edge,,,13,12,1
+45,edge,,,13,15,1
+46,edge,,,13,16,1
+47,edge,,,13,17,1
+48,edge,,,13,18,1

@@ -4,35 +4,46 @@ import creators from './creators'
 import DevTools from '../dev/devtools.jsx'
 const createClass = React.createClass
 
-const App = connect(
-  function(state) {
-    return {
-      environment: state.get('environment'),
-      chain: state.get('chain'),
-      infrastructure: state.get('infrastructure')
-    };
+const Graph = createClass({
+  componentDidMount() {
+    if (this.hasNodes(this.props)) this.layoutGraph();
   },
-  function(dispatch) {
+  shouldComponentUpdate(next_props) {
+    return this.hasNodes(next_props) && !this.hasNodes(this.props);
+  },
+  componentDidUpdate() {
+    this.layoutGraph();
+  },
+  hasNodes(props) {
+    const nodes = props.state.get('nodes');
+    return (
+      nodes.get('environment').size ||
+      nodes.get('chain').size ||
+      nodes.get('infrastructure').size
+    ) !== 0;
+  },
+  layoutGraph() {
+    this.props.layoutGraph(this.refs.div, this.props.state);
+  },
+  render() {
+    return <div id='graph' ref='div' />;
+  }
+});
+
+const App = connect(
+  state => {return {state}},
+  dispatch => {
     return {
-      layoutGraph: (data, div) => dispatch(creators.layoutGraph(data, div)),
-      exportData: (data) => dispatch(creators.exportData(data))
-    }
+      loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
+      layoutGraph(div, state) {dispatch(creators.layoutGraph(div, state))},
+      exportCSV(state) {dispatch(creators.exportCSV(state))}
+   }
   }
 )(createClass({
-  getData: function() {
-    return {
-      environment: this.props.environment,
-      chain: this.props.chain,
-      infrastructure: this.props.infrastructure
-    };
+  exportCSV() {
+    this.props.exportCSV(this.props.state);
   },
-  exportData: function() {
-    this.props.exportData(this.getData());
-  },
-  componentDidMount: function() {
-    this.props.layoutGraph(this.getData(), this.refs.graph);
-  },
-  render: function() {
+  render() {
     return (
       <div style={{height: window.innerHeight}}>
         <div id='background'>
@@ -40,9 +51,10 @@ const App = connect(
           <div id='chain' />
           <div id='infrastructure' />
         </div>
-        <div id='graph' ref='graph' />
+        <Graph state={this.props.state} layoutGraph={this.props.layoutGraph} />
         <div id='ui'>
-          <button onClick={this.exportData}>Export</button>
+          <input type='file' name='csv' onChange={this.props.loadCSV} />
+          <button onClick={this.exportCSV}>Export</button>
         </div>
       </div>
     );
@@ -50,7 +62,7 @@ const App = connect(
 }));
 
 export const Root = createClass({
-  render: function() {
+  render() {
     const devtools = process.env.NODE_ENV === 'development' ?
       <DevTools /> :
       null;

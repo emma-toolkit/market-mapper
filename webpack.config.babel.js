@@ -12,6 +12,7 @@ export default {
       'dagre',
       'fast-csv',
       'immutable',
+      'localforage',
       'lodash.debounce',
       'react',
       'react-dom',

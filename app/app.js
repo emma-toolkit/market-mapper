@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+// import LocalForage from './localforage'
 import { Root } from './components.jsx'
 import store from './store'
-import creators from './creators'
+// import creators from './creators'
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   // Append wrapper.
   const div = document.createElement('DIV');
   document.body.appendChild(div);
@@ -13,4 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const root = React.createElement(Root, {store: store});
   ReactDOM.render(root, div);
 });
-store.dispatch(creators.loadNodes());
+
+// LocalForage.length().then(len => {
+//   if (len) // load
+// });

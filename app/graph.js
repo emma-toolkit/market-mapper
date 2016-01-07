@@ -4,13 +4,13 @@ import CytoscapeDagre from 'cytoscape-dagre'
 import debounce from 'lodash.debounce'
 import Promise from 'bluebird'
 import creators from './creators'
-import { dispatch } from './store'
+import store from './store'
 import graph_style from '../styles/graph.styl'
+
 CytoscapeDagre(Cytoscape, Dagre);
 
-
-export default function(elements, div) {
-  return new Promise(function(resolve) {
+export default (div, elements) => {
+  return new Promise(resolve => {
     const margin = div.offsetHeight / 10;
     const one_third = div.offsetHeight / 3;
     
@@ -24,9 +24,9 @@ export default function(elements, div) {
       style: graph_style.toString(),
       zoomingEnabled: false,
       panningEnabled: false,
-      ready: function(e) {
-        e.cy.nodes().on('free', debounce(function(e) {
-          dispatch(creators.layoutDone(e.cy.nodes()));
+      ready: e => {
+        e.cy.nodes().on('free', debounce(e => {
+          store.dispatch(creators.layoutDone(e.cy.nodes()));
         }));
 
         // Layout chain and infrustructure together
@@ -41,43 +41,49 @@ export default function(elements, div) {
 
         // Layout environment
         const environment = e.cy.elements('.environment');
-        environment.layout({
-          name: 'grid',
-          boundingBox: {
-            x1: 0,
-            y1: 0,
-            x2: div.offsetWidth,
-            y2: one_third - margin
-          }
-        });
+        if (environment.nonempty()) {
+          environment.layout({
+            name: 'grid',
+            boundingBox: {
+              x1: 0,
+              y1: 0,
+              x2: div.offsetWidth,
+              y2: one_third - margin
+            }
+          });
+        }
 
         // Layout chain
         const chain = e.cy.elements('.chain');
-        chain.layout({
-          name: 'dagre',
-          rankDir: 'LR'
-        });
-        chain.layout({
-          name: 'dagre',
-          rankDir: 'LR',
-          boundingBox: getBoundingBox(chain, div, {
-            top: one_third,
-            right: margin,
-            bottom: one_third,
-            left: margin
-          })
-        });
+        if (chain.nonempty()) {
+          chain.layout({
+            name: 'dagre',
+            rankDir: 'LR'
+          });
+          chain.layout({
+            name: 'dagre',
+            rankDir: 'LR',
+            boundingBox: getBoundingBox(chain, div, {
+              top: one_third,
+              right: margin,
+              bottom: one_third,
+              left: margin
+            })
+          });
+        }
 
         // Layout infrastructure
-        infrastructure.layout({
-          name: 'grid',
-          boundingBox: {
-            x1: 0,
-            y1: one_third * 2 + margin,
-            x2: div.offsetWidth,
-            y2: div.offsetHeight
-          }
-        });
+        if (infrastructure.nonempty()) {
+          infrastructure.layout({
+            name: 'grid',
+            boundingBox: {
+              x1: 0,
+              y1: one_third * 2 + margin,
+              x2: div.offsetWidth,
+              y2: div.offsetHeight
+            }
+          });
+        }
 
         resolve(e.cy.nodes());
       }
@@ -91,8 +97,8 @@ function getBoundingBox(nodes, div, margins) {
     right: null,
     bottom: null,
     left: null
-  }
-  nodes.forEach(function(node) {
+  };
+  nodes.forEach(node => {
     if (
       extremes.top === null ||
       node.position().y < extremes.top.position().y

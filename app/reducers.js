@@ -1,27 +1,40 @@
-import { Map as IMap, List } from 'immutable'
+import { Map as IMap } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
-import { Node } from './records'
 import actions from './actions'
 
 export default combineReducers({
-  environment: createReducer(new IMap(), typeHandlers('environment')),
-  chain: createReducer(new IMap(), typeHandlers('chain')),
-  infrastructure: createReducer(new IMap(), typeHandlers('infrastructure'))
+  nodes: combineReducers({
+    environment: createReducer(new IMap(), nodeHandlers('environment')),
+    chain: createReducer(new IMap(), nodeHandlers('chain')),
+    infrastructure: createReducer(new IMap(),nodeHandlers('infrastructure'))
+  }),
+  edges: combineReducers({
+    chain: createReducer(new IMap(), edgeHandlers('chain')),
+    infrastructure: createReducer(new IMap(), edgeHandlers('infrastructure'))
+  })
 });
 
-function typeHandlers(type) {
+function nodeHandlers(type) {
   return {
-    [actions.LOAD_NODES]: function(state, action) {
-      for (let [id, val] of action.payload[type])
-        state = state.set(parseInt(id), Node(val));
-      return state;
-    },
-    [actions.LAYOUT_DONE]: function(state, action) {
+    [actions.LOAD_DONE]: loadDoneHandler('nodes', type),
+    [actions.LAYOUT_DONE]: (state, action) => {
       for (let [id, position] of action.payload) {
         if (state.has(id))
           state = state.mergeIn([id], position);
       }
       return state;
     }
+  }
+}
+
+function edgeHandlers(type) {
+  return {
+    [actions.LOAD_DONE]: loadDoneHandler('edges', type)
+  }
+}
+
+function loadDoneHandler(element, type) {
+  return (state, action) => {
+    return action.payload.getIn([element, type]);
   }
 }
