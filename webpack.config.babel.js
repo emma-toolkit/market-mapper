@@ -20,7 +20,7 @@ const entry = {
     'redux-immutablejs',
     'redux-promise'
   ],
-  app: './app/app.js'
+  app: './app.js'
 };
 const commons = ['vendor'];
 if (process.env.NODE_ENV === 'development') {
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default {
-  // context: `${process.cwd()}/app`,
+  context: `${process.cwd()}/app`,
   entry,
   output: {
     path: './build',

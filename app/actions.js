@@ -1,6 +1,8 @@
 const actions = [
   'LOAD_DONE',
+  'DO_LAYOUT',
   'LAYOUT_DONE',
+  'CLEAR',
   'EXPORT_DONE'
 ];
 

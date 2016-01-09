@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 // import LocalForage from './localforage'
-import { Root } from './components.jsx'
+import Root from './components/root.jsx'
 import store from './store'
 // import creators from './creators'
 

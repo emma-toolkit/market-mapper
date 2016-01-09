@@ -1,41 +1,18 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
-import creators from './creators'
-import DevTools from '../dev/devtools.jsx'
+import creators from '../creators'
+import Graph from './graph.jsx'
+import DevTools from '../../dev/devtools.jsx'
 const createClass = React.createClass
-
-const Graph = createClass({
-  componentDidMount() {
-    if (this.hasNodes(this.props)) this.layoutGraph();
-  },
-  shouldComponentUpdate(next_props) {
-    return this.hasNodes(next_props) && !this.hasNodes(this.props);
-  },
-  componentDidUpdate() {
-    this.layoutGraph();
-  },
-  hasNodes(props) {
-    const nodes = props.state.get('nodes');
-    return (
-      nodes.get('environment').size ||
-      nodes.get('chain').size ||
-      nodes.get('infrastructure').size
-    ) !== 0;
-  },
-  layoutGraph() {
-    this.props.layoutGraph(this.refs.div, this.props.state);
-  },
-  render() {
-    return <div id='graph' ref='div' />;
-  }
-});
 
 const App = connect(
   state => {return {state}},
   dispatch => {
     return {
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
-      layoutGraph(div, state) {dispatch(creators.layoutGraph(div, state))},
+      doLayout() {dispatch(creators.doLayout())},
+      layoutDone() {dispatch(creators.layoutDone())},
+      clear() {dispatch(creators.clear())},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
    }
   }
@@ -51,9 +28,11 @@ const App = connect(
           <div id='chain' />
           <div id='infrastructure' />
         </div>
-        <Graph state={this.props.state} layoutGraph={this.props.layoutGraph} />
+        <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
         <div id='ui'>
           <input type='file' name='csv' onChange={this.props.loadCSV} />
+          <button onClick={this.props.doLayout}>Auto Layout</button>
+          <button onClick={this.props.clear}>Clear</button>
           <button onClick={this.exportCSV}>Export</button>
         </div>
       </div>
@@ -61,7 +40,7 @@ const App = connect(
   }
 }));
 
-export const Root = createClass({
+export default createClass({
   render() {
     const devtools = process.env.NODE_ENV === 'development' ?
       <DevTools /> :
