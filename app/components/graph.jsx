@@ -3,7 +3,7 @@ import Cytoscape from 'cytoscape'
 import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
 import debounce from 'lodash.debounce'
-// import Promise from 'bluebird'
+import Promise from 'bluebird'
 import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
@@ -74,39 +74,43 @@ export default class Graph extends React.Component {
 
     // Layout environment
     const environment = this.graph.elements('.environment');
-    if (environment.nonempty()) {
+    const environment_done = new Promise(resolve => {
       environment.layout({
         name: 'grid',
         boundingBox: {
           x1: 0,
           y1: 0,
           x2: this.refs.div.offsetWidth,
-          y2: this.one_third - this.margin
-        }
+          y2: this.one_third - this.margin,
+        },
+        ready: () => resolve(environment)
       });
-    }
+    });
 
     // Layout chain
     const chain = this.graph.elements('.chain');
-    if (chain.nonempty()) {
-      chain.layout({
-        name: 'dagre',
-        rankDir: 'LR'
-      });
+    const chain_done = new Promise(resolve => {
       chain.layout({
         name: 'dagre',
         rankDir: 'LR',
-        boundingBox: this.getBoundingBox(chain, {
-          top: this.one_third,
-          right: this.margin,
-          bottom: this.one_third,
-          left: this.margin
-        })
+        ready: () => {
+          chain.layout({
+            name: 'dagre',
+            rankDir: 'LR',
+            boundingBox: this.getBoundingBox(chain, {
+              top: this.one_third,
+              right: this.margin,
+              bottom: this.one_third,
+              left: this.margin
+            }),
+            ready: () => resolve(chain)
+          });
+        }
       });
-    }
+    });
 
     // Layout infrastructure
-    if (infrastructure.nonempty()) {
+    const infrastructure_done = new Promise(resolve => {
       infrastructure.layout({
         name: 'grid',
         boundingBox: {
@@ -114,9 +118,17 @@ export default class Graph extends React.Component {
           y1: this.one_third * 2 + this.margin,
           x2: this.refs.div.offsetWidth,
           y2: this.refs.div.offsetHeight
-        }
+        },
+        ready: () => resolve(infrastructure)
       });
-    }
+    });
+
+    // Dispatch LAYOUT_DONE when all layouts are done
+    Promise.reduce(
+      [environment_done, chain_done, infrastructure_done],
+      (nodes, type_nodes) => nodes.union(type_nodes),
+      this.graph.collection()
+    ).then(nodes => this.props.layoutDone(nodes));
   }
 
   getBoundingBox(nodes, margins) {

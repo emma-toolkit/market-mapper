@@ -25,13 +25,13 @@ export default combineReducers({
 
 function nodeHandlers(type) {
   const handlers = commonHandlers('nodes', type);
-  // handlers[actions.LAYOUT_DONE] = (state, action) => {
-  //   for (let [id, coordinates] of action.payload) {
-  //     if (state.has(id))
-  //       state = state.mergeIn([id], coordinates);
-  //   }
-  //   return state;
-  // };
+  handlers[actions.LAYOUT_DONE] = (state, action) => {
+    for (let [id, coordinates] of action.payload) {
+      if (state.has(id))
+        state = state.mergeIn([id], coordinates);
+    }
+    return state;
+  };
   return handlers;
 }
 

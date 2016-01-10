@@ -36,17 +36,17 @@ const doLayout = createAction(
   () => {return {timestamp: Date.now()}}
 );
 
-const layoutDone = createAction(actions.LAYOUT_DONE);
-//   nodes => {
-//     const payload = new Map();
-//     nodes.forEach(function(node) {
-//       if (!node.hasClass('parent'))
-//         payload.set(parseInt(node.data().id), node.position());
-//     });
-//     return payload;
-//   },
-//   persist
-// );
+const layoutDone = createAction(
+  actions.LAYOUT_DONE,
+  nodes => {
+    const payload = new Map();
+    nodes.forEach(function(node) {
+      payload.set(parseInt(node.data().id), node.position());
+    });
+    return payload;
+  },
+  persist
+);
 
 const exportDone = createAction(actions.EXPORT_DONE);
 

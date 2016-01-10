@@ -11,7 +11,7 @@ const App = connect(
     return {
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       doLayout() {dispatch(creators.doLayout())},
-      layoutDone() {dispatch(creators.layoutDone())},
+      layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
       clear() {dispatch(creators.clear())},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
    }
