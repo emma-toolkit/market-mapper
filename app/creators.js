@@ -15,7 +15,8 @@ const loadDone = createAction(
   payload => {
     payload.timestamp = Date.now();
     return payload;
-  }
+  },
+  persist
 );
 
 const loadLocal = () => {
