@@ -58,7 +58,11 @@ const layoutDone = createAction(
 
 const exportDone = createAction(actions.EXPORT_DONE);
 
-const clear = createAction(actions.CLEAR);
+const clear = createAction(
+  actions.CLEAR,
+  () => {return {timestamp: Date.now()}},
+  persist
+);
 
 const exportCSV = (state) => {
   const data = [];
