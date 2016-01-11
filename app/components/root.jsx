@@ -1,5 +1,6 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
+import Local from 'localforage'
 import creators from '../creators'
 import Graph from './graph.jsx'
 import DevTools from '../../dev/devtools.jsx'
@@ -9,6 +10,7 @@ const App = connect(
   state => {return {state}},
   dispatch => {
     return {
+      loadLocal() {dispatch(creators.loadLocal())},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
@@ -17,6 +19,11 @@ const App = connect(
    }
   }
 )(createClass({
+  componentDidMount() {
+    Local.length().then(len => {
+      if (len) this.props.loadLocal();
+    });
+  },
   exportCSV() {
     this.props.exportCSV(this.props.state);
   },

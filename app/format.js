@@ -2,6 +2,14 @@ import { Map as IMap } from 'immutable'
 import { Node, Edge } from './records'
 
 export default {
+  local(element_map) {
+    let state = emptyState();
+    for (let [id, d] of element_map) {
+      const record = d.element == 'nodes' ? Node : Edge;
+      state = state.setIn([d.element, d.type, parseInt(id)], record(d));
+    }
+    return state;
+  },
   csv(element_map) {
     let state = emptyState();
     for (let [id, d] of element_map) {

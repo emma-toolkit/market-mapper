@@ -1,6 +1,7 @@
 import { createAction } from 'redux-actions'
 import { Map as IMap } from 'immutable'
 import Promise from 'bluebird'
+import Local from 'localforage'
 import FastCSV from 'fast-csv'
 import actions from './actions'
 import format from './format'
@@ -16,6 +17,13 @@ const loadDone = createAction(
     return payload;
   }
 );
+
+const loadLocal = () => {
+  const element_map = new Map();
+  return Local.iterate((element, id) => {
+    element_map.set(id, element);
+  }).then(() => loadDone(format.local(element_map)));
+};
 
 const loadCSV = files => {
   reader.readAsText(files.item(0));
@@ -70,6 +78,7 @@ const exportCSV = (state) => {
 };
 
 export default {
+  loadLocal,
   loadCSV,
   loadDone,
   doLayout,

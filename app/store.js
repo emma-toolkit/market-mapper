@@ -10,31 +10,29 @@ if (process.env.NODE_ENV === 'development')
 
 export default compose(...middleware)(createStore)(reducers);
 
+// Middleware that stores state locally
 function persist(store) {
   return next => action => {
     const result = next(action);
-    // if (action.meta && action.meta.persist) {
-    //   LocalForage.clear().then(() => {
-    //     const state = store.getState();
-    //     storeElements('nodes', state);
-    //     storeElements('edges', state);
-    //   });
-    // }
+    if (action.meta && action.meta.persist) {
+      LocalForage.clear().then(() => {
+        const state = store.getState();
+        storeData('nodes', 'environment', state);
+        storeData('nodes', 'chain', state);
+        storeData('nodes', 'infrastructure', state);
+        storeData('edges', 'chain', state);
+        storeData('edges', 'infrastructure', state);
+      });
+    }
     return result;
   }
 }
 
-// function storeElements(element, state) {
-//   storeData(element, 'environment', state);
-//   storeData(element, 'chain', state);
-//   storeData(element, 'infrastructure', state);
-// }
-
-// function storeData(element, type, state) {
-//   state.getIn([element, type]).forEach((d, id) => {
-//     const obj = d.toObject();
-//     d.element = element;
-//     d.type = type;
-//     LocalForage.setItem(String(id), d.toObject());
-//   });
-// }
+function storeData(element, type, state) {
+  state.getIn([element, type]).forEach((d, id) => {
+    const obj = d.toObject();
+    obj.element = element;
+    obj.type = type;
+    LocalForage.setItem(String(id), obj);
+  });
+}
