@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import LocalForage from './localforage'
+import LocalForage from './localforage'
 import Root from './components/root.jsx'
 import store from './store'
 // import creators from './creators'
@@ -16,5 +16,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // LocalForage.length().then(len => {
-//   if (len) // load
+//   if (len) console.log(len);// load
 // });

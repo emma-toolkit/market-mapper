@@ -16,19 +16,25 @@ function persist(store) {
     // if (action.meta && action.meta.persist) {
     //   LocalForage.clear().then(() => {
     //     const state = store.getState();
-    //     storeType('environment', state);
-    //     storeType('chain', state);
-    //     storeType('infrastructure', state);
+    //     storeElements('nodes', state);
+    //     storeElements('edges', state);
     //   });
     // }
     return result;
   }
 }
 
-// function storeType(type, state) {
-//   state.get(type).forEach((node, id) => {
-//     const obj = node.toObject();
-//     node.type = type;
-//     LocalForage.setItem(String(id), node.toObject());
+// function storeElements(element, state) {
+//   storeData(element, 'environment', state);
+//   storeData(element, 'chain', state);
+//   storeData(element, 'infrastructure', state);
+// }
+
+// function storeData(element, type, state) {
+//   state.getIn([element, type]).forEach((d, id) => {
+//     const obj = d.toObject();
+//     d.element = element;
+//     d.type = type;
+//     LocalForage.setItem(String(id), d.toObject());
 //   });
 // }

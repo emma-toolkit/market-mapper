@@ -58,7 +58,9 @@ export default class Graph extends React.Component {
       zoomingEnabled: false,
       panningEnabled: false
     });
-    this.graph.nodes().on('free', debounce(e => this.props.layoutDone()));
+    this.graph.nodes().on('free', debounce(e => {
+      this.props.layoutDone(e.cyTarget);
+    }));
   }
 
   doLayout() {
@@ -201,6 +203,10 @@ export default class Graph extends React.Component {
         id,
         parent: type,
         label: record.get('label')
+      },
+      position: {
+        x: record.get('x'),
+        y: record.get('y')
       },
       classes: classes.join(' ')
     };
