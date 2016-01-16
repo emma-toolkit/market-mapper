@@ -12,9 +12,6 @@ export default class Graph extends React.Component {
   constructor(props) {super(props)}
 
   shouldComponentUpdate(next_props) {
-    if (next_props.state.getIn(['app', 'last_layout']) !==
-      this.props.state.getIn(['app', 'last_layout']))
-      this.doLayout();
     return next_props.state.getIn(['app', 'last_refresh']) !==
       this.props.state.getIn(['app', 'last_refresh']);
   }
@@ -61,6 +58,16 @@ export default class Graph extends React.Component {
     this.graph.nodes().on('free', debounce(e => {
       this.props.layoutDone(e.cyTarget);
     }));
+
+    if ((
+      this.hasNodes('environment') ||
+      this.hasNodes('chain') ||
+      this.hasNodes('infrastructure')
+    ) && (
+      this.allAtOrigin('environment') &&
+      this.allAtOrigin('chain') &&
+      this.allAtOrigin('infrastructure')
+    )) this.doLayout();
   }
 
   doLayout() {
@@ -131,6 +138,18 @@ export default class Graph extends React.Component {
       (nodes, type_nodes) => nodes.union(type_nodes),
       this.graph.collection()
     ).then(nodes => this.props.layoutDone(nodes));
+  }
+
+  hasNodes(type) {
+    return this.props.state.getIn(['nodes', type]).size > 0;
+  }
+
+  allAtOrigin(type) {
+    const nodes = this.props.state.getIn(['nodes', type]);
+    const at_origin = nodes.forEach(node => {
+      if (node.get('x') !== 0 || node.get('y') !== 0) return false;
+    });
+    return at_origin === nodes.size;
   }
 
   getBoundingBox(nodes, margins) {

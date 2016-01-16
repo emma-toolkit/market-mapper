@@ -13,7 +13,7 @@ const reader = new FileReader();
 const loadDone = createAction(
   actions.LOAD_DONE,
   payload => {
-    payload.timestamp = Date.now();
+    payload.last_refresh = Date.now();
     return payload;
   },
   persist
@@ -23,7 +23,7 @@ const loadLocal = () => {
   const element_map = new Map();
   return Local.iterate((element, id) => {
     element_map.set(id, element);
-  }).then(() => loadDone(format.local(element_map)));
+  }).then(() => loadDone({state: format.local(element_map)}));
 };
 
 const loadCSV = files => {
@@ -35,14 +35,14 @@ const loadCSV = files => {
     const parser = FastCSV.fromString(str, {headers: true});
     parser.on('data', (d) => element_map.set(parseInt(d.id), d));
     return new Promise(resolve => {
-      parser.on('end', () => resolve(format.csv(element_map)));
+      parser.on('end', () => resolve({state: format.csv(element_map)}));
     });
   }).then(loadDone);
 };
 
 const doLayout = createAction(
   actions.DO_LAYOUT,
-  () => {return {timestamp: Date.now()}}
+  () => {return {last_layout: Date.now()}}
 );
 
 const layoutDone = createAction(
@@ -61,7 +61,7 @@ const exportDone = createAction(actions.EXPORT_DONE);
 
 const clear = createAction(
   actions.CLEAR,
-  () => {return {timestamp: Date.now()}},
+  () => {return {last_layout: Date.now()}},
   persist
 );
 

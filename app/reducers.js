@@ -7,12 +7,13 @@ export default combineReducers({
     last_refresh: null,
     last_layout: null
   }), {
-    [actions.LOAD_DONE]: (state, action) =>
-      state.set('last_refresh', action.payload.timestamp),
+    [actions.LOAD_DONE]: (state, action) => {
+      return state.set('last_refresh', action.payload.last_refresh)
+    },
     [actions.DO_LAYOUT]: (state, action) =>
-      state.set('last_layout', action.payload.timestamp),
+      state.set('last_layout', action.payload.last_layout),
     [actions.CLEAR]: (state, action) =>
-      state.set('last_refresh', action.payload.timestamp)
+      state.set('last_refresh', action.payload.last_refresh)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
@@ -44,7 +45,7 @@ function edgeHandlers(type) {
 function commonHandlers(element, type) {
   return {
     [actions.LOAD_DONE]: (state, action) => {
-      return action.payload.getIn([element, type]);
+      return action.payload.state.getIn([element, type]);
     },
     [actions.CLEAR]: state => state.clear()
   };
