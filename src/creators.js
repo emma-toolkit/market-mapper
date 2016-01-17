@@ -47,13 +47,7 @@ const doLayout = createAction(
 
 const layoutDone = createAction(
   actions.LAYOUT_DONE,
-  nodes => {
-    const payload = new Map();
-    nodes.forEach(function(node) {
-      payload.set(parseInt(node.data().id), node.position());
-    });
-    return payload;
-  },
+  data => data,
   persist
 );
 

@@ -8,10 +8,15 @@ import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
 
+const [W, H] = [4096, 2160];
+
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
 
   shouldComponentUpdate(next_props) {
+    if (next_props.state.getIn(['app', 'last_layout']) !==
+      this.props.state.getIn(['app', 'last_layout']))
+      this.doLayout();
     return next_props.state.getIn(['app', 'last_refresh']) !==
       this.props.state.getIn(['app', 'last_refresh']);
   }
@@ -56,7 +61,7 @@ export default class Graph extends React.Component {
       panningEnabled: false
     });
     this.graph.nodes().on('free', debounce(e => {
-      this.props.layoutDone(e.cyTarget);
+      this.normalize(e.cyTarget);
     }));
 
     if ((
@@ -137,7 +142,7 @@ export default class Graph extends React.Component {
       [environment_done, chain_done, infrastructure_done],
       (nodes, type_nodes) => nodes.union(type_nodes),
       this.graph.collection()
-    ).then(nodes => this.props.layoutDone(nodes));
+    ).then(nodes => this.normalize(nodes));
   }
 
   hasNodes(type) {
@@ -196,12 +201,12 @@ export default class Graph extends React.Component {
   }
 
   pushElements(element, type, converter, arr) {
-    this.props.state.getIn([element, type]).forEach((record, id) =>
-      arr.push(converter(record, id, type))
+    this.props.state.getIn([element, type]).forEach((record, id) => 
+      arr.push(converter(record, id, type, this))
     );
   }
 
-  convertNode(record, id, type) {
+  convertNode(record, id, type, self) {
     const classes = [type];
     const position = record.get('position');
     if (position !== null)
@@ -224,8 +229,8 @@ export default class Graph extends React.Component {
         label: record.get('label')
       },
       position: {
-        x: record.get('x'),
-        y: record.get('y')
+        x: record.get('x') * self.refs.div.offsetWidth / W,
+        y: record.get('y') * self.refs.div.offsetHeight / H
       },
       classes: classes.join(' ')
     };
@@ -241,6 +246,17 @@ export default class Graph extends React.Component {
       },
       classes: type
     };
+  }
+
+  normalize(nodes) {
+    const data = new Map();
+    nodes.forEach(node => {
+      const position = node.position();
+      const x = position.x * W / this.refs.div.offsetWidth;
+      const y = position.y * H / this.refs.div.offsetHeight;
+      data.set(parseInt(node.data().id), {x, y});
+    });
+    this.props.layoutDone(data);
   }
 
   render() {
