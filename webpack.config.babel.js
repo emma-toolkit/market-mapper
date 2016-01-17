@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default {
-  context: `${process.cwd()}/app`,
+  context: `${process.cwd()}/src`,
   entry,
   output: {
     path: './build',
