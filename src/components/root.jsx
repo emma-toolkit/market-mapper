@@ -4,6 +4,7 @@ import Local from 'localforage'
 import creators from '../creators'
 import Graph from './graph.jsx'
 import DevTools from '../../dev/devtools.jsx'
+import throttle from 'lodash.throttle'
 const createClass = React.createClass
 
 const App = connect(
@@ -14,12 +15,14 @@ const App = connect(
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
+      redraw() {dispatch(creators.redraw())},
       clear() {dispatch(creators.clear())},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
    }
   }
 )(createClass({
   componentDidMount() {
+    window.addEventListener('resize', throttle(this.props.redraw));
     Local.length().then(len => {
       if (len) this.props.loadLocal();
     });

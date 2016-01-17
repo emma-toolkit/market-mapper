@@ -12,6 +12,7 @@ const entry = {
     'immutable',
     'localforage',
     'lodash.debounce',
+    'lodash.throttle',
     'react',
     'react-dom',
     'react-redux',

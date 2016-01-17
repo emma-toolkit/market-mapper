@@ -17,8 +17,8 @@ export default class Graph extends React.Component {
     if (next_props.state.getIn(['app', 'last_layout']) !==
       this.props.state.getIn(['app', 'last_layout']))
       this.doLayout();
-    return next_props.state.getIn(['app', 'last_refresh']) !==
-      this.props.state.getIn(['app', 'last_refresh']);
+    return next_props.state.getIn(['app', 'last_redraw']) !==
+      this.props.state.getIn(['app', 'last_redraw']);
   }
 
   componentDidUpdate() {

@@ -4,16 +4,17 @@ import actions from './actions'
 
 export default combineReducers({
   app: createReducer(new IMap({
-    last_refresh: null,
+    last_redraw: null,
     last_layout: null
   }), {
-    [actions.LOAD_DONE]: (state, action) => {
-      return state.set('last_refresh', action.payload.last_refresh)
-    },
+    [actions.LOAD_DONE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
     [actions.DO_LAYOUT]: (state, action) =>
       state.set('last_layout', action.payload.last_layout),
+    [actions.REDRAW]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
     [actions.CLEAR]: (state, action) =>
-      state.set('last_refresh', action.payload.last_refresh)
+      state.set('last_redraw', action.payload.last_redraw)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),

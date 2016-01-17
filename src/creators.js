@@ -13,7 +13,7 @@ const reader = new FileReader();
 const loadDone = createAction(
   actions.LOAD_DONE,
   payload => {
-    payload.last_refresh = Date.now();
+    payload.last_redraw = Date.now();
     return payload;
   },
   persist
@@ -51,6 +51,11 @@ const layoutDone = createAction(
   persist
 );
 
+const redraw = createAction(
+  actions.REDRAW,
+  () => {return {last_redraw: Date.now()}}
+);
+
 const exportDone = createAction(actions.EXPORT_DONE);
 
 const clear = createAction(
@@ -82,6 +87,7 @@ export default {
   loadDone,
   doLayout,
   layoutDone,
+  redraw,
   clear,
   exportCSV
 }
