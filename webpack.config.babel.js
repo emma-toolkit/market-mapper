@@ -1,5 +1,6 @@
 import { DefinePlugin, optimize } from 'webpack'
 import HTMLWebpackPlugin from 'html-webpack-plugin';
+import OfflinePlugin from 'offline-plugin'
 
 const entry = {
   css: './styles/app.styl',
@@ -13,6 +14,7 @@ const entry = {
     'localforage',
     'lodash.debounce',
     'lodash.throttle',
+    'offline-plugin/runtime',
     'react',
     'react-dom',
     'react-redux',
@@ -24,6 +26,12 @@ const entry = {
   app: './app.js'
 };
 const commons = ['vendor'];
+const plugins = [
+  new DefinePlugin({
+    'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
+  }),
+  new HTMLWebpackPlugin({title: 'EMMA Toolkit'})
+];
 if (process.env.NODE_ENV === 'development') {
   entry.dev = [
     'redux-devtools',
@@ -31,7 +39,9 @@ if (process.env.NODE_ENV === 'development') {
     'redux-devtools-log-monitor'
   ];
   commons.push('dev');
+  plugins.push(new OfflinePlugin());
 }
+plugins.push(new optimize.CommonsChunkPlugin({names: commons}));
 
 export default {
   context: `${process.cwd()}/src`,
@@ -49,13 +59,7 @@ export default {
       { test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus'] }
     ]
   },
-  plugins: [
-    new DefinePlugin({
-      'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
-    }),
-    new optimize.CommonsChunkPlugin({names: commons}),
-    new HTMLWebpackPlugin({title: 'EMMA Toolkit'})
-  ],
+  plugins,
   devServer: {
     contentBase: './build'
   },

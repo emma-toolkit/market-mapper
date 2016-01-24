@@ -2,6 +2,9 @@ import React from 'react'
 const createClass = React.createClass
 
 export default createClass({
+  shouldComponentUpdate(next_props) {
+    return next_props.show_controls !== this.props.show_controls;
+  },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
     return (
