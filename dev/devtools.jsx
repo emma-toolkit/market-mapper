@@ -6,6 +6,7 @@ import LogMonitor from 'redux-devtools-log-monitor'
 export default createDevTools(
   <DockMonitor
     defaultIsVisible={false}
+    defaultPosition='left'
     toggleVisibilityKey='ctrl-h'
     changePositionKey='ctrl-q'
   >

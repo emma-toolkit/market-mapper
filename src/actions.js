@@ -4,7 +4,8 @@ const actions = [
   'LAYOUT_DONE',
   'REDRAW',
   'CLEAR',
-  'EXPORT_DONE'
+  'EXPORT_DONE',
+  'TOGGLE_CONTROLS'
 ];
 
 export default actions.reduce((prev, cur) => {

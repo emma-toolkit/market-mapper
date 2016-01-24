@@ -81,6 +81,16 @@ const exportCSV = (state) => {
   }).then(exportDone);
 };
 
+const toggleControls = createAction(
+  actions.TOGGLE_CONTROLS,
+  show_controls => {
+    return {
+      show_controls,
+      last_redraw: Date.now()
+    }
+  } 
+);
+
 export default {
   loadLocal,
   loadCSV,
@@ -89,7 +99,8 @@ export default {
   layoutDone,
   redraw,
   clear,
-  exportCSV
+  exportCSV,
+  toggleControls
 }
 
 function persist() {return {persist: true}}

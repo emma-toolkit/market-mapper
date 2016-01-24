@@ -3,6 +3,7 @@ import { Provider, connect } from 'react-redux'
 import Local from 'localforage'
 import creators from '../creators'
 import Graph from './graph.jsx'
+import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
 const createClass = React.createClass
@@ -17,10 +18,14 @@ const App = connect(
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
       redraw() {dispatch(creators.redraw())},
       clear() {dispatch(creators.clear())},
-      exportCSV(state) {dispatch(creators.exportCSV(state))}
+      exportCSV(state) {dispatch(creators.exportCSV(state))},
+      toggleControls(show_controls) {
+        dispatch(creators.toggleControls(show_controls));
+      } 
    }
   }
 )(createClass({
+  controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
     Local.length().then(len => {
@@ -30,21 +35,28 @@ const App = connect(
   exportCSV() {
     this.props.exportCSV(this.props.state);
   },
+  toggleControls() {this.props.toggleControls(!this.controlsShown())},
   render() {
+    const className = this.controlsShown() ?
+      'controls-shown' : 'controls-hidden';
     return (
-      <div style={{height: window.innerHeight}}>
-        <div id='background'>
-          <div id='environment' />
-          <div id='chain' />
-          <div id='infrastructure' />
+      <div className={className}>
+        <div id='display' style={{height: window.innerHeight}}>
+          <div id='background'>
+            <div id='environment' />
+            <div id='chain' />
+            <div id='infrastructure' />
+          </div>
+          <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
         </div>
-        <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
-        <div id='ui'>
-          <input type='file' name='csv' onChange={this.props.loadCSV} />
-          <button onClick={this.props.doLayout}>Auto Layout</button>
-          <button onClick={this.props.clear}>Clear</button>
-          <button onClick={this.exportCSV}>Export</button>
-        </div>
+        <Controls
+          show_controls={this.controlsShown()}
+          loadCSV={this.props.loadCSV}
+          doLayout={this.props.doLayout}
+          clear={this.props.clear}
+          exportCSV={this.exportCSV}
+          toggleControls={this.toggleControls}
+        />
       </div>
     );
   }

@@ -1,8 +1,28 @@
 @import '~html5-reset/assets/css/reset.css'
 
+controls_width = 30%
+controls_background = white
+controls_toggle_size = 25px
+
 minor_section()
   height 25%
   background #DDD
+
+#display
+  position absolute
+#controls
+  position absolute
+  right 0
+.controls-shown
+  #display
+    width 100% - controls_width
+  #controls
+    width controls_width
+.controls-hidden
+  #display
+    width 100%
+  #controls
+    width 0
 
 #background
   height 100%
@@ -20,7 +40,15 @@ minor_section()
   width 100%
   height 100%
 
-#ui
+#toggle-controls
+  display block
+  width controls_toggle_size
+  height controls_toggle_size
   position absolute
-  bottom 0
-  padding 20px
+  left controls_toggle_size * -1
+  padding-left (controls_toggle_size / 3.5)
+  text-decoration none
+  background controls_background
+  font-size controls_toggle_size
+  border-radius: (controls_toggle_size / 4) 0 0 (controls_toggle_size / 4)
+  line-height controls_toggle_size * 0.9

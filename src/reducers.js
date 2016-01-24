@@ -5,7 +5,8 @@ import actions from './actions'
 export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
-    last_layout: null
+    last_layout: null,
+    show_controls: true
   }), {
     [actions.LOAD_DONE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
@@ -14,7 +15,9 @@ export default combineReducers({
     [actions.REDRAW]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.CLEAR]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw)
+      state.set('last_redraw', action.payload.last_redraw),
+    [actions.TOGGLE_CONTROLS]: (state, action) =>
+      state.merge(action.payload)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
