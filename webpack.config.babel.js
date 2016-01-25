@@ -51,6 +51,9 @@ export default {
     filename: '[name].js'
   },
   module: {
+    preLoaders: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' }
+    ],
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
@@ -65,5 +68,9 @@ export default {
   },
   node: {
     fs: 'empty'
+  },
+  eslint: {
+    configFile: './.eslintrc',
+    emitError: process.env.NODE_ENV === 'production'
   }
 };

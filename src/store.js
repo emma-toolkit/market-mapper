@@ -5,8 +5,9 @@ import devtools from '../dev/devtools.jsx'
 import reducers from './reducers'
 
 const middleware = [applyMiddleware(ReduxPromise, persist)];
-if (process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV === 'development') {
   middleware.push(devtools.instrument());
+}
 
 export default compose(...middleware)(createStore)(reducers);
 
