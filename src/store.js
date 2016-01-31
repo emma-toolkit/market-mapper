@@ -1,6 +1,6 @@
 import { compose, applyMiddleware, createStore } from 'redux'
 import ReduxPromise from 'redux-promise'
-import LocalForage from './localforage'
+import local from './localforage'
 import devtools from '../dev/devtools.jsx'
 import reducers from './reducers'
 
@@ -14,25 +14,10 @@ export default compose(...middleware)(createStore)(reducers);
 function persist(store) {
   return next => action => {
     const result = next(action);
-    if (action.meta && action.meta.persist) {
-      LocalForage.clear().then(() => {
-        const state = store.getState();
-        storeData('nodes', 'environment', state);
-        storeData('nodes', 'chain', state);
-        storeData('nodes', 'infrastructure', state);
-        storeData('edges', 'chain', state);
-        storeData('edges', 'infrastructure', state);
-      });
-    }
+    if (!action.meta) return result;
+    const state = store.getState();
+    if (action.meta.persist_app) local.set('app', state);
+    if (action.meta.persist_graph) local.set('graph', state);
     return result;
   }
-}
-
-function storeData(element, type, state) {
-  state.getIn([element, type]).forEach((d, id) => {
-    const obj = d.toObject();
-    obj.element = element;
-    obj.type = type;
-    LocalForage.setItem(String(id), obj);
-  });
 }

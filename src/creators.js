@@ -1,11 +1,9 @@
 import { createAction } from 'redux-actions'
-import { Map as IMap } from 'immutable'
 import Promise from 'bluebird'
-import Local from 'localforage'
 import FastCSV from 'fast-csv'
+import local from './localforage'
 import actions from './actions'
-import format from './format'
-import { Node, Edge } from './records'
+import csv from './csv'
 
 const writeToString = Promise.promisify(FastCSV.writeToString);
 const reader = new FileReader();
@@ -16,26 +14,22 @@ const loadDone = createAction(
     payload.last_redraw = Date.now();
     return payload;
   },
-  persist
+  persistGraph
 );
 
-const loadLocal = () => {
-  const element_map = new Map();
-  return Local.iterate((element, id) => {
-    element_map.set(id, element);
-  }).then(() => loadDone({state: format.local(element_map)}));
-};
+const loadLocal = state => local.load(state)
+  .then((next_state) => loadDone({state: next_state}));
 
 const loadCSV = files => {
   reader.readAsText(files.item(0));
-  return new Promise(resolve => {
-    reader.onload = e => resolve(e.target.result);
-  }).then(str => {
+  return new Promise(resolve =>
+    reader.onload = e => resolve(e.target.result)
+  ).then(str => {
     const element_map = new Map();
     const parser = FastCSV.fromString(str, {headers: true});
     parser.on('data', (d) => element_map.set(parseInt(d.id), d));
     return new Promise(resolve => {
-      parser.on('end', () => resolve({state: format.csv(element_map)}));
+      parser.on('end', () => resolve({state: csv(element_map)}));
     });
   }).then(loadDone);
 };
@@ -48,7 +42,7 @@ const doLayout = createAction(
 const layoutDone = createAction(
   actions.LAYOUT_DONE,
   data => data,
-  persist
+  persistGraph
 );
 
 const redraw = createAction(
@@ -61,7 +55,7 @@ const exportDone = createAction(actions.EXPORT_DONE);
 const clear = createAction(
   actions.CLEAR,
   () => {return {last_layout: Date.now()}},
-  persist
+  persistGraph
 );
 
 const exportCSV = (state) => {
@@ -88,7 +82,8 @@ const toggleControls = createAction(
       show_controls,
       last_redraw: Date.now()
     }
-  } 
+  },
+  persistApp
 );
 
 export default {
@@ -103,7 +98,8 @@ export default {
   toggleControls
 }
 
-function persist() {return {persist: true}}
+function persistApp() {return {persist_app: true}}
+function persistGraph() {return {persist_graph: true}}
 
 function csvAddNodes(type, data, state) {
   state.getIn(['nodes', type]).forEach((d, id) => {

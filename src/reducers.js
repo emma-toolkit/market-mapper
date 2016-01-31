@@ -8,8 +8,11 @@ export default combineReducers({
     last_layout: null,
     show_controls: true
   }), {
-    [actions.LOAD_DONE]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
+    [actions.LOAD_DONE]: (state, action) => {
+      state = action.payload.state.get('app') || state;
+      state = state.set('last_redraw', action.payload.last_redraw);
+      return state;
+    },
     [actions.DO_LAYOUT]: (state, action) =>
       state.set('last_layout', action.payload.last_layout),
     [actions.REDRAW]: (state, action) =>
@@ -48,9 +51,8 @@ function edgeHandlers(type) {
 
 function commonHandlers(element, type) {
   return {
-    [actions.LOAD_DONE]: (state, action) => {
-      return action.payload.state.getIn([element, type]);
-    },
+    [actions.LOAD_DONE]: (state, action) =>
+      action.payload.state.getIn([element, type]),
     [actions.CLEAR]: state => state.clear()
   };
 }
