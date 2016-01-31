@@ -60,7 +60,7 @@ export default class Graph extends React.Component {
       zoomingEnabled: false,
       panningEnabled: false
     });
-    this.graph.nodes().on('free', debounce(e => {
+    this.graph.on('free', 'node', debounce(e => {
       this.normalize(e.cyTarget);
     }));
 

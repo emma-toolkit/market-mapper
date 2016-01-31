@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
-import Local from 'localforage'
+import Promise from 'bluebird'
 import creators from '../creators'
 import Graph from './graph.jsx'
 import Controls from './controls.jsx'
@@ -12,7 +12,7 @@ const App = connect(
   state => {return {state}},
   dispatch => {
     return {
-      loadLocal() {dispatch(creators.loadLocal())},
+      loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
@@ -28,9 +28,7 @@ const App = connect(
   controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
-    Local.length().then(len => {
-      if (len) this.props.loadLocal();
-    });
+    this.props.loadLocal(this.props.state);
   },
   exportCSV() {
     this.props.exportCSV(this.props.state);
