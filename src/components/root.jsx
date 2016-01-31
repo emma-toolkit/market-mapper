@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import Promise from 'bluebird'
 import creators from '../creators'
+import Type from './type.jsx'
 import Graph from './graph.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
@@ -41,9 +42,9 @@ const App = connect(
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
           <div id='background'>
-            <div id='environment' />
-            <div id='chain' />
-            <div id='infrastructure' />
+            <Type type='environment' />
+            <Type type='chain' />
+            <Type type='infrastructure' />
           </div>
           <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
         </div>
