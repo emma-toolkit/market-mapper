@@ -21,7 +21,8 @@ const entry = {
     'redux',
     'redux-actions',
     'redux-immutablejs',
-    'redux-promise'
+    'redux-promise',
+    'shortid'
   ],
   app: './app.js'
 };
