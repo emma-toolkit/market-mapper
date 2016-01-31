@@ -8,6 +8,8 @@ import csv from './csv'
 const writeToString = Promise.promisify(FastCSV.writeToString);
 const reader = new FileReader();
 
+// Synchronous
+
 const loadDone = createAction(
   actions.LOAD_DONE,
   payload => {
@@ -16,6 +18,43 @@ const loadDone = createAction(
   },
   persistGraph
 );
+
+const doLayout = createAction(
+  actions.DO_LAYOUT,
+  () => {return {last_layout: Date.now()}}
+);
+
+const layoutDone = createAction(
+  actions.LAYOUT_DONE,
+  data => data,
+  persistGraph
+);
+
+const redraw = createAction(
+  actions.REDRAW,
+  () => {return {last_redraw: Date.now()}}
+);
+
+const clear = createAction(
+  actions.CLEAR,
+  () => {return {last_layout: Date.now()}},
+  persistGraph
+);
+
+const exportDone = createAction(actions.EXPORT_DONE);
+
+const toggleControls = createAction(
+  actions.TOGGLE_CONTROLS,
+  show_controls => {
+    return {
+      show_controls,
+      last_redraw: Date.now()
+    }
+  },
+  persistApp
+);
+
+// Promises
 
 const loadLocal = state => local.load(state)
   .then((next_state) => loadDone({state: next_state}));
@@ -34,30 +73,6 @@ const loadCSV = files => {
   }).then(loadDone);
 };
 
-const doLayout = createAction(
-  actions.DO_LAYOUT,
-  () => {return {last_layout: Date.now()}}
-);
-
-const layoutDone = createAction(
-  actions.LAYOUT_DONE,
-  data => data,
-  persistGraph
-);
-
-const redraw = createAction(
-  actions.REDRAW,
-  () => {return {last_redraw: Date.now()}}
-);
-
-const exportDone = createAction(actions.EXPORT_DONE);
-
-const clear = createAction(
-  actions.CLEAR,
-  () => {return {last_layout: Date.now()}},
-  persistGraph
-);
-
 const exportCSV = (state) => {
   const data = [];
   csvAddNodes('environment', data, state);
@@ -75,28 +90,21 @@ const exportCSV = (state) => {
   }).then(exportDone);
 };
 
-const toggleControls = createAction(
-  actions.TOGGLE_CONTROLS,
-  show_controls => {
-    return {
-      show_controls,
-      last_redraw: Date.now()
-    }
-  },
-  persistApp
-);
+// Exports
 
 export default {
-  loadLocal,
-  loadCSV,
   loadDone,
   doLayout,
   layoutDone,
   redraw,
   clear,
-  exportCSV,
-  toggleControls
+  toggleControls,
+  loadLocal,
+  loadCSV,
+  exportCSV
 }
+
+// Functions
 
 function persistApp() {return {persist_app: true}}
 function persistGraph() {return {persist_graph: true}}
