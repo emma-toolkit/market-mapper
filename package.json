@@ -31,7 +31,7 @@
     "cytoscape-dagre": "^1.1.2",
     "dagre": "^0.7.4",
     "eslint": "^1.10.3",
-    "eslint-loader": "^1.2.0",
+    "eslint-loader": "^1.2.1",
     "fast-csv": "^1.0.0",
     "html-webpack-plugin": "^2.7.1",
     "html5-reset": "^2.1.3",
