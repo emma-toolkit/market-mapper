@@ -60,7 +60,11 @@ export default class Graph extends React.Component {
       zoomingEnabled: false,
       panningEnabled: false
     });
+    this.graph.on('grab', 'node', () =>
+      this.refs.div.classList.add('grabbed')
+    );
     this.graph.on('free', 'node', debounce(e => {
+      this.refs.div.classList.remove('grabbed')
       this.normalize(e.cyTarget);
     }));
 
