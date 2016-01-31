@@ -1,6 +1,8 @@
 import { Map as IMap } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
+import ShortID from 'shortid'
 import actions from './actions'
+import { Node } from './records'
 
 export default combineReducers({
   app: createReducer(new IMap({
@@ -20,7 +22,9 @@ export default combineReducers({
     [actions.CLEAR]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.TOGGLE_CONTROLS]: (state, action) =>
-      state.merge(action.payload)
+      state.merge(action.payload),
+    [actions.ADD_NODE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
@@ -40,6 +44,12 @@ function nodeHandlers(domain) {
       if (state.has(id)) {
         state = state.mergeIn([id], coordinates);
       }
+    }
+    return state;
+  };
+  handlers[actions.ADD_NODE] = (state, action) => {
+    if (action.payload.domain === domain) {
+      state = state.set(ShortID.generate(), Node({label: "test"}));
     }
     return state;
   };

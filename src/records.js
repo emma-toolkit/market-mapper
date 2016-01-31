@@ -2,7 +2,6 @@ import { Record } from 'immutable'
 
 export const Node = Record({
   label: '',
-  position: null,
   disruption: 0,
   x: 0,
   y: 0

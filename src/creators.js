@@ -54,6 +54,17 @@ const toggleControls = createAction(
   persistApp
 );
 
+const addNode = createAction(
+  actions.ADD_NODE,
+  domain => {
+    return {
+      domain,
+      last_redraw: Date.now()
+    }
+  },
+  persistGraph
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
@@ -66,7 +77,7 @@ const loadCSV = files => {
   ).then(str => {
     const element_map = new Map();
     const parser = FastCSV.fromString(str, {headers: true});
-    parser.on('data', (d) => element_map.set(parseInt(d.id), d));
+    parser.on('data', (d) => element_map.set(d.id, d));
     return new Promise(resolve => {
       parser.on('end', () => resolve({state: csv(element_map)}));
     });
@@ -99,6 +110,7 @@ export default {
   redraw,
   clear,
   toggleControls,
+  addNode,
   loadLocal,
   loadCSV,
   exportCSV

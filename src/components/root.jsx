@@ -13,16 +13,17 @@ const App = connect(
   state => {return {state}},
   dispatch => {
     return {
-      loadLocal(state) {dispatch(creators.loadLocal(state))},
-      loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
       redraw() {dispatch(creators.redraw())},
       clear() {dispatch(creators.clear())},
-      exportCSV(state) {dispatch(creators.exportCSV(state))},
       toggleControls(show_controls) {
         dispatch(creators.toggleControls(show_controls));
-      } 
+      },
+      addNode(domain) {dispatch(creators.addNode(domain))},
+      loadLocal(state) {dispatch(creators.loadLocal(state))},
+      loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
+      exportCSV(state) {dispatch(creators.exportCSV(state))}
    }
   }
 )(createClass({
@@ -42,9 +43,9 @@ const App = connect(
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
           <div id='background'>
-            <Domain domain='environment' />
-            <Domain domain='chain' />
-            <Domain domain='infrastructure' />
+            <Domain domain='environment' addNode={this.props.addNode} />
+            <Domain domain='chain' addNode={this.props.addNode} />
+            <Domain domain='infrastructure' addNode={this.props.addNode} />
           </div>
           <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
         </div>

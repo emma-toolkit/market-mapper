@@ -5,7 +5,8 @@ const actions = [
   'REDRAW',
   'CLEAR',
   'EXPORT_DONE',
-  'TOGGLE_CONTROLS'
+  'TOGGLE_CONTROLS',
+  'ADD_NODE'
 ];
 
 export default actions.reduce((prev, cur) => {

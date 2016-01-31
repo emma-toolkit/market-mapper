@@ -15,8 +15,9 @@ export default class Graph extends React.Component {
 
   shouldComponentUpdate(next_props) {
     if (next_props.state.getIn(['app', 'last_layout']) !==
-      this.props.state.getIn(['app', 'last_layout']))
+      this.props.state.getIn(['app', 'last_layout'])) {
       this.doLayout();
+    }
     return next_props.state.getIn(['app', 'last_redraw']) !==
       this.props.state.getIn(['app', 'last_redraw']);
   }
@@ -112,15 +113,28 @@ export default class Graph extends React.Component {
         name: 'dagre',
         rankDir: 'LR',
         ready: () => {
-          chain.layout({
-            name: 'dagre',
-            rankDir: 'LR',
-            boundingBox: this.getBoundingBox(chain, {
+          let layout, bounding_box;
+          if (chain.length > 1) {
+            layout = 'dagre';
+            bounding_box = this.getBoundingBox(chain, {
               top: this.one_third,
               right: this.margin,
               bottom: this.one_third,
               left: this.margin
-            }),
+            });
+          } else {
+            layout = 'grid';
+            bounding_box = {
+              x1: 0,
+              y1: this.one_third - this.margin,
+              x2: this.refs.div.offsetWidth,
+              y2: this.one_third * 2 + this.margin
+            };
+          }
+          chain.layout({
+            name: layout,
+            rankDir: 'LR',
+            boundingBox: bounding_box,
             ready: () => resolve(chain)
           });
         }
@@ -213,8 +227,7 @@ export default class Graph extends React.Component {
   convertNode(record, id, domain, self) {
     const classes = [domain];
     const position = record.get('position');
-    if (position !== null)
-      classes.push(position);
+    if (position !== null) classes.push(position);
     switch (record.get('disruption')) {
       case 1:
         classes.push('partial');
@@ -258,7 +271,7 @@ export default class Graph extends React.Component {
       const position = node.position();
       const x = position.x * W / this.refs.div.offsetWidth;
       const y = position.y * H / this.refs.div.offsetHeight;
-      data.set(parseInt(node.data().id), {x, y});
+      data.set(node.data().id, {x, y});
     });
     this.props.layoutDone(data);
   }

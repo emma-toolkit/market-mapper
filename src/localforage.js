@@ -77,7 +77,7 @@ function loadType(type, state) {
               path = ['app', key];
               break;
             case 'graph':
-              path = [value.element, value.domain, parseInt(key)];
+              path = [value.element, value.domain, key];
               const record = value.element === 'nodes' ? Node : Edge;
               value = record(value);
               break;
