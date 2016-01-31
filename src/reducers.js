@@ -49,7 +49,23 @@ function nodeHandlers(domain) {
   };
   handlers[actions.ADD_NODE] = (state, action) => {
     if (action.payload.domain === domain) {
-      state = state.set(ShortID.generate(), Node({label: "test"}));
+      let y;
+      switch (domain) {
+        case 'environment':
+          y = (2160 / 6) - (2160 / 20);
+          break;
+        case 'chain':
+          y = 2160 / 2;
+          break;
+        case 'infrastructure':
+          y = (2160 * (5/6)) + (2160 / 20);
+          break;
+      }
+      state = state.set(ShortID.generate(), Node({
+        label: "<new node>",
+        x: 2048,
+        y
+      }));
     }
     return state;
   };

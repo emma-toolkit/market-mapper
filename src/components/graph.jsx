@@ -68,16 +68,6 @@ export default class Graph extends React.Component {
       this.refs.div.classList.remove('grabbed')
       this.normalize(e.cyTarget);
     }));
-
-    if ((
-      this.hasNodes('environment') ||
-      this.hasNodes('chain') ||
-      this.hasNodes('infrastructure')
-    ) && (
-      this.allAtOrigin('environment') &&
-      this.allAtOrigin('chain') &&
-      this.allAtOrigin('infrastructure')
-    )) this.doLayout();
   }
 
   doLayout() {
@@ -165,14 +155,6 @@ export default class Graph extends React.Component {
 
   hasNodes(domain) {
     return this.props.state.getIn(['nodes', domain]).size > 0;
-  }
-
-  allAtOrigin(domain) {
-    const nodes = this.props.state.getIn(['nodes', domain]);
-    const at_origin = nodes.forEach(node => {
-      if (node.get('x') !== 0 || node.get('y') !== 0) return false;
-    });
-    return at_origin === nodes.size;
   }
 
   getBoundingBox(nodes, margins) {
