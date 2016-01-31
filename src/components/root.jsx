@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import Promise from 'bluebird'
 import creators from '../creators'
-import Type from './type.jsx'
+import Domain from './domain.jsx'
 import Graph from './graph.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
@@ -42,9 +42,9 @@ const App = connect(
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
           <div id='background'>
-            <Type type='environment' />
-            <Type type='chain' />
-            <Type type='infrastructure' />
+            <Domain domain='environment' />
+            <Domain domain='chain' />
+            <Domain domain='infrastructure' />
           </div>
           <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
         </div>

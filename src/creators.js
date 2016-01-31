@@ -83,7 +83,7 @@ const exportCSV = (state) => {
 
   return writeToString(data, {
     headers: [
-      'id', 'element', 'type', 'label', 'in', 'out', 'disruption', 'x', 'y'
+      'id', 'element', 'domain', 'label', 'in', 'out', 'disruption', 'x', 'y'
     ]
   }).then(function(str) {
     window.open(`data:text/csv;charset=utf-8,${escape(str)}`);
@@ -109,12 +109,12 @@ export default {
 function persistApp() {return {persist_app: true}}
 function persistGraph() {return {persist_graph: true}}
 
-function csvAddNodes(type, data, state) {
-  state.getIn(['nodes', type]).forEach((d, id) => {
+function csvAddNodes(domain, data, state) {
+  state.getIn(['nodes', domain]).forEach((d, id) => {
     data.push({
       id: id,
       element: 'node',
-      type: type,
+      domain: domain,
       label: d.get('label'),
       in: d.get('position') === 'initial' ? -1 : '',
       out: d.get('position') === 'final' ? -1 : '',
@@ -125,8 +125,8 @@ function csvAddNodes(type, data, state) {
   });
 }
 
-function csvAddEdges(type, data, state) {
-  state.getIn(['edges', type]).forEach((d, id) => {
+function csvAddEdges(domain, data, state) {
+  state.getIn(['edges', domain]).forEach((d, id) => {
     data.push({
       id: id,
       element: 'edge',

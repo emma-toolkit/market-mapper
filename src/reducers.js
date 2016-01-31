@@ -33,8 +33,8 @@ export default combineReducers({
   })
 });
 
-function nodeHandlers(type) {
-  const handlers = commonHandlers('nodes', type);
+function nodeHandlers(domain) {
+  const handlers = commonHandlers('nodes', domain);
   handlers[actions.LAYOUT_DONE] = (state, action) => {
     for (let [id, coordinates] of action.payload) {
       if (state.has(id)) {
@@ -46,14 +46,14 @@ function nodeHandlers(type) {
   return handlers;
 }
 
-function edgeHandlers(type) {
-  return commonHandlers('edges', type);
+function edgeHandlers(domain) {
+  return commonHandlers('edges', domain);
 }
 
-function commonHandlers(element, type) {
+function commonHandlers(element, domain) {
   return {
     [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.getIn([element, type]),
+      action.payload.state.getIn([element, domain]),
     [actions.CLEAR]: state => state.clear()
   };
 }

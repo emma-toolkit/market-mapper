@@ -21,7 +21,7 @@ export default function(element_map) {
       } else if (parseInt(d.out) === -1) {
         position = 'final';
       }
-      state = state.setIn(['nodes', d.type, parseInt(d.id)], Node({
+      state = state.setIn(['nodes', d.domain, parseInt(d.id)], Node({
         label: d.label,
         position: position,
         disruption: parseInt(d.disruption) || 0,
@@ -30,8 +30,8 @@ export default function(element_map) {
       }));
     } else {
       const in_id = parseInt(d.in);
-      const type = element_map.get(in_id).type;
-      state = state.setIn(['edges', type, parseInt(d.id)], Edge({
+      const domain = element_map.get(in_id).domain;
+      state = state.setIn(['edges', domain, parseInt(d.id)], Edge({
         label: d.label,
         in: in_id,
         out: parseInt(d.out),

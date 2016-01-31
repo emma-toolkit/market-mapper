@@ -1,4 +1,4 @@
-id,element,type,label,in,out,disruption
+id,element,domain,label,in,out,disruption
 0,node,environment,Control of import permits,,,
 1,node,environment,Foreign exchange restrictions,,,1
 2,node,environment,Bribery and corruption,,,1

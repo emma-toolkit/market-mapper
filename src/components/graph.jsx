@@ -144,17 +144,17 @@ export default class Graph extends React.Component {
     // Dispatch LAYOUT_DONE when all layouts are done
     Promise.reduce(
       [environment_done, chain_done, infrastructure_done],
-      (nodes, type_nodes) => nodes.union(type_nodes),
+      (nodes, domain_nodes) => nodes.union(domain_nodes),
       this.graph.collection()
     ).then(nodes => this.normalize(nodes));
   }
 
-  hasNodes(type) {
-    return this.props.state.getIn(['nodes', type]).size > 0;
+  hasNodes(domain) {
+    return this.props.state.getIn(['nodes', domain]).size > 0;
   }
 
-  allAtOrigin(type) {
-    const nodes = this.props.state.getIn(['nodes', type]);
+  allAtOrigin(domain) {
+    const nodes = this.props.state.getIn(['nodes', domain]);
     const at_origin = nodes.forEach(node => {
       if (node.get('x') !== 0 || node.get('y') !== 0) return false;
     });
@@ -196,22 +196,22 @@ export default class Graph extends React.Component {
     };
   }
 
-  pushNodes(type, arr) {
-    this.pushElements('nodes', type, this.convertNode, arr);
+  pushNodes(domain, arr) {
+    this.pushElements('nodes', domain, this.convertNode, arr);
   }
 
-  pushEdges(type, arr) {
-    this.pushElements('edges', type, this.convertEdge, arr);
+  pushEdges(domain, arr) {
+    this.pushElements('edges', domain, this.convertEdge, arr);
   }
 
-  pushElements(element, type, converter, arr) {
-    this.props.state.getIn([element, type]).forEach((record, id) => 
-      arr.push(converter(record, id, type, this))
+  pushElements(element, domain, converter, arr) {
+    this.props.state.getIn([element, domain]).forEach((record, id) => 
+      arr.push(converter(record, id, domain, this))
     );
   }
 
-  convertNode(record, id, type, self) {
-    const classes = [type];
+  convertNode(record, id, domain, self) {
+    const classes = [domain];
     const position = record.get('position');
     if (position !== null)
       classes.push(position);
@@ -229,7 +229,7 @@ export default class Graph extends React.Component {
       group: 'nodes',
       data: {
         id,
-        parent: type,
+        parent: domain,
         label: record.get('label')
       },
       position: {
@@ -240,7 +240,7 @@ export default class Graph extends React.Component {
     };
   }
 
-  convertEdge(record, id, type) {
+  convertEdge(record, id, domain) {
     return {
       group: 'edges',
       data: {
@@ -248,7 +248,7 @@ export default class Graph extends React.Component {
         source: record.get('in'),
         target: record.get('out')
       },
-      classes: type
+      classes: domain
     };
   }
 
