@@ -16,10 +16,11 @@ export default function(element_map) {
   for (let [id, d] of element_map) {
     if (d.element === 'node') {
       let position = null;
-      if (parseInt(d.in) === -1)
+      if (parseInt(d.in) === -1) {
         position = 'initial';
-      else if (parseInt(d.out) === -1)
+      } else if (parseInt(d.out) === -1) {
         position = 'final';
+      }
       state = state.setIn(['nodes', d.type, parseInt(d.id)], Node({
         label: d.label,
         position: position,

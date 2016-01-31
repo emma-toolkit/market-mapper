@@ -22,9 +22,12 @@ export default {
   set(store, state) {
     stores[store].length()
       .then(n => {
-        if (n === 0) setStore(store, state);
-        else stores[store].clear()
-          .then(() => setStore(store, state));
+        if (n === 0) {
+          setStore(store, state);
+        } else {
+          stores[store].clear()
+            .then(() => setStore(store, state));
+        }
       });
   },
   load(state) {
