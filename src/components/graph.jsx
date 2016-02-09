@@ -68,6 +68,13 @@ export default class Graph extends React.Component {
       this.refs.div.classList.remove('grabbed')
       this.normalize(e.cyTarget);
     }));
+    this.graph.on('select', 'node', e => {
+      const data = e.cyTarget.data();
+      this.props.inspectNode(data.parent, data.id);
+    });
+    this.graph.on('unselect', 'node', () =>
+      this.props.uninspectNode()
+    );
   }
 
   doLayout() {

@@ -27,6 +27,9 @@ const App = connect(
    }
   }
 )(createClass({
+  getInitialState() {
+    return {selected: null}
+  },
   controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
@@ -36,6 +39,10 @@ const App = connect(
     this.props.exportCSV(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
+  inspectNode(domain, id) {
+    this.setState({selected: this.props.state.getIn(['nodes', domain, id])})
+  },
+  uninspectNode() {this.setState({selected: null})},
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
@@ -47,9 +54,15 @@ const App = connect(
             <Domain domain='chain' addNode={this.props.addNode} />
             <Domain domain='infrastructure' addNode={this.props.addNode} />
           </div>
-          <Graph state={this.props.state} layoutDone={this.props.layoutDone} />
+          <Graph
+            state={this.props.state}
+            layoutDone={this.props.layoutDone}
+            inspectNode={this.inspectNode}
+            uninspectNode={this.uninspectNode}
+          />
         </div>
         <Controls
+          selected={this.state.selected}
           show_controls={this.controlsShown()}
           loadCSV={this.props.loadCSV}
           doLayout={this.props.doLayout}

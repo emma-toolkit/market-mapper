@@ -1,9 +1,14 @@
 import React from 'react'
+import TextInput from './textinput.jsx'
 const createClass = React.createClass
 
 export default createClass({
   shouldComponentUpdate(next_props) {
-    return next_props.show_controls !== this.props.show_controls;
+    return next_props.show_controls !== this.props.show_controls ||
+      next_props.selected !== this.props.selected;
+  },
+  selectedLabel() {
+    return this.props.selected === null ? '' : this.props.selected.label;
   },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
@@ -16,10 +21,17 @@ export default createClass({
         >
           {toggle_icon}
         </a>
-        <input type='file' name='csv' onChange={this.props.loadCSV} />
-        <button onClick={this.props.doLayout}>Auto Layout</button>
-        <button onClick={this.props.clear}>Clear</button>
-        <button onClick={this.props.exportCSV}>Export</button>
+        <div id='controls-form'>
+          <div id="node-controls">
+            <label>Label:
+              <TextInput selected={this.selectedLabel()} />
+            </label>
+          </div>
+          <input type='file' name='csv' onChange={this.props.loadCSV} />
+          <button onClick={this.props.doLayout}>Auto Layout</button>
+          <button onClick={this.props.clear}>Clear</button>
+          <button onClick={this.props.exportCSV}>Export</button>
+        </div>
       </div>
     );
   }
