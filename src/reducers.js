@@ -81,7 +81,19 @@ function nodeHandlers(domain) {
 }
 
 function edgeHandlers(domain) {
-  return commonHandlers('edges', domain);
+  const handlers = commonHandlers('edges', domain);
+  handlers[actions.REMOVE_NODE] = (state, action) => {
+    if (domain !== 'environment') {
+      const id = action.payload.id;
+      state.forEach((edge, key) => {
+        if (edge.in === id || edge.out === id) {
+          state = state.delete(key);
+        }
+      });
+    }
+    return state;
+  };
+  return handlers;
 }
 
 function commonHandlers(element, domain) {
