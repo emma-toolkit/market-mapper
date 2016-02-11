@@ -34,15 +34,24 @@ export default class Graph extends React.Component {
     const elements = [{
       group: 'nodes',
       data: {id: 'environment'},
-      classes: 'parent'
+      classes: 'parent',
+      selectable: false,
+      locked: true,
+      grabbable: false
     },{
       group: 'nodes',
       data: {id: 'chain'},
-      classes: 'parent'
+      classes: 'parent',
+      selectable: false,
+      locked: true,
+      grabbable: false
     },{
       group: 'nodes',
       data: {id: 'infrastructure'},
-      classes: 'parent'
+      classes: 'parent',
+      selectable: false,
+      locked: true,
+      grabbable: false
     }];
 
     // Push nodes and edges from state
@@ -59,7 +68,9 @@ export default class Graph extends React.Component {
       layout: {name: 'preset'},
       style: graph_style.toString(),
       zoomingEnabled: false,
-      panningEnabled: false
+      panningEnabled: false,
+      selectionType: 'single',
+      boxSelectionEnabled: false
     });
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
@@ -69,6 +80,7 @@ export default class Graph extends React.Component {
       this.normalize(e.cyTarget);
     }));
     this.graph.on('select', 'node', e => {
+      this.graph.nodes().not(e.cyTarget).unselect()
       const data = e.cyTarget.data();
       this.props.inspectNode(data.parent, data.id);
     });
