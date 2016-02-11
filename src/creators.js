@@ -65,6 +65,18 @@ const addNode = createAction(
   persistGraph
 );
 
+const removeNode = createAction(
+  actions.REMOVE_NODE,
+  (domain, id) => {
+    return {
+      domain,
+      id,
+      last_redraw: Date.now()
+    };
+  },
+  persistGraph
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
@@ -111,6 +123,7 @@ export default {
   clear,
   toggleControls,
   addNode,
+  removeNode,
   loadLocal,
   loadCSV,
   exportCSV

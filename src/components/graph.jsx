@@ -81,8 +81,7 @@ export default class Graph extends React.Component {
     }));
     this.graph.on('select', 'node', e => {
       this.graph.nodes().not(e.cyTarget).unselect()
-      const data = e.cyTarget.data();
-      this.props.inspectNode(data.parent, data.id);
+      this.props.inspectNode(e.cyTarget);
     });
     this.graph.on('unselect', 'node', () =>
       this.props.uninspectNode()

@@ -8,7 +8,7 @@ export default createClass({
       next_props.selected !== this.props.selected;
   },
   selectedLabel() {
-    return this.props.selected === null ? '' : this.props.selected.label;
+    return this.props.selected === null ? '' : this.props.selected.record.label;
   },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
@@ -26,6 +26,7 @@ export default createClass({
             <label>Label:
               <TextInput selected={this.selectedLabel()} />
             </label>
+            <button onClick={this.props.removeNode}>Remove Node</button>
           </div>
           <input type='file' name='csv' onChange={this.props.loadCSV} />
           <button onClick={this.props.doLayout}>Auto Layout</button>

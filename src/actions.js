@@ -6,7 +6,8 @@ const actions = [
   'CLEAR',
   'EXPORT_DONE',
   'TOGGLE_CONTROLS',
-  'ADD_NODE'
+  'ADD_NODE',
+  'REMOVE_NODE'
 ];
 
 export default actions.reduce((prev, cur) => {

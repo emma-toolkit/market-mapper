@@ -24,6 +24,8 @@ export default combineReducers({
     [actions.TOGGLE_CONTROLS]: (state, action) =>
       state.merge(action.payload),
     [actions.ADD_NODE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
+    [actions.REMOVE_NODE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw)
   }),
   nodes: combineReducers({
@@ -66,6 +68,12 @@ function nodeHandlers(domain) {
         x: 2048,
         y
       }));
+    }
+    return state;
+  };
+  handlers[actions.REMOVE_NODE] = (state, action) => {
+    if (action.payload.domain === domain) {
+      state = state.delete(action.payload.id);
     }
     return state;
   };

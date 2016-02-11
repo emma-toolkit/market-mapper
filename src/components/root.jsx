@@ -21,6 +21,7 @@ const App = connect(
         dispatch(creators.toggleControls(show_controls));
       },
       addNode(domain) {dispatch(creators.addNode(domain))},
+      removeNode(domain, id) {dispatch(creators.removeNode(domain, id))},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -28,7 +29,7 @@ const App = connect(
   }
 )(createClass({
   getInitialState() {
-    return {selected: null}
+    return {selected: null};
   },
   controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
@@ -39,10 +40,21 @@ const App = connect(
     this.props.exportCSV(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
-  inspectNode(domain, id) {
-    this.setState({selected: this.props.state.getIn(['nodes', domain, id])})
+  inspectNode(node) {
+    const data = node.data();
+    this.setState({
+      selected: {
+        id: data.id,
+        domain: data.parent,
+        record: this.props.state.getIn(['nodes', data.parent, data.id])
+      }
+    });
   },
   uninspectNode() {this.setState({selected: null})},
+  removeNode() {
+    const selected = this.state.selected;
+    this.props.removeNode(selected.domain, selected.id);
+  },
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
@@ -69,6 +81,7 @@ const App = connect(
           clear={this.props.clear}
           exportCSV={this.exportCSV}
           toggleControls={this.toggleControls}
+          removeNode={this.removeNode}
         />
       </div>
     );
