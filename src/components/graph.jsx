@@ -72,6 +72,14 @@ export default class Graph extends React.Component {
       selectionType: 'single',
       boxSelectionEnabled: false
     });
+    this.graph.on('mouseover', 'node', e => {
+      if (this.graph.nodes(':selected').length > 0) {
+        e.cyTarget.addClass('hover')
+      }
+    });
+    this.graph.on('mouseout', 'node', e =>
+      e.cyTarget.removeClass('hover')
+    );
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
     );
