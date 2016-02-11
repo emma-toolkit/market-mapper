@@ -53,6 +53,7 @@ const App = connect(
   uninspectNode() {this.setState({selected: null})},
   removeNode() {
     const selected = this.state.selected;
+    if (selected === null) return;
     if (confirm(`Are you sure you want to delete the node labeled "${selected.record.label}"?`)) {
       this.props.removeNode(selected.domain, selected.id);
     }
