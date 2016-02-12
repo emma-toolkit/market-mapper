@@ -73,22 +73,24 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
     this.graph.on('mouseover', 'node', e => {
-      if (this.graph.nodes(':selected').length > 0) {
-        e.cyTarget.addClass('hover')
+      const hovered = e.cyTarget;
+      if (this.graph.nodes(':selected').length > 0 && !hovered.isParent()) {
+        this.props.addStub(hovered);
+        // e.cyTarget.addClass('hover');
       }
     });
-    this.graph.on('mouseout', 'node', e =>
-      e.cyTarget.removeClass('hover')
-    );
+    // this.graph.on('mouseout', 'node', e =>
+    //   // e.cyTarget.removeClass('hover')
+    // );
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
     );
     this.graph.on('free', 'node', debounce(e => {
-      this.refs.div.classList.remove('grabbed')
+      this.refs.div.classList.remove('grabbed');
       this.normalize(e.cyTarget);
     }));
     this.graph.on('select', 'node', e => {
-      this.graph.nodes().not(e.cyTarget).unselect()
+      this.graph.nodes().not(e.cyTarget).unselect();
       this.props.inspectNode(e.cyTarget);
     });
     this.graph.on('unselect', 'node', () =>
@@ -266,8 +268,8 @@ export default class Graph extends React.Component {
       group: 'edges',
       data: {
         id,
-        source: record.get('in'),
-        target: record.get('out')
+        source: record.get('from'),
+        target: record.get('to')
       },
       classes: domain
     };

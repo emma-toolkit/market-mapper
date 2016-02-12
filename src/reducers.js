@@ -2,7 +2,7 @@ import { Map as IMap } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
 import ShortID from 'shortid'
 import actions from './actions'
-import { Node } from './records'
+import { Node, Edge } from './records'
 
 export default combineReducers({
   app: createReducer(new IMap({
@@ -26,6 +26,8 @@ export default combineReducers({
     [actions.ADD_NODE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.REMOVE_NODE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
+    [actions.ADD_STUB]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw)
   }),
   nodes: combineReducers({
@@ -72,8 +74,8 @@ function nodeHandlers(domain) {
     return state;
   };
   handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (action.payload.domain === domain) {
-      state = state.delete(action.payload.id);
+    if (action.payload.selected.domain === domain) {
+      state = state.delete(action.payload.selected.id);
     }
     return state;
   };
@@ -84,12 +86,21 @@ function edgeHandlers(domain) {
   const handlers = commonHandlers('edges', domain);
   handlers[actions.REMOVE_NODE] = (state, action) => {
     if (domain !== 'environment') {
-      const id = action.payload.id;
+      const id = action.payload.selected.id;
       state.forEach((edge, key) => {
-        if (edge.in === id || edge.out === id) {
+        if (edge.from === id || edge.to === id) {
           state = state.delete(key);
         }
       });
+    }
+    return state;
+  };
+  handlers[actions.ADD_STUB] = (state, action) => {
+    if (action.payload.from.domain === domain) {
+      state = state.set(
+        ShortID.generate(),
+        Edge({from: action.payload.from.id, to: action.payload.to.id})
+      );
     }
     return state;
   };

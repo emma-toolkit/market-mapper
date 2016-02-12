@@ -21,7 +21,8 @@ const App = connect(
         dispatch(creators.toggleControls(show_controls));
       },
       addNode(domain) {dispatch(creators.addNode(domain))},
-      removeNode(domain, id) {dispatch(creators.removeNode(domain, id))},
+      removeNode(selected) {dispatch(creators.removeNode(selected))},
+      addStub(from, to) {dispatch(creators.addStub(from, to))},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -55,8 +56,20 @@ const App = connect(
     const selected = this.state.selected;
     if (selected === null) return;
     if (confirm(`Are you sure you want to delete the node labeled "${selected.record.label}"?`)) {
-      this.props.removeNode(selected.domain, selected.id);
+      this.props.removeNode(selected);
     }
+  },
+  addStub(to_node) {
+    if (this.state.selected.domain === 'environment') return;
+    const data = to_node.data();
+    if (data.parent === 'environment') return;
+    
+    const object = {
+      domain: data.parent,
+      id: data.id,
+      record: this.props.state.getIn(['nodes', data.parent, data.id])
+    };
+    this.props.addStub(this.state.selected, object);
   },
   render() {
     const className = this.controlsShown() ?
@@ -74,6 +87,7 @@ const App = connect(
             layoutDone={this.props.layoutDone}
             inspectNode={this.inspectNode}
             uninspectNode={this.uninspectNode}
+            addStub={this.addStub}
           />
         </div>
         <Controls

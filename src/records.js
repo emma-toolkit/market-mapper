@@ -9,7 +9,7 @@ export const Node = Record({
 
 export const Edge = Record({
   label: '',
-  in: null,
-  out: null,
+  from: null,
+  to: null,
   disruption: 0
 });

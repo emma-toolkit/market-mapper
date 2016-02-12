@@ -29,12 +29,12 @@ export default function(element_map) {
         y: parseFloat(d.y) || 0
       }));
     } else {
-      const in_id = d.in;
-      const domain = element_map.get(in_id).domain;
+      const from_id = d.in;
+      const domain = element_map.get(from_id).domain;
       state = state.setIn(['edges', domain, d.id], Edge({
         label: d.label,
-        in: in_id,
-        out: d.out,
+        from: from_id,
+        to: d.out,
         disruption: parseInt(d.disruption) || 0
       }));
     }

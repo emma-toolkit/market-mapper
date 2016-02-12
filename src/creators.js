@@ -67,15 +67,29 @@ const addNode = createAction(
 
 const removeNode = createAction(
   actions.REMOVE_NODE,
-  (domain, id) => {
+  selected => {
     return {
-      domain,
-      id,
+      selected,
       last_redraw: Date.now()
     };
   },
   persistGraph
 );
+
+const addStub = createAction(
+  actions.ADD_STUB,
+  (from, to) => {
+    return {
+      from,
+      to,
+      last_redraw: Date.now()
+    };
+  }
+);
+
+// const removeStub = createAction(
+//   actions.REMOVE_STUB,
+// );
 
 // Promises
 
@@ -124,6 +138,8 @@ export default {
   toggleControls,
   addNode,
   removeNode,
+  addStub,
+  // removeStub,
   loadLocal,
   loadCSV,
   exportCSV
@@ -141,8 +157,8 @@ function csvAddNodes(domain, data, state) {
       element: 'node',
       domain: domain,
       label: d.get('label'),
-      in: d.get('position') === 'initial' ? -1 : '',
-      out: d.get('position') === 'final' ? -1 : '',
+      from: d.get('position') === 'initial' ? -1 : '',
+      to: d.get('position') === 'final' ? -1 : '',
       disruption: d.get('disruption'),
       x: d.get('x'),
       y: d.get('y')
@@ -156,8 +172,8 @@ function csvAddEdges(domain, data, state) {
       id: id,
       element: 'edge',
       label: d.get('label'),
-      in: d.get('in'),
-      out: d.get('out'),
+      from: d.get('from'),
+      to: d.get('to'),
       disruption: d.get('disruption')
     });
   });
