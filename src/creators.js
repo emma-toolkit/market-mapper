@@ -76,16 +76,16 @@ const removeNode = createAction(
   persistGraph
 );
 
-const addStub = createAction(
-  actions.ADD_STUB,
-  (from, to) => {
-    return {
-      from,
-      to,
-      last_redraw: Date.now()
-    };
-  }
-);
+// const addStub = createAction(
+//   actions.ADD_STUB,
+//   (from, to) => {
+//     return {
+//       from,
+//       to,
+//       last_redraw: Date.now()
+//     };
+//   }
+// );
 
 // const removeStub = createAction(
 //   actions.REMOVE_STUB,
@@ -138,7 +138,7 @@ export default {
   toggleControls,
   addNode,
   removeNode,
-  addStub,
+  // addStub,
   // removeStub,
   loadLocal,
   loadCSV,

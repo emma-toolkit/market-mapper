@@ -75,13 +75,13 @@ export default class Graph extends React.Component {
     this.graph.on('mouseover', 'node', e => {
       const hovered = e.cyTarget;
       if (this.graph.nodes(':selected').length > 0 && !hovered.isParent()) {
-        this.props.addStub(hovered);
-        // e.cyTarget.addClass('hover');
+        // this.props.addStub(hovered);
+        e.cyTarget.addClass('hover');
       }
     });
-    // this.graph.on('mouseout', 'node', e =>
-    //   // e.cyTarget.removeClass('hover')
-    // );
+    this.graph.on('mouseout', 'node', e =>
+      e.cyTarget.removeClass('hover')
+    );
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
     );

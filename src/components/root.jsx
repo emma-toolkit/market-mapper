@@ -22,7 +22,7 @@ const App = connect(
       },
       addNode(domain) {dispatch(creators.addNode(domain))},
       removeNode(selected) {dispatch(creators.removeNode(selected))},
-      addStub(from, to) {dispatch(creators.addStub(from, to))},
+      // addStub(from, to) {dispatch(creators.addStub(from, to))},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -59,18 +59,18 @@ const App = connect(
       this.props.removeNode(selected);
     }
   },
-  addStub(to_node) {
-    if (this.state.selected.domain === 'environment') return;
-    const data = to_node.data();
-    if (data.parent === 'environment') return;
+  // addStub(to_node) {
+  //   if (this.state.selected.domain === 'environment') return;
+  //   const data = to_node.data();
+  //   if (data.parent === 'environment') return;
     
-    const object = {
-      domain: data.parent,
-      id: data.id,
-      record: this.props.state.getIn(['nodes', data.parent, data.id])
-    };
-    this.props.addStub(this.state.selected, object);
-  },
+  //   const object = {
+  //     domain: data.parent,
+  //     id: data.id,
+  //     record: this.props.state.getIn(['nodes', data.parent, data.id])
+  //   };
+  //   this.props.addStub(this.state.selected, object);
+  // },
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
@@ -87,7 +87,7 @@ const App = connect(
             layoutDone={this.props.layoutDone}
             inspectNode={this.inspectNode}
             uninspectNode={this.uninspectNode}
-            addStub={this.addStub}
+            //addStub={this.addStub}
           />
         </div>
         <Controls
