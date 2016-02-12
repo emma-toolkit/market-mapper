@@ -22,16 +22,14 @@ const App = connect(
       },
       addNode(domain) {dispatch(creators.addNode(domain))},
       removeNode(selected) {dispatch(creators.removeNode(selected))},
-      // addStub(from, to) {dispatch(creators.addStub(from, to))},
+      selectNode(node) {dispatch(creators.selectNode(node))},
+      deselectNode() {dispatch(creators.deselectNode())},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
    }
   }
 )(createClass({
-  getInitialState() {
-    return {selected: null};
-  },
   controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
@@ -41,36 +39,19 @@ const App = connect(
     this.props.exportCSV(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
-  inspectNode(node) {
-    const data = node.data();
-    this.setState({
-      selected: {
-        id: data.id,
-        domain: data.parent,
-        record: this.props.state.getIn(['nodes', data.parent, data.id])
-      }
-    });
+  selectNode(selected) {
+    const data = selected.data();
+    this.props.selectNode(
+      this.props.state.getIn(['nodes', data.parent, data.id])
+    );
   },
-  uninspectNode() {this.setState({selected: null})},
   removeNode() {
-    const selected = this.state.selected;
+    const selected = this.props.state.getIn(['app', 'selected']);
     if (selected === null) return;
-    if (confirm(`Are you sure you want to delete the node labeled "${selected.record.label}"?`)) {
+    if (confirm(`Are you sure you want to delete the node labeled "${selected.label}"?`)) {
       this.props.removeNode(selected);
     }
   },
-  // addStub(to_node) {
-  //   if (this.state.selected.domain === 'environment') return;
-  //   const data = to_node.data();
-  //   if (data.parent === 'environment') return;
-    
-  //   const object = {
-  //     domain: data.parent,
-  //     id: data.id,
-  //     record: this.props.state.getIn(['nodes', data.parent, data.id])
-  //   };
-  //   this.props.addStub(this.state.selected, object);
-  // },
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
@@ -85,13 +66,12 @@ const App = connect(
           <Graph
             state={this.props.state}
             layoutDone={this.props.layoutDone}
-            inspectNode={this.inspectNode}
-            uninspectNode={this.uninspectNode}
-            //addStub={this.addStub}
+            selectNode={this.selectNode}
+            deselectNode={this.props.deselectNode}
           />
         </div>
         <Controls
-          selected={this.state.selected}
+          selected={this.props.state.getIn(['app', 'selected'])}
           show_controls={this.controlsShown()}
           loadCSV={this.props.loadCSV}
           doLayout={this.props.doLayout}

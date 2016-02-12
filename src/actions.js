@@ -8,8 +8,10 @@ const actions = [
   'TOGGLE_CONTROLS',
   'ADD_NODE',
   'REMOVE_NODE',
-  // 'ADD_STUB',
-  // 'REMOVE_STUB'
+  'SELECT_NODE',
+  'DESELECT_NODE',
+  // 'TARGET_NODE',
+  // 'UNTARGET_NODE'
 ];
 
 export default actions.reduce((prev, cur) => {

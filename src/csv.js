@@ -22,6 +22,8 @@ export default function(element_map) {
         position = 'final';
       }
       state = state.setIn(['nodes', d.domain, d.id], Node({
+        domain: d.domain,
+        id: d.id,
         label: d.label,
         position: position,
         disruption: parseInt(d.disruption) || 0,

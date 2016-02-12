@@ -8,7 +8,8 @@ export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
     last_layout: null,
-    show_controls: true
+    show_controls: true,
+    selected: null
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -27,8 +28,10 @@ export default combineReducers({
       state.set('last_redraw', action.payload.last_redraw),
     [actions.REMOVE_NODE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
-    [actions.ADD_STUB]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw)
+    [actions.SELECT_NODE]: (state, action) =>
+      state.set('selected', action.payload.node),
+    [actions.DESELECT_NODE]: (state, action) =>
+      state.set('selected', null)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
@@ -65,7 +68,10 @@ function nodeHandlers(domain) {
           y = (2160 * (5/6)) + (2160 / 20);
           break;
       }
-      state = state.set(ShortID.generate(), Node({
+      const id = ShortID.generate();
+      state = state.set(id, Node({
+        domain,
+        id,
         label: "<new node>",
         x: 2048,
         y
@@ -74,8 +80,8 @@ function nodeHandlers(domain) {
     return state;
   };
   handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (action.payload.selected.domain === domain) {
-      state = state.delete(action.payload.selected.id);
+    if (action.payload.node.domain === domain) {
+      state = state.delete(action.payload.node.id);
     }
     return state;
   };
@@ -86,21 +92,12 @@ function edgeHandlers(domain) {
   const handlers = commonHandlers('edges', domain);
   handlers[actions.REMOVE_NODE] = (state, action) => {
     if (domain !== 'environment') {
-      const id = action.payload.selected.id;
+      const id = action.payload.node.id;
       state.forEach((edge, key) => {
         if (edge.from === id || edge.to === id) {
           state = state.delete(key);
         }
       });
-    }
-    return state;
-  };
-  handlers[actions.ADD_STUB] = (state, action) => {
-    if (action.payload.from.domain === domain) {
-      state = state.set(
-        ShortID.generate(),
-        Edge({from: action.payload.from.id, to: action.payload.to.id})
-      );
     }
     return state;
   };

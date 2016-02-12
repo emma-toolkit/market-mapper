@@ -8,7 +8,7 @@ export default createClass({
       next_props.selected !== this.props.selected;
   },
   selectedLabel() {
-    return this.props.selected === null ? '' : this.props.selected.record.label;
+    return this.props.selected === null ? '' : this.props.selected.label;
   },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 

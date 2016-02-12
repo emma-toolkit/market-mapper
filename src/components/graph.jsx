@@ -72,10 +72,14 @@ export default class Graph extends React.Component {
       selectionType: 'single',
       boxSelectionEnabled: false
     });
+    // TODO target events
     this.graph.on('mouseover', 'node', e => {
       const hovered = e.cyTarget;
-      if (this.graph.nodes(':selected').length > 0 && !hovered.isParent()) {
-        // this.props.addStub(hovered);
+      if (
+        this.graph.nodes(':selected').length > 0 &&
+        !hovered.isParent() &&
+        hovered.data().parent !== 'environment'
+      ) {
         e.cyTarget.addClass('hover');
       }
     });
@@ -91,10 +95,10 @@ export default class Graph extends React.Component {
     }));
     this.graph.on('select', 'node', e => {
       this.graph.nodes().not(e.cyTarget).unselect();
-      this.props.inspectNode(e.cyTarget);
+      this.props.selectNode(e.cyTarget);
     });
     this.graph.on('unselect', 'node', () =>
-      this.props.uninspectNode()
+      this.props.deselectNode()
     );
   }
 

@@ -67,29 +67,25 @@ const addNode = createAction(
 
 const removeNode = createAction(
   actions.REMOVE_NODE,
-  selected => {
+  node => {
     return {
-      selected,
+      node,
       last_redraw: Date.now()
     };
   },
   persistGraph
 );
 
-// const addStub = createAction(
-//   actions.ADD_STUB,
-//   (from, to) => {
-//     return {
-//       from,
-//       to,
-//       last_redraw: Date.now()
-//     };
-//   }
-// );
+const selectNode = createAction(
+  actions.SELECT_NODE,
+  node => {
+    return {node};
+  }
+);
 
-// const removeStub = createAction(
-//   actions.REMOVE_STUB,
-// );
+const deselectNode = createAction(
+  actions.DESELECT_NODE
+);
 
 // Promises
 
@@ -138,8 +134,7 @@ export default {
   toggleControls,
   addNode,
   removeNode,
-  // addStub,
-  // removeStub,
+  selectNode,
   loadLocal,
   loadCSV,
   exportCSV
