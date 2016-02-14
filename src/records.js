@@ -3,14 +3,14 @@ import { Record } from 'immutable'
 export const Node = Record({
   domain: '',
   id: '',
-  label: '',
+  name: '',
   disruption: 0,
   x: 0,
   y: 0
 });
 
 export const Edge = Record({
-  label: '',
+  name: '',
   from: null,
   to: null,
   disruption: 0

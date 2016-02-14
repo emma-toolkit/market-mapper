@@ -246,7 +246,7 @@ export default class Graph extends React.Component {
       data: {
         id,
         parent: domain,
-        label: record.get('label')
+        label: record.get('name')
       },
       position: {
         x: record.get('x') * self.refs.div.offsetWidth / W,

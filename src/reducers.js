@@ -86,7 +86,7 @@ function nodeHandlers(domain) {
       state = state.set(id, Node({
         domain,
         id,
-        label: "<new node>",
+        name: '<new node>',
         x: 2048,
         y
       }));

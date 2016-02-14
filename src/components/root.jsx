@@ -45,7 +45,7 @@ const App = connect(
   removeNode() {
     const selected = this.getSelected();
     if (selected === null) return;
-    if (confirm(`Are you sure you want to delete the node labeled "${selected.label}"?`)) {
+    if (confirm(`Are you sure you want to delete the node "${selected.name}"?`)) {
       this.props.removeNode(selected);
     }
   },

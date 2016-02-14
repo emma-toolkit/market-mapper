@@ -174,7 +174,7 @@ function csvAddNodes(domain, data, state) {
       id: id,
       element: 'node',
       domain: domain,
-      label: d.get('label'),
+      label: d.get('name'),
       from: d.get('position') === 'initial' ? -1 : '',
       to: d.get('position') === 'final' ? -1 : '',
       disruption: d.get('disruption'),
@@ -189,7 +189,7 @@ function csvAddEdges(domain, data, state) {
     data.push({
       id: id,
       element: 'edge',
-      label: d.get('label'),
+      label: d.get('name'),
       from: d.get('from'),
       to: d.get('to'),
       disruption: d.get('disruption')

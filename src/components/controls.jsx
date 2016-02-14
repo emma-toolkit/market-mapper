@@ -7,8 +7,8 @@ export default createClass({
     return next_props.show_controls !== this.props.show_controls ||
       next_props.selected !== this.props.selected;
   },
-  selectedLabel() {
-    return this.props.selected === null ? '' : this.props.selected.label;
+  selectedName() {
+    return this.props.selected === null ? '' : this.props.selected.name;
   },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
@@ -23,8 +23,8 @@ export default createClass({
         </a>
         <div id='controls-form'>
           <div id="node-controls">
-            <label>Label:
-              <TextInput selected={this.selectedLabel()} />
+            <label>Name:
+              <TextInput selected={this.selectedName()} />
             </label>
             <button onClick={this.props.removeNode}>Remove Node</button>
           </div>
