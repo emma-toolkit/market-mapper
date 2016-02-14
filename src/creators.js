@@ -87,6 +87,17 @@ const deselectNode = createAction(
   actions.DESELECT_NODE
 );
 
+const targetNode = createAction(
+  actions.TARGET_NODE,
+  node => {
+    return {node};
+  }
+);
+
+const untargetNode = createAction(
+  actions.UNTARGET_NODE
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
@@ -135,6 +146,9 @@ export default {
   addNode,
   removeNode,
   selectNode,
+  deselectNode,
+  targetNode,
+  untargetNode,
   loadLocal,
   loadCSV,
   exportCSV

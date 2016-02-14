@@ -9,7 +9,8 @@ export default combineReducers({
     last_redraw: null,
     last_layout: null,
     show_controls: true,
-    selected: null
+    selected: null,
+    targeted: null
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -31,7 +32,11 @@ export default combineReducers({
     [actions.SELECT_NODE]: (state, action) =>
       state.set('selected', action.payload.node),
     [actions.DESELECT_NODE]: (state, action) =>
-      state.set('selected', null)
+      state.set('selected', null),
+    [actions.TARGET_NODE]: (state, action) =>
+      state.set('targeted', action.payload.node),
+    [actions.UNTARGET_NODE]: (state, action) =>
+      state.set('targeted', null)
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),

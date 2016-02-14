@@ -73,19 +73,26 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
     // TODO target events
-    // this.graph.on('mouseover', 'node', e => {
-    //   const hovered = e.cyTarget;
-    //   if (
-    //     this.graph.nodes(':selected').length > 0 &&
-    //     !hovered.isParent() &&
-    //     hovered.data().parent !== 'environment'
-    //   ) {
-    //     e.cyTarget.addClass('hover');
-    //   }
-    // });
-    // this.graph.on('mouseout', 'node', e =>
-    //   e.cyTarget.removeClass('hover')
-    // );
+    this.graph.on('mouseover', 'node', e => {
+      const selected = this.props.state.getIn(['app', 'selected']);
+      const hovered = e.cyTarget;
+      const data = hovered.data();
+      if (
+        selected !== null &&
+        data.id !== selected.id &&
+        !hovered.isParent() &&
+        data.parent !== 'environment'
+      ) {
+        e.cyTarget.addClass('hover');
+        this.props.targetNode(e.cyTarget);
+      }
+    });
+    this.graph.on('mouseout', 'node', e => {
+      if (this.props.state.getIn(['app', 'targeted']) !== null) {
+        e.cyTarget.removeClass('hover');
+        this.props.untargetNode();
+      }
+    });
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
     );

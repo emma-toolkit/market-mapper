@@ -24,6 +24,8 @@ const App = connect(
       removeNode(selected) {dispatch(creators.removeNode(selected))},
       selectNode(node) {dispatch(creators.selectNode(node))},
       deselectNode() {dispatch(creators.deselectNode())},
+      targetNode(node) {dispatch(creators.targetNode(node))},
+      untargetNode() {dispatch(creators.untargetNode())},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -39,18 +41,29 @@ const App = connect(
     this.props.exportCSV(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
-  selectNode(selected) {
-    const data = selected.data();
-    this.props.selectNode(
-      this.props.state.getIn(['nodes', data.parent, data.id])
-    );
-  },
   removeNode() {
-    const selected = this.props.state.getIn(['app', 'selected']);
+    const selected = this.getSelected();
     if (selected === null) return;
     if (confirm(`Are you sure you want to delete the node labeled "${selected.label}"?`)) {
       this.props.removeNode(selected);
     }
+  },
+  selectNode(selected) {
+    this.props.selectNode(
+      this.getRecordFromNode(selected)
+    );
+  },
+  targetNode(targeted) {
+    this.props.targetNode(
+      this.getRecordFromNode(targeted)
+    );
+  },
+  getSelected() {
+    return this.props.state.getIn(['app', 'selected']);
+  },
+  getRecordFromNode(node) {
+    const data = node.data();
+    return this.props.state.getIn(['nodes', data.parent, data.id]);
   },
   render() {
     const className = this.controlsShown() ?
@@ -68,10 +81,12 @@ const App = connect(
             layoutDone={this.props.layoutDone}
             selectNode={this.selectNode}
             deselectNode={this.props.deselectNode}
+            targetNode={this.targetNode}
+            untargetNode={this.props.untargetNode}
           />
         </div>
         <Controls
-          selected={this.props.state.getIn(['app', 'selected'])}
+          selected={this.getSelected()}
           show_controls={this.controlsShown()}
           loadCSV={this.props.loadCSV}
           doLayout={this.props.doLayout}

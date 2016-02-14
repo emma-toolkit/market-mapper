@@ -10,8 +10,8 @@ const actions = [
   'REMOVE_NODE',
   'SELECT_NODE',
   'DESELECT_NODE',
-  // 'TARGET_NODE',
-  // 'UNTARGET_NODE'
+  'TARGET_NODE',
+  'UNTARGET_NODE'
 ];
 
 export default actions.reduce((prev, cur) => {
