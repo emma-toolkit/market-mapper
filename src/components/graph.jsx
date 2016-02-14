@@ -73,19 +73,19 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
     // TODO target events
-    this.graph.on('mouseover', 'node', e => {
-      const hovered = e.cyTarget;
-      if (
-        this.graph.nodes(':selected').length > 0 &&
-        !hovered.isParent() &&
-        hovered.data().parent !== 'environment'
-      ) {
-        e.cyTarget.addClass('hover');
-      }
-    });
-    this.graph.on('mouseout', 'node', e =>
-      e.cyTarget.removeClass('hover')
-    );
+    // this.graph.on('mouseover', 'node', e => {
+    //   const hovered = e.cyTarget;
+    //   if (
+    //     this.graph.nodes(':selected').length > 0 &&
+    //     !hovered.isParent() &&
+    //     hovered.data().parent !== 'environment'
+    //   ) {
+    //     e.cyTarget.addClass('hover');
+    //   }
+    // });
+    // this.graph.on('mouseout', 'node', e =>
+    //   e.cyTarget.removeClass('hover')
+    // );
     this.graph.on('grab', 'node', () =>
       this.refs.div.classList.add('grabbed')
     );
@@ -280,14 +280,19 @@ export default class Graph extends React.Component {
   }
 
   normalize(nodes) {
-    const data = new Map();
+    const payload = new Map();
     nodes.forEach(node => {
       const position = node.position();
       const x = position.x * W / this.refs.div.offsetWidth;
       const y = position.y * H / this.refs.div.offsetHeight;
-      data.set(node.data().id, {x, y});
+
+      const data = node.data();
+      const record = this.props.state.getIn(['nodes', data.parent, data.id]);
+      if (x !== record.x || y !== record.y) {
+        payload.set(node.data().id, {x, y});
+      }
     });
-    this.props.layoutDone(data);
+    if (payload.size > 0) this.props.layoutDone(payload);
   }
 
   render() {
