@@ -93,12 +93,15 @@ export default class Graph extends React.Component {
         this.props.untargetNode();
       }
     });
-    this.graph.on('grab', 'node', () =>
+    this.graph.on('grab', 'node', () => {
       this.refs.div.classList.add('grabbed')
-    );
+    });
     this.graph.on('free', 'node', debounce(e => {
-      this.refs.div.classList.remove('grabbed');
-      this.normalize(e.cyTarget);
+      const classes = this.refs.div.classList;
+      if (classes.contains('grabbed')) {
+        classes.remove('grabbed');
+        this.normalize(e.cyTarget);
+      }
     }));
     this.graph.on('select', 'node', e => {
       this.graph.nodes().not(e.cyTarget).unselect();
