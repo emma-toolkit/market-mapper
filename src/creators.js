@@ -135,7 +135,7 @@ const exportCSV = (state) => {
 
   return writeToString(data, {
     headers: [
-      'id', 'element', 'domain', 'label', 'in', 'out', 'disruption', 'x', 'y'
+      'id', 'element', 'domain', 'name', 'in', 'out', 'disruption', 'x', 'y'
     ]
   }).then(function(str) {
     window.open(`data:text/csv;charset=utf-8,${escape(str)}`);
@@ -174,9 +174,7 @@ function csvAddNodes(domain, data, state) {
       id: id,
       element: 'node',
       domain: domain,
-      label: d.get('name'),
-      from: d.get('position') === 'initial' ? -1 : '',
-      to: d.get('position') === 'final' ? -1 : '',
+      name: d.get('name'),
       disruption: d.get('disruption'),
       x: d.get('x'),
       y: d.get('y')
@@ -189,7 +187,7 @@ function csvAddEdges(domain, data, state) {
     data.push({
       id: id,
       element: 'edge',
-      label: d.get('name'),
+      name: d.get('name'),
       from: d.get('from'),
       to: d.get('to'),
       disruption: d.get('disruption')

@@ -18,7 +18,7 @@ export default function(element_map) {
       state = state.setIn(['nodes', d.domain, d.id], Node({
         domain: d.domain,
         id: d.id,
-        name: d.label,
+        name: d.name,
         disruption: parseInt(d.disruption) || 0,
         x: parseFloat(d.x) || 0,
         y: parseFloat(d.y) || 0
@@ -27,7 +27,7 @@ export default function(element_map) {
       const from_id = d.in;
       const domain = element_map.get(from_id).domain;
       state = state.setIn(['edges', domain, d.id], Edge({
-        name: d.label,
+        name: d.name,
         from: from_id,
         to: d.out,
         disruption: parseInt(d.disruption) || 0

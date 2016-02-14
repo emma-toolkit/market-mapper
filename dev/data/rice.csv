@@ -1,4 +1,4 @@
-id,element,domain,label,in,out,disruption
+id,element,domain,name,in,out,disruption
 0,node,environment,Debt,,,
 1,node,environment,Seasonality,,,
 2,node,environment,Displacement,,,3
