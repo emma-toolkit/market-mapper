@@ -204,31 +204,31 @@ export default class Graph extends React.Component {
     // Dispatch LAYOUT_DONE when all layouts are done
     Promise.reduce(
       [environment_done, chain_done, infrastructure_done],
-      (nodes, domain_nodes) => nodes.union(domain_nodes),
+      (nodes, nodetype_nodes) => nodes.union(nodetype_nodes),
       this.graph.collection()
     ).then(nodes => this.normalize(nodes));
   }
 
-  hasNodes(domain) {
-    return this.props.state.getIn(['nodes', domain]).size > 0;
+  hasNodes(nodetype) {
+    return this.props.state.getIn(['nodes', nodetype]).size > 0;
   }
 
-  pushNodes(domain, arr) {
-    this.pushElements('nodes', domain, this.convertNode, arr);
+  pushNodes(nodetype, arr) {
+    this.pushElements('nodes', nodetype, this.convertNode, arr);
   }
 
-  pushEdges(domain, arr) {
-    this.pushElements('edges', domain, this.convertEdge, arr);
+  pushEdges(nodetype, arr) {
+    this.pushElements('edges', nodetype, this.convertEdge, arr);
   }
 
-  pushElements(element, domain, converter, arr) {
-    this.props.state.getIn([element, domain]).forEach((record, id) => 
-      arr.push(converter(record, id, domain, this))
+  pushElements(element, nodetype, converter, arr) {
+    this.props.state.getIn([element, nodetype]).forEach((record, id) => 
+      arr.push(converter(record, id, nodetype, this))
     );
   }
 
-  convertNode(record, id, domain, self) {
-    const classes = [domain];
+  convertNode(record, id, nodetype, self) {
+    const classes = [nodetype];
     const position = record.get('position');
     if (position !== null) classes.push(position);
     switch (record.get('disruption')) {
@@ -245,7 +245,7 @@ export default class Graph extends React.Component {
       group: 'nodes',
       data: {
         id,
-        parent: domain,
+        parent: nodetype,
         label: record.get('name')
       },
       position: {
@@ -256,7 +256,7 @@ export default class Graph extends React.Component {
     };
   }
 
-  convertEdge(record, id, domain) {
+  convertEdge(record, id, nodetype) {
     return {
       group: 'edges',
       data: {
@@ -264,7 +264,7 @@ export default class Graph extends React.Component {
         source: record.get('from'),
         target: record.get('to')
       },
-      classes: domain
+      classes: nodetype
     };
   }
 

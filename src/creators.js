@@ -56,9 +56,9 @@ const toggleControls = createAction(
 
 const addNode = createAction(
   actions.ADD_NODE,
-  domain => {
+  nodetype => {
     return {
-      domain,
+      nodetype,
       last_redraw: Date.now()
     }
   },
@@ -135,7 +135,7 @@ const exportCSV = (state) => {
 
   return writeToString(data, {
     headers: [
-      'id', 'element', 'domain', 'name', 'in', 'out', 'disruption', 'x', 'y'
+      'id', 'element', 'nodetype', 'name', 'in', 'out', 'disruption', 'x', 'y'
     ]
   }).then(function(str) {
     window.open(`data:text/csv;charset=utf-8,${escape(str)}`);
@@ -168,12 +168,12 @@ export default {
 function persistApp() {return {persist_app: true}}
 function persistGraph() {return {persist_graph: true}}
 
-function csvAddNodes(domain, data, state) {
-  state.getIn(['nodes', domain]).forEach((d, id) => {
+function csvAddNodes(nodetype, data, state) {
+  state.getIn(['nodes', nodetype]).forEach((d, id) => {
     data.push({
       id: id,
       element: 'node',
-      domain: domain,
+      nodetype: nodetype,
       name: d.get('name'),
       disruption: d.get('disruption'),
       x: d.get('x'),
@@ -182,8 +182,8 @@ function csvAddNodes(domain, data, state) {
   });
 }
 
-function csvAddEdges(domain, data, state) {
-  state.getIn(['edges', domain]).forEach((d, id) => {
+function csvAddEdges(nodetype, data, state) {
+  state.getIn(['edges', nodetype]).forEach((d, id) => {
     data.push({
       id: id,
       element: 'edge',

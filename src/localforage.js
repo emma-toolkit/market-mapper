@@ -55,11 +55,11 @@ function setStore(store, state) {
   }
 }
 
-function setElements(element, domain, state) {
-  state.getIn([element, domain]).forEach((d, id) => {
+function setElements(element, nodetype, state) {
+  state.getIn([element, nodetype]).forEach((d, id) => {
     const obj = d.toObject();
     obj.element = element;
-    obj.domain = domain;
+    obj.nodetype = nodetype;
     stores.graph.setItem(String(id), obj);
   });
 }
@@ -77,7 +77,7 @@ function loadType(type, state) {
               path = ['app', key];
               break;
             case 'graph':
-              path = [value.element, value.domain, key];
+              path = [value.element, value.nodetype, key];
               const record = value.element === 'nodes' ? Node : Edge;
               value = record(value);
               break;

@@ -1,7 +1,7 @@
 import { Record } from 'immutable'
 
 export const Node = Record({
-  domain: '',
+  nodetype: '',
   id: '',
   name: '',
   disruption: 0,

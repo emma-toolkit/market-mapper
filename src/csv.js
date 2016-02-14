@@ -15,8 +15,8 @@ export default function(element_map) {
   });
   for (let [id, d] of element_map) {
     if (d.element === 'node') {
-      state = state.setIn(['nodes', d.domain, d.id], Node({
-        domain: d.domain,
+      state = state.setIn(['nodes', d.nodetype, d.id], Node({
+        nodetype: d.nodetype,
         id: d.id,
         name: d.name,
         disruption: parseInt(d.disruption) || 0,
@@ -25,8 +25,8 @@ export default function(element_map) {
       }));
     } else {
       const from_id = d.in;
-      const domain = element_map.get(from_id).domain;
-      state = state.setIn(['edges', domain, d.id], Edge({
+      const nodetype = element_map.get(from_id).nodetype;
+      state = state.setIn(['edges', nodetype, d.id], Edge({
         name: d.name,
         from: from_id,
         to: d.out,

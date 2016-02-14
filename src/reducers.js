@@ -58,8 +58,8 @@ export default combineReducers({
   })
 });
 
-function nodeHandlers(domain) {
-  const handlers = commonHandlers('nodes', domain);
+function nodeHandlers(nodetype) {
+  const handlers = commonHandlers('nodes', nodetype);
   handlers[actions.LAYOUT_DONE] = (state, action) => {
     for (let [id, coordinates] of action.payload) {
       if (state.has(id)) {
@@ -69,9 +69,9 @@ function nodeHandlers(domain) {
     return state;
   };
   handlers[actions.ADD_NODE] = (state, action) => {
-    if (action.payload.domain === domain) {
+    if (action.payload.nodetype === nodetype) {
       let y;
-      switch (domain) {
+      switch (nodetype) {
         case 'environment':
           y = (2160 / 6) - (2160 / 20);
           break;
@@ -84,7 +84,7 @@ function nodeHandlers(domain) {
       }
       const id = ShortID.generate();
       state = state.set(id, Node({
-        domain,
+        nodetype,
         id,
         name: '<new node>',
         x: 2048,
@@ -94,7 +94,7 @@ function nodeHandlers(domain) {
     return state;
   };
   handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (action.payload.node.domain === domain) {
+    if (action.payload.node.nodetype === nodetype) {
       state = state.delete(action.payload.node.id);
     }
     return state;
@@ -102,10 +102,10 @@ function nodeHandlers(domain) {
   return handlers;
 }
 
-function edgeHandlers(domain) {
-  const handlers = commonHandlers('edges', domain);
+function edgeHandlers(nodetype) {
+  const handlers = commonHandlers('edges', nodetype);
   handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (domain !== 'environment') {
+    if (nodetype !== 'environment') {
       const id = action.payload.node.id;
       state.forEach((edge, key) => {
         if (edge.from === id || edge.to === id) {
@@ -117,7 +117,7 @@ function edgeHandlers(domain) {
   };
   handlers[actions.ADD_EDGE] = (state, action) => {
     const from = action.payload.from;
-    if (from.domain === domain) {
+    if (from.nodetype === nodetype) {
       const edge = Edge({
         from: from.id,
         to: action.payload.to.id
@@ -129,10 +129,10 @@ function edgeHandlers(domain) {
   return handlers;
 }
 
-function commonHandlers(element, domain) {
+function commonHandlers(element, nodetype) {
   return {
     [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.getIn([element, domain]),
+      action.payload.state.getIn([element, nodetype]),
     [actions.CLEAR]: state => state.clear()
   };
 }

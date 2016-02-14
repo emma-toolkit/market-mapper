@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import Promise from 'bluebird'
 import creators from '../creators'
-import Domain from './domain.jsx'
+import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
@@ -20,7 +20,7 @@ const App = connect(
       toggleControls(show_controls) {
         dispatch(creators.toggleControls(show_controls));
       },
-      addNode(domain) {dispatch(creators.addNode(domain))},
+      addNode(nodetype) {dispatch(creators.addNode(nodetype))},
       removeNode(selected) {dispatch(creators.removeNode(selected))},
       selectNode(node) {dispatch(creators.selectNode(node))},
       deselectNode() {dispatch(creators.deselectNode())},
@@ -79,9 +79,9 @@ const App = connect(
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
           <div id='background'>
-            <Domain domain='environment' addNode={this.props.addNode} />
-            <Domain domain='chain' addNode={this.props.addNode} />
-            <Domain domain='infrastructure' addNode={this.props.addNode} />
+            <NodeType nodetype='environment' addNode={this.props.addNode} />
+            <NodeType nodetype='chain' addNode={this.props.addNode} />
+            <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
           <Graph
             state={this.props.state}
