@@ -78,9 +78,7 @@ const removeNode = createAction(
 
 const selectNode = createAction(
   actions.SELECT_NODE,
-  node => {
-    return {node};
-  }
+  node => {return {node}}
 );
 
 const deselectNode = createAction(
@@ -89,13 +87,23 @@ const deselectNode = createAction(
 
 const targetNode = createAction(
   actions.TARGET_NODE,
-  node => {
-    return {node};
-  }
+  node => {return {node}}
 );
 
 const untargetNode = createAction(
   actions.UNTARGET_NODE
+);
+
+const addEdge = createAction(
+  actions.ADD_EDGE,
+  (from, to) => {
+    return {
+      from,
+      to,
+      last_redraw: Date.now()
+    };
+  },
+  persistGraph
 );
 
 // Promises
@@ -149,6 +157,7 @@ export default {
   deselectNode,
   targetNode,
   untargetNode,
+  addEdge,
   loadLocal,
   loadCSV,
   exportCSV

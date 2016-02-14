@@ -74,7 +74,7 @@ export default class Graph extends React.Component {
     });
     // TODO target events
     this.graph.on('mouseover', 'node', e => {
-      const selected = this.props.state.getIn(['app', 'selected']);
+      const selected = this.props.getSelected();
       const hovered = e.cyTarget;
       const data = hovered.data();
       if (
@@ -88,7 +88,7 @@ export default class Graph extends React.Component {
       }
     });
     this.graph.on('mouseout', 'node', e => {
-      if (this.props.state.getIn(['app', 'targeted']) !== null) {
+      if (this.props.getTargeted() !== null) {
         e.cyTarget.removeClass('hover');
         this.props.untargetNode();
       }
@@ -110,6 +110,15 @@ export default class Graph extends React.Component {
     this.graph.on('unselect', 'node', () =>
       this.props.deselectNode()
     );
+    this.graph.on('click', 'node', e => {
+      const targeted = this.props.getTargeted();
+      if (
+        targeted !== null &&
+        e.cyTarget.data().id === targeted.id
+      ) {
+        this.props.addEdge();
+      }
+    });
   }
 
   doLayout() {
@@ -199,41 +208,6 @@ export default class Graph extends React.Component {
     return this.props.state.getIn(['nodes', domain]).size > 0;
   }
 
-  getBoundingBox(nodes, margins) {
-    const extremes = {
-      top: null,
-      right: null,
-      bottom: null,
-      left: null
-    };
-    nodes.forEach(node => {
-      if (
-        extremes.top === null ||
-        node.position().y < extremes.top.position().y
-      ) extremes.top = node;
-      if (
-        extremes.right === null ||
-        node.position().x > extremes.right.position().x
-      ) extremes.right = node;
-      if (
-        extremes.bottom === null ||
-        node.position().y > extremes.bottom.position().y
-      ) extremes.bottom = node;
-      if (
-        extremes.left === null ||
-        node.position().x < extremes.left.position().x
-      ) extremes.left = node;
-    });
-    return {
-      x1: margins.left + extremes.left.outerWidth() / 2,
-      y1: margins.top + extremes.top.outerHeight() / 2,
-      x2: this.refs.div.offsetWidth -
-        extremes.right.outerWidth() / 2 - margins.right,
-      y2: this.refs.div.offsetHeight -
-        extremes.bottom.outerHeight() / 2 - margins.bottom
-    };
-  }
-
   pushNodes(domain, arr) {
     this.pushElements('nodes', domain, this.convertNode, arr);
   }
@@ -289,20 +263,65 @@ export default class Graph extends React.Component {
     };
   }
 
-  normalize(nodes) {
+  normalize(elements) {
     const payload = new Map();
-    nodes.forEach(node => {
-      const position = node.position();
+    elements.forEach(element => {
+      if (element.group() === 'edges') return;
+
+      const position = element.position();
       const x = position.x * W / this.refs.div.offsetWidth;
       const y = position.y * H / this.refs.div.offsetHeight;
 
-      const data = node.data();
+      const data = element.data();
       const record = this.props.state.getIn(['nodes', data.parent, data.id]);
-      if (x !== record.x || y !== record.y) {
-        payload.set(node.data().id, {x, y});
+      if (x !== record.get('x') || y !== record.get('y')) {
+        payload.set(data.id, {x, y});
       }
     });
     if (payload.size > 0) this.props.layoutDone(payload);
+  }
+
+  getBoundingBox(nodes, margins) {
+    const extremes = {
+      top: null,
+      right: null,
+      bottom: null,
+      left: null
+    };
+    nodes.forEach(node => {
+      if (
+        extremes.top === null ||
+        node.position().y < extremes.top.position().y
+      ) {
+        extremes.top = node;
+      }
+      if (
+        extremes.right === null ||
+        node.position().x > extremes.right.position().x
+      ) {
+        extremes.right = node;
+      }
+      if (
+        extremes.bottom === null ||
+        node.position().y > extremes.bottom.position().y
+      ) {
+        extremes.bottom = node;
+      }
+      if (
+        extremes.left === null ||
+        node.position().x < extremes.left.position().x
+      ) {
+        extremes.left = node;
+      }
+    });
+    return {
+      x1: margins.left + extremes.left.outerWidth() / 2,
+      y1: margins.top + extremes.top.outerHeight() / 2,
+      x2: this.refs.div.offsetWidth -
+        extremes.right.outerWidth() / 2 - margins.right,
+      y2: this.refs.div.offsetHeight -
+        extremes.bottom.outerHeight() / 2 - margins.bottom
+    };
   }
 
   render() {

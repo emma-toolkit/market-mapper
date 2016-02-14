@@ -11,7 +11,8 @@ const actions = [
   'SELECT_NODE',
   'DESELECT_NODE',
   'TARGET_NODE',
-  'UNTARGET_NODE'
+  'UNTARGET_NODE',
+  'ADD_EDGE'
 ];
 
 export default actions.reduce((prev, cur) => {

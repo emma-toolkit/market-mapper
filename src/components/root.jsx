@@ -26,6 +26,7 @@ const App = connect(
       deselectNode() {dispatch(creators.deselectNode())},
       targetNode(node) {dispatch(creators.targetNode(node))},
       untargetNode() {dispatch(creators.untargetNode())},
+      addEdge(from, to) {dispatch(creators.addEdge(from, to))},
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -58,8 +59,14 @@ const App = connect(
       this.getRecordFromNode(targeted)
     );
   },
+  addEdge() {
+    this.props.addEdge(this.getSelected(), this.getTargeted());
+  },
   getSelected() {
     return this.props.state.getIn(['app', 'selected']);
+  },
+  getTargeted() {
+    return this.props.state.getIn(['app', 'targeted']);
   },
   getRecordFromNode(node) {
     const data = node.data();
@@ -83,6 +90,9 @@ const App = connect(
             deselectNode={this.props.deselectNode}
             targetNode={this.targetNode}
             untargetNode={this.props.untargetNode}
+            getSelected={this.getSelected}
+            getTargeted={this.getTargeted}
+            addEdge={this.addEdge}
           />
         </div>
         <Controls

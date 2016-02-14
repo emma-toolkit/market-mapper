@@ -28,15 +28,24 @@ export default combineReducers({
     [actions.ADD_NODE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.REMOVE_NODE]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
+      state.merge({
+        last_redraw: action.payload.last_redraw,
+        selected: null,
+        targeted: null
+      }),
     [actions.SELECT_NODE]: (state, action) =>
       state.set('selected', action.payload.node),
     [actions.DESELECT_NODE]: (state, action) =>
-      state.set('selected', null),
+      state.merge({
+        selected: null,
+        targeted: null
+      }),
     [actions.TARGET_NODE]: (state, action) =>
       state.set('targeted', action.payload.node),
     [actions.UNTARGET_NODE]: (state, action) =>
-      state.set('targeted', null)
+      state.set('targeted', null),
+    [actions.ADD_EDGE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
@@ -103,6 +112,17 @@ function edgeHandlers(domain) {
           state = state.delete(key);
         }
       });
+    }
+    return state;
+  };
+  handlers[actions.ADD_EDGE] = (state, action) => {
+    const from = action.payload.from;
+    if (from.domain === domain) {
+      const edge = Edge({
+        from: from.id,
+        to: action.payload.to.id
+      });
+      state = state.set(ShortID.generate(), edge);
     }
     return state;
   };
