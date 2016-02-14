@@ -1,5 +1,5 @@
 import React from 'react'
-const createClass = React.createClass
+const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {return {

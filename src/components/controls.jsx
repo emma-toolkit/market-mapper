@@ -1,6 +1,7 @@
 import React from 'react'
 import TextInput from './textinput.jsx'
-const createClass = React.createClass
+import ColorInput from './colorinput.jsx'
+const createClass = React.createClass;
 
 export default createClass({
   shouldComponentUpdate(next_props) {
@@ -27,6 +28,9 @@ export default createClass({
           <div id="node-controls">
             <label>Name:
               <TextInput selected={this.getSelectedAttribute('name')} />
+            </label>
+            <label>Color:
+              <ColorInput />
             </label>
             <button onClick={this.props.removeNode}>Remove Node</button>
           </div>

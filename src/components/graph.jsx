@@ -252,6 +252,9 @@ export default class Graph extends React.Component {
         x: record.get('x') * self.refs.div.offsetWidth / W,
         y: record.get('y') * self.refs.div.offsetHeight / H
       },
+      style: {
+        'background-color': record.get('color')
+      },
       classes: classes.join(' ')
     };
   }

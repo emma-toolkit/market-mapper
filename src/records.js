@@ -6,7 +6,8 @@ export const Node = Record({
   name: '',
   disruption: 0,
   x: 0,
-  y: 0
+  y: 0,
+  color: '#ffffff'
 });
 
 export const Edge = Record({
