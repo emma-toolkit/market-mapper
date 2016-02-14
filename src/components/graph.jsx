@@ -157,7 +157,10 @@ export default class Graph extends React.Component {
         rankDir: 'LR',
         ready: () => {
           let layout, bounding_box;
-          if (chain.length > 1) {
+          if (
+            chain.nodes().length >= 3 &&
+            chain.edges().length >= 1
+          ) {
             layout = 'dagre';
             bounding_box = this.getBoundingBox(chain, {
               top: this.one_third,
