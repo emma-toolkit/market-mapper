@@ -4,14 +4,21 @@ const createClass = React.createClass;
 const colors = config.colors;
 
 export default createClass({
+  getClass(color) {
+    return this.props.selected === color ? 'selected' : '';
+  },
+  setColor(color) {
+    this.props.setAttribute('color', color);
+  },
   render() {
     return (
       <div>
         {colors.map(color =>
-          <div
-            className="swatch"
+          <a
+            className={'swatch ' + this.getClass(color)}
             key={color}
             style={{backgroundColor: color}}
+            onClick={() => this.setColor(color)}
           />
         )}
       </div>

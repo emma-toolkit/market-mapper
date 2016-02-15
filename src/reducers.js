@@ -46,6 +46,14 @@ export default combineReducers({
       state.set('targeted', null),
     [actions.ADD_EDGE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
+    [actions.SET_NODE_ATTRIBUTE]: (state, action) => {
+      let record = action.payload.node;
+      record = record.set(action.payload.attribute, action.payload.value);
+      return state.merge({
+        last_redraw: action.payload.last_redraw,
+        selected: record
+      });
+    }
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
@@ -94,8 +102,18 @@ function nodeHandlers(nodetype) {
     return state;
   };
   handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (action.payload.node.nodetype === nodetype) {
-      state = state.delete(action.payload.node.id);
+    const node = action.payload.node;
+    if (node.nodetype === nodetype) {
+      state = state.delete(node.id);
+    }
+    return state;
+  };
+  handlers[actions.SET_NODE_ATTRIBUTE] = (state, action) => {
+    const node = action.payload.node;
+    if (node.nodetype === nodetype) {
+      let record = state.get(node.id);
+      record = record.set(action.payload.attribute, action.payload.value);
+      state = state.set(node.id, record);
     }
     return state;
   };

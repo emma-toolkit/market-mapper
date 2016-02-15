@@ -27,6 +27,9 @@ const App = connect(
       targetNode(node) {dispatch(creators.targetNode(node))},
       untargetNode() {dispatch(creators.untargetNode())},
       addEdge(from, to) {dispatch(creators.addEdge(from, to))},
+      setNodeAttribute(node, attribute, value) {
+        dispatch(creators.setNodeAttribute(node, attribute, value));
+      },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -61,6 +64,9 @@ const App = connect(
   },
   addEdge() {
     this.props.addEdge(this.getSelected(), this.getTargeted());
+  },
+  setNodeAttribute(attribute, value) {
+    this.props.setNodeAttribute(this.getSelected(), attribute, value);
   },
   getSelected() {
     return this.props.state.getIn(['app', 'selected']);
@@ -104,6 +110,7 @@ const App = connect(
           exportCSV={this.exportCSV}
           toggleControls={this.toggleControls}
           removeNode={this.removeNode}
+          setNodeAttribute={this.setNodeAttribute}
         />
       </div>
     );

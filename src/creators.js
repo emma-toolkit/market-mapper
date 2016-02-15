@@ -106,6 +106,19 @@ const addEdge = createAction(
   persistGraph
 );
 
+const setNodeAttribute = createAction(
+  actions.SET_NODE_ATTRIBUTE,
+  (node, attribute, value) => {
+    return {
+      node,
+      attribute,
+      value,
+      last_redraw: Date.now()
+    };
+  },
+  persistGraph
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
@@ -158,6 +171,7 @@ export default {
   targetNode,
   untargetNode,
   addEdge,
+  setNodeAttribute,
   loadLocal,
   loadCSV,
   exportCSV
