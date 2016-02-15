@@ -3,8 +3,8 @@ const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {return {
-    value: '',
-    last_value: ''
+    value: this.props.value,
+    last_value: this.props.value
   }},
   shouldComponentUpdate(next_props, next_state) {
     return next_props.value !== this.props.value ||

@@ -12,7 +12,7 @@ export default createClass({
   },
   render() {
     return (
-      <div>
+      <div id='swatches'>
         {colors.map(color =>
           <a
             className={'swatch ' + this.getClass(color)}

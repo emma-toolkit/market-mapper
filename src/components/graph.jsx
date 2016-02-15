@@ -19,7 +19,10 @@ export default class Graph extends React.Component {
       this.doLayout();
     }
     return next_props.state.getIn(['app', 'last_redraw']) !==
-      this.props.state.getIn(['app', 'last_redraw']);
+      this.props.state.getIn(['app', 'last_redraw']) || (
+        next_props.state.getIn(['app', 'selected']) === null &&
+        this.props.state.getIn(['app', 'selected']) !== null
+      );
   }
 
   componentDidUpdate() {
@@ -104,7 +107,7 @@ export default class Graph extends React.Component {
       }
     }));
     this.graph.on('select', 'node', e => {
-      if (this.graph.$(':selected').length > 0) {
+      if (this.graph.nodes(':selected').length > 0) {
         this.graph.nodes().not(e.cyTarget).unselect();
         this.props.selectNode(e.cyTarget);
       }
@@ -123,7 +126,7 @@ export default class Graph extends React.Component {
     });
 
     const selected = this.props.getSelected();
-    if (selected !== null) {
+    if (selected !== null && this.graph.nodes(':selected').length === 0) {
       this.graph.nodes(`#${selected.id}`).select();
     }
   }

@@ -15,6 +15,32 @@ export default createClass({
   setAttribute(att, value) {
     this.props.setNodeAttribute(att, value);
   },
+  renderNodeControls() {
+    return (
+      <div className='controls-panel'>
+        <label>Name:
+          <TextInput
+            attribute='name'
+            value={this.getAttribute('name')}
+            setAttribute={this.setAttribute}
+          />
+        </label>
+        <label>Color:
+          <ColorInput
+            value={this.getAttribute('color')}
+            setAttribute={this.setAttribute}
+          />
+        </label>
+        <button onClick={this.props.removeNode}>Remove Node</button>
+      </div>
+    );
+  },
+  renderEdgeControls() {
+    return (
+      <div className='controls-panel'>
+      </div>
+    );
+  },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
     const selected = this.props.selected;
@@ -27,27 +53,14 @@ export default createClass({
         >
           {toggle_icon}
         </a>
-        <div id='controls-form'>
-          <div id="node-controls">
-            <label>Name:
-              <TextInput
-                attribute='name'
-                value={this.getAttribute('name')}
-                setAttribute={this.setAttribute}
-              />
-            </label>
-            <label>Color:
-              <ColorInput
-                value={this.getAttribute('color')}
-                setAttribute={this.setAttribute}
-              />
-            </label>
-            <button onClick={this.props.removeNode}>Remove Node</button>
+        <div>
+          {selected !== null && this.renderNodeControls()}
+          <div className='controls-panel'>
+            <input type='file' name='csv' onChange={this.props.loadCSV} />
+            <button onClick={this.props.doLayout}>Auto Layout</button>
+            <button onClick={this.props.clear}>Clear</button>
+            <button onClick={this.props.exportCSV}>Export</button>
           </div>
-          <input type='file' name='csv' onChange={this.props.loadCSV} />
-          <button onClick={this.props.doLayout}>Auto Layout</button>
-          <button onClick={this.props.clear}>Clear</button>
-          <button onClick={this.props.exportCSV}>Export</button>
         </div>
       </div>
     );

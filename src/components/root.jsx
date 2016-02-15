@@ -39,6 +39,9 @@ const App = connect(
   controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
+    window.onkeydown = e => {
+      if (e.code === 'Escape') this.props.deselectNode();
+    };
     this.props.loadLocal(this.props.state);
   },
   exportCSV() {
