@@ -30,6 +30,9 @@ const App = connect(
       setNodeAttribute(node, attribute, value) {
         dispatch(creators.setNodeAttribute(node, attribute, value));
       },
+      setGraphAttribute(attribute, value) {
+        dispatch(creators.setGraphAttribute(attribute, value));
+      },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
       exportCSV(state) {dispatch(creators.exportCSV(state))}
@@ -40,7 +43,15 @@ const App = connect(
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
     window.onkeydown = e => {
-      if (e.code === 'Escape') this.props.deselectNode();
+      switch (e.code) {
+        case 'Backspace':
+          e.preventDefault();
+          this.removeNode();
+          break;
+        case 'Escape':
+          this.props.deselectNode();
+          break;
+      }
     };
     this.props.loadLocal(this.props.state);
   },
@@ -84,9 +95,11 @@ const App = connect(
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
+    const title = this.props.state.getIn(['graph', 'title']);
     return (
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
+          {title !== null && <h1>{title}</h1>}
           <div id='background'>
             <NodeType nodetype='environment' addNode={this.props.addNode} />
             <NodeType nodetype='chain' addNode={this.props.addNode} />
@@ -105,8 +118,10 @@ const App = connect(
           />
         </div>
         <Controls
+          graph={this.props.state.get('graph')}
           selected={this.getSelected()}
           show_controls={this.controlsShown()}
+          setGraphAttribute={this.props.setGraphAttribute}
           loadCSV={this.props.loadCSV}
           doLayout={this.props.doLayout}
           clear={this.props.clear}

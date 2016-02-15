@@ -11,6 +11,7 @@ export const Node = Record({
 });
 
 export const Edge = Record({
+  nodetype: '',
   name: '',
   from: null,
   to: null,

@@ -1,10 +1,16 @@
 @import '~html5-reset/assets/css/reset.css'
 
 controls_width = 30%
-controls_background = #dddddd
+controls_background = #e0ecf3
 button_size = 25px
 border_radius = 5px
-nodetype_border = 3px dashed #aaaaaa
+nodetype_border = 3px dashed #aaa
+
+body
+  color #333
+
+a
+  color #425882
 
 minor_nodetype()
   height 25%
@@ -53,10 +59,21 @@ ui_button()
   &.selected
     border-color red
 
+h1
+  position absolute
+  font-size 1.2em
+  padding (1em / 2) 
+  z-index 100
+  font-family sans-serif
+  color #aaa
+  font-weight bold
+
 #background
   height 100%
   width 100%
   position absolute
+.nodetype
+  position relative
 #environment
   minor_nodetype()
   border-bottom nodetype_border
@@ -68,8 +85,8 @@ ui_button()
   border-top nodetype_border
 .add
   ui_button()
-  position relative
-  top 10px
+  position absolute
+  bottom 10px
   left 10px
   text-align center
 

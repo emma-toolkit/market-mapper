@@ -46,6 +46,10 @@ function setStore(store, state) {
       });
       break;
     case 'graph':
+      stores.graph.setItem('title', {
+        type: 'meta',
+        value: state.getIn(['graph', 'title'])
+      });
       setElements('nodes', 'environment', state);
       setElements('nodes', 'chain', state);
       setElements('nodes', 'infrastructure', state);
@@ -55,11 +59,10 @@ function setStore(store, state) {
   }
 }
 
-function setElements(element, nodetype, state) {
-  state.getIn([element, nodetype]).forEach((d, id) => {
+function setElements(type, nodetype, state) {
+  state.getIn([type, nodetype]).forEach((d, id) => {
     const obj = d.toObject();
-    obj.element = element;
-    obj.nodetype = nodetype;
+    obj.type = type;
     stores.graph.setItem(String(id), obj);
   });
 }
@@ -71,18 +74,23 @@ function loadType(type, state) {
       if (n === 0) return state;
       return store.iterate(
         (value, key, i) => {
-          let path;
+          let path, new_value;
           switch (type) {
             case 'app':
               path = ['app', key];
               break;
             case 'graph':
-              path = [value.element, value.nodetype, key];
-              const record = value.element === 'nodes' ? Node : Edge;
-              value = record(value);
+              if (value.type === 'meta') {
+                path = ['graph', key];
+                new_value = value.value;
+              } else {
+                path = [value.type, value.nodetype, key];
+                const record = value.type === 'nodes' ? Node : Edge;
+                new_value = record(value);
+              }
               break;
           }
-          state = state.setIn(path, value);
+          state = state.setIn(path, new_value);
           if (i === n) return state;
         }
       )

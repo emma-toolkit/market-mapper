@@ -55,6 +55,14 @@ export default combineReducers({
       });
     }
   }),
+  graph: createReducer(new IMap({
+    title: '',
+  }), {
+    [actions.LOAD_DONE]: (state, action) =>
+      state.merge(action.payload.state.get('graph')),
+    [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
+      state.set(action.payload.attribute, action.payload.value)
+  }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
     chain: createReducer(new IMap(), nodeHandlers('chain')),
@@ -137,6 +145,7 @@ function edgeHandlers(nodetype) {
     const from = action.payload.from;
     if (from.nodetype === nodetype) {
       const edge = Edge({
+        nodetype: nodetype,
         from: from.id,
         to: action.payload.to.id
       });

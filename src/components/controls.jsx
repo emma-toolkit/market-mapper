@@ -15,7 +15,7 @@ export default createClass({
   setAttribute(att, value) {
     this.props.setNodeAttribute(att, value);
   },
-  renderNodeControls() {
+  nodeControls() {
     return (
       <div className='controls-panel'>
         <label>Name:
@@ -35,15 +35,20 @@ export default createClass({
       </div>
     );
   },
-  renderEdgeControls() {
+  edgeControls() {
     return (
       <div className='controls-panel'>
       </div>
     );
   },
-  renderGraphControls() {
+  graphControls() {
     return (
       <div className='controls-panel'>
+        <TextInput
+          attribute='title'
+          value={this.props.graph.get('title')}
+          setAttribute={this.props.setGraphAttribute}
+        />
         <input type='file' name='csv' onChange={this.props.loadCSV} />
         <button onClick={this.props.doLayout}>Auto Layout</button>
         <button onClick={this.props.clear}>Clear</button>
@@ -55,8 +60,8 @@ export default createClass({
     if (!this.props.show_controls) return null;
     return (
       <div>
-        {this.props.selected !== null && this.renderNodeControls()}
-        {this.renderGraphControls()}
+        {this.props.selected !== null && this.nodeControls()}
+        {this.graphControls()}
       </div>
     );
   },
