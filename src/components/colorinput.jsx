@@ -5,7 +5,7 @@ const colors = config.colors;
 
 export default createClass({
   getClass(color) {
-    return this.props.selected === color ? 'selected' : '';
+    return this.props.value === color ? 'selected' : '';
   },
   setColor(color) {
     this.props.setAttribute('color', color);

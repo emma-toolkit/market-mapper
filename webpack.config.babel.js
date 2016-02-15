@@ -53,14 +53,14 @@ export default {
   },
   module: {
     preLoaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' }
+      {test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader'}
     ],
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
-      { test: /\.jsx$/, loaders: ['react-hot', 'babel']},
-      { test: /\.json$/, loader: 'json' },
-      { test: /^((?!graph).)*\.styl$/, loaders: ['style', 'css', 'stylus'] },
-      { test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus'] }
+      {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
+      {test: /\.jsx$/, loaders: ['react-hot', 'babel']},
+      {test: /\.json$/, loader: 'json'},
+      {test: /^((?!graph).)*\.styl$/, loaders: ['style', 'css', 'stylus']},
+      {test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus']}
     ]
   },
   plugins,

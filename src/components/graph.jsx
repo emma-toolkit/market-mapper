@@ -121,6 +121,11 @@ export default class Graph extends React.Component {
         this.props.addEdge();
       }
     });
+
+    const selected = this.props.getSelected();
+    if (selected !== null) {
+      this.graph.nodes(`#${selected.id}`).select();
+    }
   }
 
   doLayout() {

@@ -30,11 +30,15 @@ export default createClass({
         <div id='controls-form'>
           <div id="node-controls">
             <label>Name:
-              <TextInput selected={this.getAttribute('name')} />
+              <TextInput
+                attribute='name'
+                value={this.getAttribute('name')}
+                setAttribute={this.setAttribute}
+              />
             </label>
             <label>Color:
               <ColorInput
-                selected={this.getAttribute('color')}
+                value={this.getAttribute('color')}
                 setAttribute={this.setAttribute}
               />
             </label>
