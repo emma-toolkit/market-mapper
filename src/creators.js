@@ -65,24 +65,24 @@ const addNode = createAction(
   persistGraph
 );
 
-const removeNode = createAction(
-  actions.REMOVE_NODE,
-  node => {
+const removeElement = createAction(
+  actions.REMOVE_ELEMENT,
+  element => {
     return {
-      node,
+      element,
       last_redraw: Date.now()
     };
   },
   persistGraph
 );
 
-const selectNode = createAction(
-  actions.SELECT_NODE,
-  node => {return {node}}
+const selectElement = createAction(
+  actions.SELECT_ELEMENT,
+  element => {return {element}}
 );
 
-const deselectNode = createAction(
-  actions.DESELECT_NODE
+const deselectElement = createAction(
+  actions.DESELECT_ELEMENT
 );
 
 const targetNode = createAction(
@@ -171,9 +171,9 @@ export default {
   clear,
   toggleControls,
   addNode,
-  removeNode,
-  selectNode,
-  deselectNode,
+  removeElement,
+  selectElement,
+  deselectElement,
   targetNode,
   untargetNode,
   addEdge,
@@ -193,7 +193,7 @@ function csvAddNodes(nodetype, data, state) {
   state.getIn(['nodes', nodetype]).forEach((d, id) => {
     data.push({
       id: id,
-      element: 'node',
+      type: 'nodes',
       nodetype: nodetype,
       name: d.get('name'),
       disruption: d.get('disruption'),
@@ -207,7 +207,7 @@ function csvAddEdges(nodetype, data, state) {
   state.getIn(['edges', nodetype]).forEach((d, id) => {
     data.push({
       id: id,
-      element: 'edge',
+      type: 'edges',
       name: d.get('name'),
       from: d.get('from'),
       to: d.get('to'),

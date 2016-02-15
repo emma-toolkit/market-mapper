@@ -27,15 +27,15 @@ export default combineReducers({
       state.merge(action.payload),
     [actions.ADD_NODE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
-    [actions.REMOVE_NODE]: (state, action) =>
+    [actions.REMOVE_ELEMENT]: (state, action) =>
       state.merge({
         last_redraw: action.payload.last_redraw,
         selected: null,
         targeted: null
       }),
-    [actions.SELECT_NODE]: (state, action) =>
-      state.set('selected', action.payload.node),
-    [actions.DESELECT_NODE]: (state, action) =>
+    [actions.SELECT_ELEMENT]: (state, action) =>
+      state.set('selected', action.payload.element),
+    [actions.DESELECT_ELEMENT]: (state, action) =>
       state.merge({
         selected: null,
         targeted: null
@@ -109,10 +109,10 @@ function nodeHandlers(nodetype) {
     }
     return state;
   };
-  handlers[actions.REMOVE_NODE] = (state, action) => {
-    const node = action.payload.node;
-    if (node.nodetype === nodetype) {
-      state = state.delete(node.id);
+  handlers[actions.REMOVE_ELEMENT] = (state, action) => {
+    const element = action.payload.element;
+    if (element.type === 'nodes' && element.nodetype === nodetype) {
+      state = state.delete(element.id);
     }
     return state;
   };
@@ -130,36 +130,41 @@ function nodeHandlers(nodetype) {
 
 function edgeHandlers(nodetype) {
   const handlers = commonHandlers('edges', nodetype);
-  handlers[actions.REMOVE_NODE] = (state, action) => {
-    if (nodetype !== 'environment') {
-      const id = action.payload.node.id;
+  handlers[actions.REMOVE_ELEMENT] = (state, action) => {
+    const element = action.payload.element;
+    if (element.type === 'nodes' && nodetype !== 'environment') {
+      const id = element.id;
       state.forEach((edge, key) => {
         if (edge.from === id || edge.to === id) {
           state = state.delete(key);
         }
       });
+    } else if (element.type === 'edges' && element.nodetype === nodetype) {
+      state = state.delete(element.id);
     }
     return state;
   };
   handlers[actions.ADD_EDGE] = (state, action) => {
     const from = action.payload.from;
     if (from.nodetype === nodetype) {
+      const id = ShortID.generate();
       const edge = Edge({
-        nodetype: nodetype,
+        nodetype,
+        id,
         from: from.id,
         to: action.payload.to.id
       });
-      state = state.set(ShortID.generate(), edge);
+      state = state.set(id, edge);
     }
     return state;
   };
   return handlers;
 }
 
-function commonHandlers(element, nodetype) {
+function commonHandlers(type, nodetype) {
   return {
     [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.getIn([element, nodetype]),
+      action.payload.state.getIn([type, nodetype]),
     [actions.CLEAR]: state => state.clear()
   };
 }

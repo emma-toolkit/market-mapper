@@ -75,7 +75,7 @@ export default class Graph extends React.Component {
       selectionType: 'single',
       boxSelectionEnabled: false
     });
-    // TODO target events
+
     this.graph.on('mouseover', 'node', e => {
       const selected = this.props.getSelected();
       const hovered = e.cyTarget;
@@ -84,7 +84,7 @@ export default class Graph extends React.Component {
         selected !== null &&
         data.id !== selected.id &&
         !hovered.isParent() &&
-        data.parent !== 'environment'
+        data.nodetype !== 'environment'
       ) {
         e.cyTarget.addClass('hover');
         this.props.targetNode(e.cyTarget);
@@ -106,14 +106,14 @@ export default class Graph extends React.Component {
         this.normalize(e.cyTarget);
       }
     }));
-    this.graph.on('select', 'node', e => {
-      if (this.graph.nodes(':selected').length > 0) {
-        this.graph.nodes().not(e.cyTarget).unselect();
-        this.props.selectNode(e.cyTarget);
+    this.graph.on('select', e => {
+      if (this.graph.elements(':selected').length > 0) {
+        this.graph.elements().not(e.cyTarget).unselect();
+        this.props.selectElement(e.cyTarget);
       }
     });
     this.graph.on('unselect', 'node', () =>
-      this.props.deselectNode()
+      this.props.deselectElement()
     );
     this.graph.on('click', 'node', e => {
       const targeted = this.props.getTargeted();
@@ -249,13 +249,11 @@ export default class Graph extends React.Component {
       case 3:
         classes.push('critical');
     }
+    const data = record.toObject();
+    data.parent = data.nodetype;
     return {
       group: 'nodes',
-      data: {
-        id,
-        parent: nodetype,
-        label: record.get('name')
-      },
+      data,
       position: {
         x: record.get('x') * self.refs.div.offsetWidth / W,
         y: record.get('y') * self.refs.div.offsetHeight / H
@@ -268,13 +266,12 @@ export default class Graph extends React.Component {
   }
 
   convertEdge(record, id, nodetype) {
+    const data = record.toObject();
+    data.source = data.from;
+    data.target = data.to;
     return {
       group: 'edges',
-      data: {
-        id,
-        source: record.get('from'),
-        target: record.get('to')
-      },
+      data,
       classes: nodetype
     };
   }
@@ -289,7 +286,7 @@ export default class Graph extends React.Component {
       const y = position.y * H / this.refs.div.offsetHeight;
 
       const data = element.data();
-      const record = this.props.state.getIn(['nodes', data.parent, data.id]);
+      const record = this.props.state.getIn(['nodes', data.nodetype, data.id]);
       if (x !== record.get('x') || y !== record.get('y')) {
         payload.set(data.id, {x, y});
       }

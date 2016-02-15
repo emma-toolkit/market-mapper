@@ -28,6 +28,7 @@ export default createClass({
   render() {
     return <input
       type='text'
+      className='controls-input'
       value={this.state.value}
       onChange={this.handleChange}
       onKeyPress={this.handleKeyPress}

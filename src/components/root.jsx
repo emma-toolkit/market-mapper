@@ -21,9 +21,9 @@ const App = connect(
         dispatch(creators.toggleControls(show_controls));
       },
       addNode(nodetype) {dispatch(creators.addNode(nodetype))},
-      removeNode(selected) {dispatch(creators.removeNode(selected))},
-      selectNode(node) {dispatch(creators.selectNode(node))},
-      deselectNode() {dispatch(creators.deselectNode())},
+      removeElement(selected) {dispatch(creators.removeElement(selected))},
+      selectElement(element) {dispatch(creators.selectElement(element))},
+      deselectElement() {dispatch(creators.deselectElement())},
       targetNode(node) {dispatch(creators.targetNode(node))},
       untargetNode() {dispatch(creators.untargetNode())},
       addEdge(from, to) {dispatch(creators.addEdge(from, to))},
@@ -46,10 +46,10 @@ const App = connect(
       switch (e.code) {
         case 'Backspace':
           e.preventDefault();
-          this.removeNode();
+          this.removeElement();
           break;
         case 'Escape':
-          this.props.deselectNode();
+          this.props.deselectElement();
           break;
       }
     };
@@ -59,21 +59,22 @@ const App = connect(
     this.props.exportCSV(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
-  removeNode() {
+  removeElement() {
     const selected = this.getSelected();
     if (selected === null) return;
-    if (confirm(`Are you sure you want to delete the node "${selected.name}"?`)) {
-      this.props.removeNode(selected);
+    const type = selected.type === 'nodes' ? 'node' : 'edge';
+    if (confirm(`Are you sure you want to delete the selected ${type}?`)) {
+      this.props.removeElement(selected);
     }
   },
-  selectNode(selected) {
-    this.props.selectNode(
-      this.getRecordFromNode(selected)
+  selectElement(selected) {
+    this.props.selectElement(
+      this.getRecordFromElement(selected)
     );
   },
   targetNode(targeted) {
     this.props.targetNode(
-      this.getRecordFromNode(targeted)
+      this.getRecordFromElement(targeted)
     );
   },
   addEdge() {
@@ -88,9 +89,9 @@ const App = connect(
   getTargeted() {
     return this.props.state.getIn(['app', 'targeted']);
   },
-  getRecordFromNode(node) {
-    const data = node.data();
-    return this.props.state.getIn(['nodes', data.parent, data.id]);
+  getRecordFromElement(element) {
+    const data = element.data();
+    return this.props.state.getIn([data.type, data.nodetype, data.id]);
   },
   render() {
     const className = this.controlsShown() ?
@@ -108,8 +109,8 @@ const App = connect(
           <Graph
             state={this.props.state}
             layoutDone={this.props.layoutDone}
-            selectNode={this.selectNode}
-            deselectNode={this.props.deselectNode}
+            selectElement={this.selectElement}
+            deselectElement={this.props.deselectElement}
             targetNode={this.targetNode}
             untargetNode={this.props.untargetNode}
             getSelected={this.getSelected}
@@ -127,7 +128,7 @@ const App = connect(
           clear={this.props.clear}
           exportCSV={this.exportCSV}
           toggleControls={this.toggleControls}
-          removeNode={this.removeNode}
+          removeElement={this.removeElement}
           setNodeAttribute={this.setNodeAttribute}
         />
       </div>

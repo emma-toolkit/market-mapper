@@ -78,6 +78,7 @@ function loadType(type, state) {
           switch (type) {
             case 'app':
               path = ['app', key];
+              new_value = value;
               break;
             case 'graph':
               if (value.type === 'meta') {

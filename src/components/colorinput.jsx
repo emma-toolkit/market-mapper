@@ -12,7 +12,7 @@ export default createClass({
   },
   render() {
     return (
-      <div id='swatches'>
+      <div id='swatches' className='controls-input'>
         {colors.map(color =>
           <a
             className={'swatch ' + this.getClass(color)}
