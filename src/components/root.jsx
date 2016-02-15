@@ -99,7 +99,7 @@ const App = connect(
     return (
       <div className={className}>
         <div id='display' style={{height: window.innerHeight}}>
-          {title !== null && <h1>{title}</h1>}
+          {title !== null && <h1 id='graph-title'>{title}</h1>}
           <div id='background'>
             <NodeType nodetype='environment' addNode={this.props.addNode} />
             <NodeType nodetype='chain' addNode={this.props.addNode} />

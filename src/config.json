@@ -1,4 +1,9 @@
 {
+  "nodetypes": {
+    "environment": "Environment",
+    "chain": "Market Chain",
+    "infrastructure": "Infrastructure"
+  },
   "colors": [
     "#ffffff",
     "#b3c6d6",
