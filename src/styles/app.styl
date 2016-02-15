@@ -4,10 +4,10 @@ controls_width = 30%
 controls_background = white
 button_size = 25px
 border_radius = 5px
+nodetype_border = 3px dashed #aaaaaa
 
 minor_nodetype()
   height 25%
-  background #DDD
 
 ui_button()
   display block
@@ -56,11 +56,13 @@ ui_button()
   position absolute
 #environment
   minor_nodetype()
+  border-bottom nodetype_border
 #chain
   height 50%
   background white
 #infrastructure
   minor_nodetype()
+  border-top nodetype_border
 .add
   ui_button()
   position relative
