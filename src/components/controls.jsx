@@ -41,9 +41,27 @@ export default createClass({
       </div>
     );
   },
+  renderGraphControls() {
+    return (
+      <div className='controls-panel'>
+        <input type='file' name='csv' onChange={this.props.loadCSV} />
+        <button onClick={this.props.doLayout}>Auto Layout</button>
+        <button onClick={this.props.clear}>Clear</button>
+        <button onClick={this.props.exportCSV}>Export</button>
+      </div>
+    );
+  },
+  renderControls() {
+    if (!this.props.show_controls) return null;
+    return (
+      <div>
+        {this.props.selected !== null && this.renderNodeControls()}
+        {this.renderGraphControls()}
+      </div>
+    );
+  },
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
-    const selected = this.props.selected;
     return (
       <div id='controls'>
         <a
@@ -53,15 +71,7 @@ export default createClass({
         >
           {toggle_icon}
         </a>
-        <div>
-          {selected !== null && this.renderNodeControls()}
-          <div className='controls-panel'>
-            <input type='file' name='csv' onChange={this.props.loadCSV} />
-            <button onClick={this.props.doLayout}>Auto Layout</button>
-            <button onClick={this.props.clear}>Clear</button>
-            <button onClick={this.props.exportCSV}>Export</button>
-          </div>
-        </div>
+        {this.renderControls()}
       </div>
     );
   }

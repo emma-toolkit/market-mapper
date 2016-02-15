@@ -1,7 +1,7 @@
 @import '~html5-reset/assets/css/reset.css'
 
 controls_width = 30%
-controls_background = white
+controls_background = #dddddd
 button_size = 25px
 border_radius = 5px
 nodetype_border = 3px dashed #aaaaaa
@@ -18,12 +18,15 @@ ui_button()
   z-index 100
   font-size button_size
   border-radius border_radius
+  background controls_background
 
 #display
   position absolute
 #controls
   position absolute
   right 0
+  height 100%
+  background controls_background
   label
     font-family sans-serif
     display block
@@ -68,7 +71,6 @@ ui_button()
   position relative
   top 10px
   left 10px
-  background #BBB
   text-align center
 
 #graph
