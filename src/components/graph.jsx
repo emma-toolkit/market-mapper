@@ -1,12 +1,16 @@
 import React from 'react'
 import Cytoscape from 'cytoscape'
+import jQuery from 'jquery'
 import Dagre from 'dagre'
+import Qtip from 'qtip2'
 import CytoscapeDagre from 'cytoscape-dagre'
+import CytoscapeQtip from 'cytoscape-qtip'
 import debounce from 'lodash.debounce'
 import Promise from 'bluebird'
 import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
+CytoscapeQtip(Cytoscape, jQuery);
 
 const [W, H] = [4096, 2160];
 
@@ -82,9 +86,11 @@ export default class Graph extends React.Component {
       const data = hovered.data();
       if (
         selected !== null &&
+        selected.get('nodetype') !== 'environment' &&
         data.id !== selected.id &&
         !hovered.isParent() &&
-        data.nodetype !== 'environment'
+        data.nodetype !== 'environment' &&
+        data.nodetype !== 'infrastructure'
       ) {
         e.cyTarget.addClass('hover');
         this.props.targetNode(e.cyTarget);
@@ -123,6 +129,25 @@ export default class Graph extends React.Component {
       ) {
         this.props.addEdge();
       }
+    });
+
+    this.graph.nodes().nonorphans().forEach(node => {
+      const examples = node.data('examples');
+      if (examples === '') return;
+
+      node.qtip({
+        content: {text: node.data('examples').replace(/\n/g, '<br>')},
+        show: {event: 'mouseover'},
+        hide: {event: 'mouseout'},
+        style: {
+          classes: 'qtip-bootstrap'
+        },
+        position: {
+          adjust: {
+            method: 'none'
+          }
+        }
+      });
     });
 
     const selected = this.props.getSelected();

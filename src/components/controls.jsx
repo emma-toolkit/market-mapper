@@ -30,6 +30,16 @@ export default createClass({
           value={this.getAttribute('color')}
           setAttribute={this.setAttribute}
         />
+        <label className='controls-label'>
+          Examples
+          <span className='label-tip'>shift+enter to submit</span>
+        </label>
+        <TextInput
+          is_textarea={true}
+          attribute='examples'
+          value={this.getAttribute('examples')}
+          setAttribute={this.setAttribute}
+        />
         <div className='controls-buttons'>
           <button onClick={this.props.removeElement}>Remove Node</button>
         </div>

@@ -2,6 +2,9 @@ import React from 'react'
 const createClass = React.createClass;
 
 export default createClass({
+  getDefaultProps() {
+    return {is_textarea: false};
+  },
   getInitialState() {return {
     value: this.props.value,
     last_value: this.props.value
@@ -21,11 +24,21 @@ export default createClass({
   setValue(value) {
     this.props.setAttribute(this.props.attribute, this.state.value);
   },
-  handleChange(e) {this.setState({value: e.target.value})},
-  handleKeyPress(e) {
-    if (e.key === 'Enter') this.setValue(this.state.value);
+  handleChange(e) {
+    this.setState({value: e.target.value})
   },
-  render() {
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      if (!this.props.is_textarea) {
+        this.setValue(this.state.value);
+      } else if (e.shiftKey) {
+        e.preventDefault();
+        e.target.blur();
+        this.setValue(this.state.value);
+      }
+    }
+  },
+  renderTextInput() {
     return <input
       type='text'
       className='controls-input'
@@ -33,5 +46,19 @@ export default createClass({
       onChange={this.handleChange}
       onKeyPress={this.handleKeyPress}
     />
+  },
+  renderTextArea() {
+    return (
+      <textarea
+        className='controls-input'
+        value={this.state.value}
+        onChange={this.handleChange}
+        onKeyPress={this.handleKeyPress}
+      />
+    );
+  },
+  render() {
+    return this.props.is_textarea ?
+      this.renderTextArea() : this.renderTextInput();
   }
 });

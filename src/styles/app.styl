@@ -1,4 +1,5 @@
 @import '~html5-reset/assets/css/reset.css'
+@import '~qtip2/dist/jquery.qtip.css'
 
 controls_width = 30%
 controls_background = #e0ecf3
@@ -43,6 +44,11 @@ ui_button()
   background controls_background
   label
     display block
+.label-tip
+  margin-left h_space
+  // font-size 0.8em
+  color #999
+  text-transform none
 .controls-shown
   #display
     width 100% - controls_width
@@ -60,9 +66,10 @@ ui_button()
   font-size 0.7em
   margin-bottom 2px
 .controls-input
-  padding 1px 3px
-.controls-input input
-  border input_border
+  padding 2px 3px 1px
+input.controls-input
+textarea.controls-input
+    border input_border
 .controls-input
 .controls-buttons
   display block
@@ -131,6 +138,8 @@ ui_button()
   height 100%
 .grabbed
   cursor move
+.qtip-bootstrap
+  font-family sans-serif
 
 #toggle-controls
   ui_button()

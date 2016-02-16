@@ -5,6 +5,7 @@ export const Node = Record({
   nodetype: '',
   id: '',
   name: '',
+  examples: '',
   disruption: 0,
   x: 0,
   y: 0,
