@@ -292,6 +292,7 @@ export default class Graph extends React.Component {
 
   convertEdge(record, id, nodetype) {
     const data = record.toObject();
+    data.id = id;
     data.source = data.from;
     data.target = data.to;
     return {
