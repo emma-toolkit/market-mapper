@@ -30,6 +30,7 @@ export default createClass({
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       if (!this.props.is_textarea) {
+        e.target.blur();
         this.setValue(this.state.value);
       } else if (e.shiftKey) {
         e.preventDefault();

@@ -45,8 +45,11 @@ const App = connect(
     window.onkeydown = e => {
       switch (e.code) {
         case 'Backspace':
-          e.preventDefault();
-          this.removeElement();
+          const active_type = document.activeElement.type;
+          if (active_type !== 'text' && active_type !== 'textarea') {
+            e.preventDefault();
+            this.removeElement();
+          }
           break;
         case 'Escape':
           this.props.deselectElement();
