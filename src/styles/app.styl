@@ -11,6 +11,7 @@ nodetype_border = 3px dashed #aaa
 body_color = #333
 heading_color = #aaa
 input_border = 1px solid #ccc
+ui_color = #425882
 
 body
   color body_color
@@ -19,7 +20,7 @@ h1, h2, label
   font-family sans-serif
 
 a
-  color #425882
+  color ui_color
 
 minor_nodetype()
   height 25%
@@ -46,7 +47,6 @@ ui_button()
     display block
 .label-tip
   margin-left h_space
-  // font-size 0.8em
   color #999
   text-transform none
 .controls-shown
@@ -59,8 +59,14 @@ ui_button()
     width 100%
   #controls
     width 0
-.controls-panel
+.controls-section
   padding button_size
+.controls-heading
+  margin 0 0 small_margin
+  font-size 1em
+  text-transform uppercase
+  color #425882
+  border-bottom 1px solid #bbb
 .controls-label
   text-transform uppercase
   font-size 0.7em

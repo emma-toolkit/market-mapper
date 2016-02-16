@@ -18,7 +18,8 @@ export default createClass({
   },
   nodeControls() {
     return (
-      <div className='controls-panel'>
+      <div className='controls-section'>
+        <h2 className='controls-heading'>Node</h2>
         <label className='controls-label'>Name</label>
         <TextInput
           attribute='name'
@@ -48,7 +49,8 @@ export default createClass({
   },
   edgeControls() {
     return (
-      <div className='controls-panel'>
+      <div className='controls-section'>
+        <h2 className='controls-heading'>Edge</h2>
         <div className='controls-buttons'>
           <button onClick={this.props.removeElement}>Remove Edge</button>
         </div>
@@ -57,7 +59,8 @@ export default createClass({
   },
   graphControls() {
     return (
-      <div className='controls-panel'>
+      <div className='controls-section'>
+        <h2 className='controls-heading'>Graph</h2>
         <label className='controls-label'>Graph Title</label>
         <TextInput
           attribute='title'
