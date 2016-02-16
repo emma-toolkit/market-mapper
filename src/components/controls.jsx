@@ -59,7 +59,7 @@ export default createClass({
   },
   graphControls() {
     return (
-      <div className='controls-section'>
+      <div id="graph-controls" className='controls-section'>
         <h2 className='controls-heading'>Graph</h2>
         <label className='controls-label'>Graph Title</label>
         <TextInput
