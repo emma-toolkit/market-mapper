@@ -12,7 +12,7 @@ const actions = [
   'DESELECT_ELEMENT',
   'TARGET_NODE',
   'UNTARGET_NODE',
-  'ADD_EDGE',
+  // 'ADD_EDGE',
   'SET_NODE_ATTRIBUTE',
   'SET_GRAPH_ATTRIBUTE'
 ];

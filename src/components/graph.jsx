@@ -23,10 +23,10 @@ export default class Graph extends React.Component {
       this.doLayout();
     }
     return next_props.state.getIn(['app', 'last_redraw']) !==
-      this.props.state.getIn(['app', 'last_redraw']) || (
+      this.props.state.getIn(['app', 'last_redraw'])/* || (
         next_props.state.getIn(['app', 'selected']) === null &&
         this.props.state.getIn(['app', 'selected']) !== null
-      );
+      )*/;
   }
 
   componentDidUpdate() {
@@ -97,8 +97,8 @@ export default class Graph extends React.Component {
       }
     });
     this.graph.on('mouseout', 'node', e => {
+      e.cyTarget.removeClass('hover');
       if (this.props.getTargeted() !== null) {
-        e.cyTarget.removeClass('hover');
         this.props.untargetNode();
       }
     });
@@ -113,23 +113,25 @@ export default class Graph extends React.Component {
       }
     }));
     this.graph.on('select', e => {
-      if (this.graph.elements(':selected').length > 0) {
-        this.graph.elements().not(e.cyTarget).unselect();
-        this.props.selectElement(e.cyTarget);
-      }
+      this.props.selectElement(e.cyTarget);
     });
-    this.graph.on('unselect', 'node', () =>
+    this.graph.on('unselect', 'node', e => {
       this.props.deselectElement()
-    );
-    this.graph.on('click', 'node', e => {
-      const targeted = this.props.getTargeted();
-      if (
-        targeted !== null &&
-        e.cyTarget.data().id === targeted.id
-      ) {
-        this.props.addEdge();
-      }
     });
+    // this.graph.on('click', 'node', e => {
+    //   if (e.cyTarget.isParent()) {
+    //     e.cy.nodes(':selected').deselect();
+    //     return;
+    //   }
+
+    //   const targeted = this.props.getTargeted();
+    //   if (
+    //     targeted !== null &&
+    //     e.cyTarget.data().id === targeted.id
+    //   ) {
+    //     this.props.addEdge();
+    //   }
+    // });
 
     this.graph.nodes().nonorphans().forEach(node => {
       const examples = node.data('examples');

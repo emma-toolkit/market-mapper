@@ -34,7 +34,10 @@ export default combineReducers({
         targeted: null
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
-      state.set('selected', action.payload.element),
+      state.merge({
+        selected: action.payload.element,
+        targeted: null
+      }),
     [actions.DESELECT_ELEMENT]: (state, action) =>
       state.merge({
         selected: null,
@@ -44,8 +47,8 @@ export default combineReducers({
       state.set('targeted', action.payload.node),
     [actions.UNTARGET_NODE]: (state, action) =>
       state.set('targeted', null),
-    [actions.ADD_EDGE]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
+    // [actions.ADD_EDGE]: (state, action) =>
+    //   state.set('last_redraw', action.payload.last_redraw),
     [actions.SET_NODE_ATTRIBUTE]: (state, action) => {
       let record = action.payload.node;
       record = record.set(action.payload.attribute, action.payload.value);
@@ -144,20 +147,20 @@ function edgeHandlers(nodetype) {
     }
     return state;
   };
-  handlers[actions.ADD_EDGE] = (state, action) => {
-    const from = action.payload.from;
-    if (from.nodetype === nodetype) {
-      const id = ShortID.generate();
-      const edge = Edge({
-        nodetype,
-        id,
-        from: from.id,
-        to: action.payload.to.id
-      });
-      state = state.set(id, edge);
-    }
-    return state;
-  };
+  // handlers[actions.ADD_EDGE] = (state, action) => {
+  //   const from = action.payload.from;
+  //   if (from.nodetype === nodetype) {
+  //     const id = ShortID.generate();
+  //     const edge = Edge({
+  //       nodetype,
+  //       id,
+  //       from: from.id,
+  //       to: action.payload.to.id
+  //     });
+  //     state = state.set(id, edge);
+  //   }
+  //   return state;
+  // };
   return handlers;
 }
 

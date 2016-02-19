@@ -94,17 +94,17 @@ const untargetNode = createAction(
   actions.UNTARGET_NODE
 );
 
-const addEdge = createAction(
-  actions.ADD_EDGE,
-  (from, to) => {
-    return {
-      from,
-      to,
-      last_redraw: Date.now()
-    };
-  },
-  persistGraph
-);
+// const addEdge = createAction(
+//   actions.ADD_EDGE,
+//   (from, to) => {
+//     return {
+//       from,
+//       to,
+//       last_redraw: Date.now()
+//     };
+//   },
+//   persistGraph
+// );
 
 const setNodeAttribute = createAction(
   actions.SET_NODE_ATTRIBUTE,
@@ -176,7 +176,7 @@ export default {
   deselectElement,
   targetNode,
   untargetNode,
-  addEdge,
+  // addEdge,
   setNodeAttribute,
   setGraphAttribute,
   loadLocal,
