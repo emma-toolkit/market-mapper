@@ -28,6 +28,7 @@ export default function(element_map) {
       const nodetype = element_map.get(from_id).nodetype;
       state = state.setIn(['edges', nodetype, d.id], Edge({
         nodetype: nodetype,
+        id: d.id,
         name: d.name,
         from: from_id,
         to: d.out,
