@@ -13,6 +13,7 @@ CytoscapeDagre(Cytoscape, Dagre);
 CytoscapeQtip(Cytoscape, jQuery);
 
 const [W, H] = [4096, 2160];
+const HANDLE_SIZE = 10;
 
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
@@ -80,23 +81,42 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
 
+    const edge_canvas = document.createElement('CANVAS');
+    edge_canvas.id = 'edge-canvas';
+    edge_canvas.width = this.refs.div.offsetWidth;
+    edge_canvas.height = this.refs.div.offsetHeight;
+    this.refs.div.appendChild(edge_canvas);
+    const ctx = edge_canvas.getContext('2d');
+    ctx.fillStyle = 'rgb(255,0,0)';
+
     this.graph.on('mouseover', 'node', e => {
       const selected = this.props.getSelected();
       const hovered = e.cyTarget;
       const data = hovered.data();
-      if (
-        selected !== null &&
-        selected.get('nodetype') !== 'environment' &&
-        data.id !== selected.id &&
-        !hovered.isParent() &&
-        data.nodetype !== 'environment' &&
-        data.nodetype !== 'infrastructure'
-      ) {
-        e.cyTarget.addClass('hover');
-        this.props.targetNode(e.cyTarget);
+      const position = hovered.renderedPosition();
+      const bounding_box = hovered.renderedBoundingBox();
+      if (!hovered.isParent()) {
+        ctx.fillRect(
+          position.x - HANDLE_SIZE / 2 + bounding_box.w / 2 - 1,
+          position.y - HANDLE_SIZE / 2,
+          HANDLE_SIZE,
+          HANDLE_SIZE
+        );
+
+        if (
+          selected !== null &&
+          selected.get('nodetype') !== 'environment' &&
+          data.id !== selected.id &&
+          data.nodetype !== 'environment' &&
+          data.nodetype !== 'infrastructure'
+        ) {
+          e.cyTarget.addClass('hover');
+          this.props.targetNode(e.cyTarget);
+        }
       }
     });
     this.graph.on('mouseout', 'node', e => {
+      ctx.clearRect(0, 0, edge_canvas.offsetWidth, edge_canvas.offsetHeight);
       e.cyTarget.removeClass('hover');
       if (this.props.getTargeted() !== null) {
         this.props.untargetNode();
