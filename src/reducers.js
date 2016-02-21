@@ -10,7 +10,8 @@ export default combineReducers({
     last_layout: null,
     show_controls: true,
     selected: null,
-    targeted: null
+    handle: null
+    // targeted: null
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -31,22 +32,26 @@ export default combineReducers({
       state.merge({
         last_redraw: action.payload.last_redraw,
         selected: null,
-        targeted: null
+        // targeted: null
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
       state.merge({
         selected: action.payload.element,
-        targeted: null
+        // targeted: null
       }),
     [actions.DESELECT_ELEMENT]: (state, action) =>
       state.merge({
         selected: null,
-        targeted: null
+        // targeted: null
       }),
-    [actions.TARGET_NODE]: (state, action) =>
-      state.set('targeted', action.payload.node),
-    [actions.UNTARGET_NODE]: (state, action) =>
-      state.set('targeted', null),
+    [actions.SHOW_HANDLE]: (state, action) =>
+      state.set('handle', {x: action.payload.x, y: action.payload.y}),
+    [actions.HIDE_HANDLES]: (state, action) =>
+      state.set('handle', null),
+    // [actions.TARGET_NODE]: (state, action) =>
+    //   state.set('targeted', action.payload.node),
+    // [actions.UNTARGET_NODE]: (state, action) =>
+    //   state.set('targeted', null),
     // [actions.ADD_EDGE]: (state, action) =>
     //   state.set('last_redraw', action.payload.last_redraw),
     [actions.SET_NODE_ATTRIBUTE]: (state, action) => {

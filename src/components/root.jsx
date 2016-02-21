@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import creators from '../creators'
 import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
+import Edges from './edges.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
@@ -24,9 +25,11 @@ const App = connect(
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
       deselectElement() {dispatch(creators.deselectElement())},
-      targetNode(node) {dispatch(creators.targetNode(node))},
-      untargetNode() {dispatch(creators.untargetNode())},
-      addEdge(from, to) {dispatch(creators.addEdge(from, to))},
+      showHandle(x, y) {dispatch(creators.showHandle(x, y))},
+      hideHandles() {dispatch(creators.hideHandles())},
+      // targetNode(node) {dispatch(creators.targetNode(node))},
+      // untargetNode() {dispatch(creators.untargetNode())},
+      // addEdge(from, to) {dispatch(creators.addEdge(from, to))},
       setNodeAttribute(node, attribute, value) {
         dispatch(creators.setNodeAttribute(node, attribute, value));
       },
@@ -75,22 +78,25 @@ const App = connect(
       this.getRecordFromElement(selected)
     );
   },
-  targetNode(targeted) {
-    this.props.targetNode(
-      this.getRecordFromElement(targeted)
-    );
-  },
-  addEdge() {
-    this.props.addEdge(this.getSelected(), this.getTargeted());
-  },
+  // targetNode(targeted) {
+  //   this.props.targetNode(
+  //     this.getRecordFromElement(targeted)
+  //   );
+  // },
+  // addEdge() {
+  //   this.props.addEdge(this.getSelected(), this.getTargeted());
+  // },
   setNodeAttribute(attribute, value) {
     this.props.setNodeAttribute(this.getSelected(), attribute, value);
   },
   getSelected() {
     return this.props.state.getIn(['app', 'selected']);
   },
-  getTargeted() {
-    return this.props.state.getIn(['app', 'targeted']);
+  // getTargeted() {
+  //   return this.props.state.getIn(['app', 'targeted']);
+  // },
+  getHandle() {
+    return this.props.state.getIn(['app', 'handle']);
   },
   getRecordFromElement(element) {
     const data = element.data();
@@ -109,16 +115,20 @@ const App = connect(
             <NodeType nodetype='chain' addNode={this.props.addNode} />
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
+          <Edges handle={this.getHandle()} />
           <Graph
             state={this.props.state}
             layoutDone={this.props.layoutDone}
             selectElement={this.selectElement}
             deselectElement={this.props.deselectElement}
-            targetNode={this.targetNode}
-            untargetNode={this.props.untargetNode}
+            // targetNode={this.targetNode}
+            // untargetNode={this.props.untargetNode}
             getSelected={this.getSelected}
-            getTargeted={this.getTargeted}
-            addEdge={this.addEdge}
+            // getTargeted={this.getTargeted}
+            // addEdge={this.addEdge}
+            getHandle={this.getHandle}
+            showHandle={this.props.showHandle}
+            hideHandles={this.props.hideHandles}
           />
         </div>
         <Controls

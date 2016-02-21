@@ -12,6 +12,8 @@ body_color = #333
 heading_color = #aaa
 input_border = 1px solid #ccc
 ui_color = #425882
+handle_size = 12px
+handle_color = ui_color
 
 body
   color body_color
@@ -151,11 +153,21 @@ textarea.controls-input
 .qtip-bootstrap
   font-family sans-serif
 
-#edge-canvas
+#edges
   position absolute
   top 0
   left 0
+  width 100%
+  height 100%
+#handle
+  width handle_size
+  height handle_size
+  background handle_color
   z-index 100
+  position absolute
+  margin-top -(handle_size / 2)px
+  margin-left -(handle_size / 2)px
+  cursor -webkit-grab
 
 #toggle-controls
   ui_button()

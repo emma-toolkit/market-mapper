@@ -85,14 +85,23 @@ const deselectElement = createAction(
   actions.DESELECT_ELEMENT
 );
 
-const targetNode = createAction(
-  actions.TARGET_NODE,
-  node => {return {node}}
+const showHandle = createAction(
+  actions.SHOW_HANDLE,
+  (x, y) => {return {x, y}}
 );
 
-const untargetNode = createAction(
-  actions.UNTARGET_NODE
+const hideHandles = createAction(
+  actions.HIDE_HANDLES
 );
+
+// const targetNode = createAction(
+//   actions.TARGET_NODE,
+//   node => {return {node}}
+// );
+
+// const untargetNode = createAction(
+//   actions.UNTARGET_NODE
+// );
 
 // const addEdge = createAction(
 //   actions.ADD_EDGE,
@@ -174,8 +183,10 @@ export default {
   removeElement,
   selectElement,
   deselectElement,
-  targetNode,
-  untargetNode,
+  showHandle,
+  hideHandles,
+  // targetNode,
+  // untargetNode,
   // addEdge,
   setNodeAttribute,
   setGraphAttribute,
