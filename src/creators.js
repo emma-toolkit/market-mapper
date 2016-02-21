@@ -124,11 +124,11 @@ const addEdge = createAction(
   persistGraph
 );
 
-const setNodeAttribute = createAction(
-  actions.SET_NODE_ATTRIBUTE,
-  (node, attribute, value) => {
+const setElementAttribute = createAction(
+  actions.SET_ELEMENT_ATTRIBUTE,
+  (element, attribute, value) => {
     return {
-      node,
+      element,
       attribute,
       value,
       last_redraw: Date.now()
@@ -199,7 +199,7 @@ export default {
   startConnecting,
   endConnecting,
   addEdge,
-  setNodeAttribute,
+  setElementAttribute,
   setGraphAttribute,
   loadLocal,
   loadCSV,

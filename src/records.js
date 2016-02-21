@@ -19,5 +19,6 @@ export const Edge = Record({
   name: '',
   disruption: '',
   from: null,
-  to: null
+  to: null,
+  width: 1
 });

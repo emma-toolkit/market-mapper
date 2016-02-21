@@ -2,6 +2,7 @@ import React from 'react'
 import TextInput from './textinput.jsx'
 import ColorInput from './colorinput.jsx'
 import RadioInput from './radioinput.jsx'
+import NumberInput from './numberinput.jsx'
 import config from '../config.json'
 const createClass = React.createClass;
 
@@ -16,7 +17,7 @@ export default createClass({
     return selected !== null ? selected[att] : '';
   },
   setAttribute(att, value) {
-    this.props.setNodeAttribute(att, value);
+    this.props.setElementAttribute(att, value);
   },
   nodeControls() {
     return (
@@ -60,6 +61,12 @@ export default createClass({
     return (
       <div className='controls-section'>
         <h2 className='controls-heading'>Edge</h2>
+        <label className='controls-label'>Width</label>
+        <NumberInput
+          attribute='width'
+          value={this.getAttribute('width')}
+          setAttribute={this.setAttribute}
+        />
         <div className='controls-buttons'>
           <button onClick={this.props.removeElement}>Remove Edge</button>
         </div>

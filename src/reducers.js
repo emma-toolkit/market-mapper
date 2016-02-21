@@ -64,8 +64,8 @@ export default combineReducers({
       state.set('connecting', false),
     [actions.ADD_EDGE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
-    [actions.SET_NODE_ATTRIBUTE]: (state, action) => {
-      let record = action.payload.node;
+    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
+      let record = action.payload.element;
       record = record.set(action.payload.attribute, action.payload.value);
       return state.merge({
         last_redraw: action.payload.last_redraw,
@@ -134,12 +134,14 @@ function nodeHandlers(nodetype) {
     }
     return state;
   };
-  handlers[actions.SET_NODE_ATTRIBUTE] = (state, action) => {
-    const node = action.payload.node;
-    if (node.nodetype === nodetype) {
-      let record = state.get(node.id);
-      record = record.set(action.payload.attribute, action.payload.value);
-      state = state.set(node.id, record);
+  handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
+    if (action.payload.element.type === 'nodes') {
+      const node = action.payload.element;
+      if (node.nodetype === nodetype) {
+        let record = state.get(node.id);
+        record = record.set(action.payload.attribute, action.payload.value);
+        state = state.set(node.id, record);
+      }
     }
     return state;
   };
@@ -172,6 +174,17 @@ function edgeHandlers(nodetype) {
         to: action.payload.to_id
       });
       state = state.set(id, edge);
+    }
+    return state;
+  };
+  handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
+    if (action.payload.element.type === 'edges') {
+      const edge = action.payload.element;
+      if (edge.nodetype === nodetype) {
+        let record = state.get(edge.id);
+        record = record.set(action.payload.attribute, action.payload.value);
+        state = state.set(edge.id, record);
+      }
     }
     return state;
   };

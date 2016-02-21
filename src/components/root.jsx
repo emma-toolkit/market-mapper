@@ -36,8 +36,8 @@ const App = connect(
       addEdge(nodetype, from_id, to_id) {
         dispatch(creators.addEdge(nodetype, from_id, to_id));
       },
-      setNodeAttribute(node, attribute, value) {
-        dispatch(creators.setNodeAttribute(node, attribute, value));
+      setElementAttribute(element, attribute, value) {
+        dispatch(creators.setElementAttribute(element, attribute, value));
       },
       setGraphAttribute(attribute, value) {
         dispatch(creators.setGraphAttribute(attribute, value));
@@ -89,8 +89,8 @@ const App = connect(
       this.getRecordFromElement(selected)
     );
   },
-  setNodeAttribute(attribute, value) {
-    this.props.setNodeAttribute(this.getSelected(), attribute, value);
+  setElementAttribute(attribute, value) {
+    this.props.setElementAttribute(this.getSelected(), attribute, value);
   },
   getSelected() {
     return this.getAppProp('selected');
@@ -180,7 +180,7 @@ const App = connect(
           exportCSV={this.exportCSV}
           toggleControls={this.toggleControls}
           removeElement={this.removeElement}
-          setNodeAttribute={this.setNodeAttribute}
+          setElementAttribute={this.setElementAttribute}
         />
       </div>
     );

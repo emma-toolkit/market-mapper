@@ -2,9 +2,6 @@ import React from 'react'
 const createClass = React.createClass;
 
 export default createClass({
-  getDefaultProps() {
-    return {is_textarea: false};
-  },
   getInitialState() {return {
     value: this.props.value,
     last_value: this.props.value
@@ -29,39 +26,20 @@ export default createClass({
   },
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      if (!this.props.is_textarea) {
-        e.target.blur();
-        this.setValue(this.state.value);
-      } else if (e.shiftKey) {
-        e.preventDefault();
-        e.target.blur();
-        this.setValue(this.state.value);
-      }
+      e.preventDefault();
+      e.target.blur();
+      this.setValue(this.state.value);
     }
   },
-  renderTextInput() {
+  render() {
     return (
       <input
-        type='text'
+        type='number'
         className='controls-input'
         value={this.state.value}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
       />
     );
-  },
-  renderTextArea() {
-    return (
-      <textarea
-        className='controls-input'
-        value={this.state.value}
-        onChange={this.handleChange}
-        onKeyPress={this.handleKeyPress}
-      />
-    );
-  },
-  render() {
-    return this.props.is_textarea ?
-      this.renderTextArea() : this.renderTextInput();
   }
 });

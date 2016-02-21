@@ -22,7 +22,7 @@ export default class Graph extends React.Component {
       next_props.state.getIn(['app', 'selected']) === null &&
       this.props.state.getIn(['app', 'selected']) !== null
     ) {
-      this.graph.nodes(':selected').deselect();
+      this.graph.elements(':selected').deselect();
     }
     
     if (
@@ -175,8 +175,8 @@ export default class Graph extends React.Component {
     });
 
     const selected = this.props.getSelected();
-    if (selected !== null && this.graph.nodes(':selected').length === 0) {
-      this.graph.nodes(`#${selected.id}`).select();
+    if (selected !== null && this.graph.elements(':selected').length === 0) {
+      this.graph.elements(`#${selected.id}`).select();
     }
   }
 
@@ -314,7 +314,10 @@ export default class Graph extends React.Component {
     return {
       group: 'edges',
       data,
-      classes: nodetype
+      classes: nodetype,
+      style: {
+        width: `${record.width}px`
+      }
     };
   }
 
