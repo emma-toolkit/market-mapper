@@ -112,23 +112,22 @@ const App = connect(
     return this.props.state.getIn([data.type, data.nodetype, data.id]);
   },
   handleMouseUp() {
-    if (this.getConnecting()) {
-      const in_handle = this.getInHandle();
-
-      if (in_handle) {
-        const out_handle = this.getOutHandle();
-        this.props.endConnecting();
-        this.props.clearOutHandle();
-        this.props.clearInHandle();
-        this.props.addEdge(
-          out_handle.nodetype,
-          out_handle.id,
-          in_handle.id
-        );
-      } else {
-        this.props.endConnecting();
-        this.props.clearOutHandle();
-      }
+    if (!this.getConnecting()) return;
+    
+    const in_handle = this.getInHandle();
+    if (in_handle) {
+      const out_handle = this.getOutHandle();
+      this.props.endConnecting();
+      this.props.clearOutHandle();
+      this.props.clearInHandle();
+      this.props.addEdge(
+        out_handle.nodetype,
+        out_handle.id,
+        in_handle.id
+      );
+    } else {
+      this.props.endConnecting();
+      this.props.clearOutHandle();
     }
   },
   render() {

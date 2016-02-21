@@ -1,6 +1,6 @@
 import React from 'react'
 import Cytoscape from 'cytoscape'
-import jQuery from 'jquery'
+import $ from 'jquery'
 import Dagre from 'dagre'
 import Qtip from 'qtip2'
 import CytoscapeDagre from 'cytoscape-dagre'
@@ -10,10 +10,9 @@ import Promise from 'bluebird'
 import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
-CytoscapeQtip(Cytoscape, jQuery);
+CytoscapeQtip(Cytoscape, $);
 
 const [W, H] = [4096, 2160];
-const HANDLE_SIZE = 10;
 
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
@@ -43,7 +42,10 @@ export default class Graph extends React.Component {
     this.one_third = this.refs.div.offsetHeight / 3;
 
     // Destroy existing graph instance
-    if (this.graph !== undefined) this.graph.destroy();
+    if (this.graph !== undefined) {
+      this.graph.destroy();
+      $('.qtip').remove();
+    }
 
     // Push parent nodes
     const elements = [{
@@ -153,8 +155,14 @@ export default class Graph extends React.Component {
 
       node.qtip({
         content: {text: node.data('examples').replace(/\n/g, '<br>')},
-        show: {event: 'mouseover'},
-        hide: {event: 'mouseout'},
+        show: {
+          event: 'mouseover',
+          effect: false
+        },
+        hide: {
+          event: 'mouseout',
+          effect: false
+        },
         style: {
           classes: 'qtip-bootstrap'
         },

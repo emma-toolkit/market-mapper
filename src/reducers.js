@@ -33,7 +33,9 @@ export default combineReducers({
       state.merge({
         last_redraw: action.payload.last_redraw,
         selected: null,
-        handle: null
+        in_handle: null,
+        out_handle: null,
+        connecting: false
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
       state.set('selected', action.payload.element),
