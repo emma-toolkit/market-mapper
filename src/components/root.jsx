@@ -100,9 +100,18 @@ const App = connect(
   getHandle() {
     return this.props.state.getIn(['app', 'handle']);
   },
+  getConnecting() {
+    return this.props.state.getIn(['app', 'connecting']);
+  },
   getRecordFromElement(element) {
     const data = element.data();
     return this.props.state.getIn([data.type, data.nodetype, data.id]);
+  },
+  handleMouseUp() {
+    if (this.getConnecting()) {
+      this.props.endConnecting();
+      this.props.hideHandles();
+    }
   },
   render() {
     const className = this.controlsShown() ?
@@ -110,7 +119,11 @@ const App = connect(
     const title = this.props.state.getIn(['graph', 'title']);
     return (
       <div className={className}>
-        <div id='display' style={{height: window.innerHeight}}>
+        <div
+          id='display'
+          style={{height: window.innerHeight}}
+          onMouseUp={this.handleMouseUp}
+        >
           {title !== null && <h1 id='graph-title'>{title}</h1>}
           <div id='background'>
             <NodeType nodetype='environment' addNode={this.props.addNode} />
@@ -121,7 +134,7 @@ const App = connect(
             handle={this.getHandle()}
             startConnecting={this.props.startConnecting}
             endConnecting={this.props.endConnecting}
-            connecting={this.props.state.getIn(['app', 'connecting'])}
+            connecting={this.getConnecting()}
           />
           <Graph
             state={this.props.state}
@@ -134,6 +147,7 @@ const App = connect(
             // getTargeted={this.getTargeted}
             // addEdge={this.addEdge}
             getHandle={this.getHandle}
+            getConnecting={this.getConnecting}
             showHandle={this.props.showHandle}
             hideHandles={this.props.hideHandles}
           />

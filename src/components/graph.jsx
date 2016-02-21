@@ -130,7 +130,10 @@ export default class Graph extends React.Component {
     });
     this.graph.on('mouseout', 'node', e => {
       // ctx.clearRect(0, 0, edge_canvas.offsetWidth, edge_canvas.offsetHeight);
-      if (this.props.getHandle() !== null) {
+      if (
+        this.props.getHandle() !== null &&
+        !this.props.getConnecting()
+      ) {
         this.props.hideHandles();
       }
       // e.cyTarget.removeClass('hover');
