@@ -1,6 +1,8 @@
 import React from 'react'
 import TextInput from './textinput.jsx'
 import ColorInput from './colorinput.jsx'
+import RadioInput from './radioinput.jsx'
+import config from '../config.json'
 const createClass = React.createClass;
 
 export default createClass({
@@ -40,6 +42,13 @@ export default createClass({
           attribute='examples'
           value={this.getAttribute('examples')}
           setAttribute={this.setAttribute}
+        />
+        <label className='controls-label'>Disruption</label>
+        <RadioInput
+          attribute='disruption'
+          value={this.getAttribute('disruption')}
+          setAttribute={this.setAttribute}
+          options={config.disruptions}
         />
         <div className='controls-buttons'>
           <button onClick={this.props.removeElement}>Remove Node</button>

@@ -9,5 +9,11 @@
     "#b3c6d6",
     "#d5dbc7",
     "#ffccc4"
-  ]
+  ],
+  "disruptions": {
+    "": "None",
+    "partial": "Partial",
+    "major": "Major",
+    "critical": "Critical"
+  }
 }

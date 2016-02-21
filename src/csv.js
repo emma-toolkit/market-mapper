@@ -1,5 +1,6 @@
 import { Map as IMap } from 'immutable'
 import { Node, Edge } from './records'
+import config from './config.json'
 
 export default function(element_map) {
   let state = new IMap({
@@ -14,12 +15,14 @@ export default function(element_map) {
     })
   });
   for (let [id, d] of element_map) {
+    const disruption = d.disruption ?
+      config.disruptions[parseInt(d.disruption)] : '';
     if (d.element === 'node') {
       state = state.setIn(['nodes', d.nodetype, d.id], Node({
         nodetype: d.nodetype,
         id: d.id,
         name: d.name,
-        disruption: parseInt(d.disruption) || 0,
+        disruption,
         x: parseFloat(d.x) || 0,
         y: parseFloat(d.y) || 0
       }));
@@ -32,7 +35,7 @@ export default function(element_map) {
         name: d.name,
         from: from_id,
         to: d.out,
-        disruption: parseInt(d.disruption) || 0
+        disruption
       }));
     }
   }

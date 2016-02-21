@@ -22,7 +22,6 @@ export default createClass({
   getOutHandle() {
     return !this.props.out_handle ? null : (
       <div
-        id='out-handle'
         className='handle'
         onMouseDown={this.handleMouseDown}
         style={{
@@ -35,7 +34,6 @@ export default createClass({
   getInHandle() {
     return !this.props.in_handle ? null : (
       <div
-        id='in-handle'
         className='handle'
         style={{
           top: this.props.in_handle.y,

@@ -288,16 +288,8 @@ export default class Graph extends React.Component {
     const classes = [nodetype];
     const position = record.get('position');
     if (position !== null) classes.push(position);
-    switch (record.get('disruption')) {
-      case 1:
-        classes.push('partial');
-        break;
-      case 2:
-        classes.push('major');
-        break;
-      case 3:
-        classes.push('critical');
-    }
+    const disruption = record.get('disruption');
+    if (disruption !== '') classes.push(disruption);
     const data = record.toObject();
     data.parent = data.nodetype;
     return {

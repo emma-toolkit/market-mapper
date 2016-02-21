@@ -45,8 +45,6 @@ ui_button()
   right 0
   height 100%
   background controls_background
-  label
-    display block
 .label-tip
   margin-left h_space
   color #999
@@ -77,6 +75,7 @@ ui_button()
   text-transform uppercase
   font-size 0.7em
   margin-bottom 2px
+  display block
 .controls-input
   padding 2px 3px 1px
 input.controls-input
@@ -96,6 +95,12 @@ textarea.controls-input
   background #fde6d9
   border input_border
   color body_color
+.controls-radio
+  display inline-block
+  margin-right small_margin
+  input
+    margin-right h_space
+    vertical-align baseline
   
 #swatches
   display inline-block
@@ -166,11 +171,8 @@ textarea.controls-input
   z-index 100
   position absolute
   margin-top -(handle_size / 2)px
+  margin-left -(handle_size / 2)px
   cursor -webkit-grab
-#out-handle
-  margin-left -(handle_size / 2)px
-#in-handle
-  margin-left -(handle_size / 2)px
 #edge-line line
   stroke handle_color
   stroke-width 3
