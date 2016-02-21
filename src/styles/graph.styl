@@ -3,17 +3,28 @@ max_label_width = 150
 selected_color = #f00
 inactive_opacity = 0.4
 
+core
+  active-bg-color white
+  active-bg-opacity 0
+
+node
+edge
+  color #333
+  content data(label)
+  text-wrap wrap
+  overlay-color white
+  overlay-opacity 0
+  &.inactive
+    opacity inactive_opacity
+
 node
   width label
   height label
   background-color white
   border-width 1px
   border-color #666
-  color #333
-  content data(name)
   text-valign center
   text-halign center
-  text-wrap wrap
   text-max-width max_label_width
   padding-top node_padding
   padding-right node_padding
@@ -36,20 +47,19 @@ node
   //   background-color #F69A54
   // &.critical
   //   background-color #F6615F
-  &.inactive
-    opacity inactive_opacity
   &:selected
     border-color selected_color
 
 edge
   line-color gray
   target-arrow-color gray
+  // text-background-color white
+  // text-background-opacity 1
+  // text-background-shape roundrectangle
   &.chain
     target-arrow-shape triangle
   &.infrastructure
     target-arrow-shape circle
-  &.inactive
-    opacity inactive_opacity
   &:selected
     line-color selected_color
     target-arrow-color selected_color

@@ -145,7 +145,7 @@ export default class Graph extends React.Component {
     });
     this.graph.on('click', 'node', e => {
       if (e.cyTarget.isParent()) {
-        e.cy.nodes(':selected').deselect();
+        e.cy.elements(':selected').deselect();
       }
     });
 
@@ -295,6 +295,11 @@ export default class Graph extends React.Component {
     if (disruption !== '') classes.push(disruption);
     const data = record.toObject();
     data.parent = data.nodetype;
+    data.label = record.get('name');
+    const quantities = record.get('quantities');
+    if (quantities) {
+      data.label += "\n\n" + record.get('quantities');
+    }
     return {
       group: 'nodes',
       data,
@@ -318,6 +323,7 @@ export default class Graph extends React.Component {
     data.id = id;
     data.source = data.from;
     data.target = data.to;
+    data.label = record.get('quantities');
     return {
       group: 'edges',
       data,

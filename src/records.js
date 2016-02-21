@@ -5,11 +5,12 @@ export const Node = Record({
   nodetype: '',
   id: '',
   name: '',
-  examples: '',
   disruption: '',
   x: 0,
   y: 0,
   color: '#ffffff',
+  examples: '',
+  quantities: '',
   active: true
 });
 
@@ -22,5 +23,6 @@ export const Edge = Record({
   from: null,
   to: null,
   width: 1,
+  quantities: '',
   active: true
 });

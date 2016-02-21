@@ -36,6 +36,16 @@ export default createClass({
           setAttribute={this.setAttribute}
         />
         <label className='controls-label'>
+          Quantities
+          <span className='label-tip'>shift+enter to submit</span>
+        </label>
+        <TextInput
+          is_textarea={true}
+          attribute='quantities'
+          value={this.getAttribute('quantities')}
+          setAttribute={this.setAttribute}
+        />
+        <label className='controls-label'>
           Examples
           <span className='label-tip'>shift+enter to submit</span>
         </label>
@@ -72,6 +82,16 @@ export default createClass({
         <NumberInput
           attribute='width'
           value={this.getAttribute('width')}
+          setAttribute={this.setAttribute}
+        />
+        <label className='controls-label'>
+          Quantities
+          <span className='label-tip'>shift+enter to submit</span>
+        </label>
+        <TextInput
+          is_textarea={true}
+          attribute='quantities'
+          value={this.getAttribute('quantities')}
           setAttribute={this.setAttribute}
         />
         <label className='controls-label'>Active</label>
