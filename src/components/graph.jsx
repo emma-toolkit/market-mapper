@@ -88,58 +88,42 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
 
-    // const edge_canvas = document.createElement('CANVAS');
-    // edge_canvas.id = 'edge-canvas';
-    // edge_canvas.width = this.refs.div.offsetWidth;
-    // edge_canvas.height = this.refs.div.offsetHeight;
-    // this.refs.div.appendChild(edge_canvas);
-    // const ctx = edge_canvas.getContext('2d');
-    // ctx.fillStyle = 'rgb(255,0,0)';
-
     this.graph.on('mouseover', 'node', e => {
-      // const selected = this.props.getSelected();
       const hovered = e.cyTarget;
-      // const data = hovered.data();
+      const nodetype = hovered.data('nodetype');
+      if (hovered.isParent() || nodetype === 'environment') return;
+
+      const connecting = this.props.getConnecting();
+      if (connecting && nodetype === 'infrastructure') return;
+
       const position = hovered.renderedPosition();
       const bounding_box = hovered.renderedBoundingBox();
-      if (
-        !hovered.isParent() &&
-        hovered.data('nodetype') !== 'environment'
-      ) {
-        // ctx.fillRect(
-        //   position.x - HANDLE_SIZE / 2 + bounding_box.w / 2 - 1,
-        //   position.y - HANDLE_SIZE / 2,
-        //   HANDLE_SIZE,
-        //   HANDLE_SIZE
-        // );
-        this.props.showHandle(
+      if (connecting) {
+        this.props.setInHandle(
+          hovered.id(),
+          position.x - bounding_box.w / 2,
+          position.y
+        );
+      } else {
+        this.props.setOutHandle(
+          nodetype,
+          hovered.id(),
           position.x + bounding_box.w / 2,
           position.y
         );
-        // if (
-        //   selected !== null &&
-        //   selected.get('nodetype') !== 'environment' &&
-        //   data.id !== selected.id &&
-        //   data.nodetype !== 'environment' &&
-        //   data.nodetype !== 'infrastructure'
-        // ) {
-        //   e.cyTarget.addClass('hover');
-        //   this.props.targetNode(e.cyTarget);
-        // }
       }
     });
     this.graph.on('mouseout', 'node', e => {
-      // ctx.clearRect(0, 0, edge_canvas.offsetWidth, edge_canvas.offsetHeight);
       if (
-        this.props.getHandle() !== null &&
+        this.props.getOutHandle() !== null &&
         !this.props.getConnecting()
       ) {
-        this.props.hideHandles();
+        this.props.clearOutHandle();
       }
-      // e.cyTarget.removeClass('hover');
-      // if (this.props.getTargeted() !== null) {
-      //   this.props.untargetNode();
-      // }
+
+      if (this.props.getInHandle() !== null) {
+        this.props.clearInHandle();
+      }
     });
     this.graph.on('grab', 'node', () => {
       this.refs.div.classList.add('grabbed')
@@ -161,14 +145,6 @@ export default class Graph extends React.Component {
       if (e.cyTarget.isParent()) {
         e.cy.nodes(':selected').deselect();
       }
-
-    //   const targeted = this.props.getTargeted();
-    //   if (
-    //     targeted !== null &&
-    //     e.cyTarget.data().id === targeted.id
-    //   ) {
-    //     this.props.addEdge();
-    //   }
     });
 
     this.graph.nodes().nonorphans().forEach(node => {

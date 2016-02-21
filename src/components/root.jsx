@@ -25,13 +25,17 @@ const App = connect(
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
       deselectElement() {dispatch(creators.deselectElement())},
-      showHandle(x, y) {dispatch(creators.showHandle(x, y))},
-      hideHandles() {dispatch(creators.hideHandles())},
+      setOutHandle(nodetype, id, x, y) {
+        dispatch(creators.setOutHandle(nodetype, id, x, y))
+      },
+      setInHandle(id, x, y) {dispatch(creators.setInHandle(id, x, y))},
+      clearOutHandle() {dispatch(creators.clearOutHandle())},
+      clearInHandle() {dispatch(creators.clearInHandle())},
       startConnecting() {dispatch(creators.startConnecting())},
       endConnecting() {dispatch(creators.endConnecting())},
-      // targetNode(node) {dispatch(creators.targetNode(node))},
-      // untargetNode() {dispatch(creators.untargetNode())},
-      // addEdge(from, to) {dispatch(creators.addEdge(from, to))},
+      addEdge(nodetype, from_id, to_id) {
+        dispatch(creators.addEdge(nodetype, from_id, to_id));
+      },
       setNodeAttribute(node, attribute, value) {
         dispatch(creators.setNodeAttribute(node, attribute, value));
       },
@@ -44,7 +48,12 @@ const App = connect(
    }
   }
 )(createClass({
-  controlsShown() {return this.props.state.getIn(['app', 'show_controls'])},
+  getAppProp(prop) {
+    return this.props.state.getIn(['app', prop]);
+  },
+  controlsShown() {
+    return this.getAppProp('show_controls');
+  },
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
     window.onkeydown = e => {
@@ -80,28 +89,23 @@ const App = connect(
       this.getRecordFromElement(selected)
     );
   },
-  // targetNode(targeted) {
-  //   this.props.targetNode(
-  //     this.getRecordFromElement(targeted)
-  //   );
-  // },
-  // addEdge() {
-  //   this.props.addEdge(this.getSelected(), this.getTargeted());
-  // },
   setNodeAttribute(attribute, value) {
     this.props.setNodeAttribute(this.getSelected(), attribute, value);
   },
   getSelected() {
-    return this.props.state.getIn(['app', 'selected']);
+    return this.getAppProp('selected');
   },
-  // getTargeted() {
-  //   return this.props.state.getIn(['app', 'targeted']);
-  // },
-  getHandle() {
-    return this.props.state.getIn(['app', 'handle']);
+  getInHandle() {
+    return this.getAppProp('in_handle');
+  },
+  getOutHandle() {
+    return this.getAppProp('out_handle');
+  },
+  getInHandle() {
+    return this.getAppProp('in_handle');
   },
   getConnecting() {
-    return this.props.state.getIn(['app', 'connecting']);
+    return this.getAppProp('connecting');
   },
   getRecordFromElement(element) {
     const data = element.data();
@@ -109,8 +113,22 @@ const App = connect(
   },
   handleMouseUp() {
     if (this.getConnecting()) {
-      this.props.endConnecting();
-      this.props.hideHandles();
+      const in_handle = this.getInHandle();
+
+      if (in_handle) {
+        const out_handle = this.getOutHandle();
+        this.props.endConnecting();
+        this.props.clearOutHandle();
+        this.props.clearInHandle();
+        this.props.addEdge(
+          out_handle.nodetype,
+          out_handle.id,
+          in_handle.id
+        );
+      } else {
+        this.props.endConnecting();
+        this.props.clearOutHandle();
+      }
     }
   },
   render() {
@@ -131,7 +149,8 @@ const App = connect(
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
           <Edges
-            handle={this.getHandle()}
+            out_handle={this.getOutHandle()}
+            in_handle={this.getInHandle()}
             startConnecting={this.props.startConnecting}
             endConnecting={this.props.endConnecting}
             connecting={this.getConnecting()}
@@ -141,15 +160,14 @@ const App = connect(
             layoutDone={this.props.layoutDone}
             selectElement={this.selectElement}
             deselectElement={this.props.deselectElement}
-            // targetNode={this.targetNode}
-            // untargetNode={this.props.untargetNode}
             getSelected={this.getSelected}
-            // getTargeted={this.getTargeted}
-            // addEdge={this.addEdge}
-            getHandle={this.getHandle}
+            getOutHandle={this.getOutHandle}
+            getInHandle={this.getInHandle}
             getConnecting={this.getConnecting}
-            showHandle={this.props.showHandle}
-            hideHandles={this.props.hideHandles}
+            setOutHandle={this.props.setOutHandle}
+            setInHandle={this.props.setInHandle}
+            clearOutHandle={this.props.clearOutHandle}
+            clearInHandle={this.props.clearInHandle}
           />
         </div>
         <Controls

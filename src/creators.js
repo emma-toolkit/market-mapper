@@ -85,13 +85,22 @@ const deselectElement = createAction(
   actions.DESELECT_ELEMENT
 );
 
-const showHandle = createAction(
-  actions.SHOW_HANDLE,
-  (x, y) => {return {x, y}}
+const setInHandle = createAction(
+  actions.SET_IN_HANDLE,
+  (id, x, y) => {return {id, x, y}}
 );
 
-const hideHandles = createAction(
-  actions.HIDE_HANDLES
+const setOutHandle = createAction(
+  actions.SET_OUT_HANDLE,
+  (nodetype, id, x, y) => {return {nodetype, id, x, y}}
+);
+
+const clearInHandle = createAction(
+  actions.CLEAR_IN_HANDLE
+);
+
+const clearOutHandle = createAction(
+  actions.CLEAR_OUT_HANDLE
 );
 
 const startConnecting = createAction(
@@ -102,26 +111,18 @@ const endConnecting = createAction(
   actions.END_CONNECTING
 );
 
-// const targetNode = createAction(
-//   actions.TARGET_NODE,
-//   node => {return {node}}
-// );
-
-// const untargetNode = createAction(
-//   actions.UNTARGET_NODE
-// );
-
-// const addEdge = createAction(
-//   actions.ADD_EDGE,
-//   (from, to) => {
-//     return {
-//       from,
-//       to,
-//       last_redraw: Date.now()
-//     };
-//   },
-//   persistGraph
-// );
+const addEdge = createAction(
+  actions.ADD_EDGE,
+  (nodetype, from_id, to_id) => {
+    return {
+      nodetype,
+      from_id,
+      to_id,
+      last_redraw: Date.now()
+    }
+  },
+  persistGraph
+);
 
 const setNodeAttribute = createAction(
   actions.SET_NODE_ATTRIBUTE,
@@ -191,13 +192,13 @@ export default {
   removeElement,
   selectElement,
   deselectElement,
-  showHandle,
-  hideHandles,
+  setInHandle,
+  setOutHandle,
+  clearInHandle,
+  clearOutHandle,
   startConnecting,
   endConnecting,
-  // targetNode,
-  // untargetNode,
-  // addEdge,
+  addEdge,
   setNodeAttribute,
   setGraphAttribute,
   loadLocal,

@@ -7,36 +7,52 @@ export default createClass({
     return {x: 0, y: 0};
   },
   componentDidUpdate() {
-    const onMouseMove = this.props.connecting ?
+    const onMouseMove = this.props.connecting && !this.props.in_handle ?
       throttle(e => this.setState({x: e.clientX, y: e.clientY})) :
       null;
     window.onmousemove = onMouseMove;
   },
   handleMouseDown() {
-    this.setState({x: this.props.handle.x, y: this.props.handle.y});
+    this.setState({x: this.props.out_handle.x, y: this.props.out_handle.y});
     this.props.startConnecting();
   },
-  getHandle() {
-    return !this.props.handle ? null : (
+  getEndPos() {
+    return this.props.in_handle || this.state;
+  },
+  getOutHandle() {
+    return !this.props.out_handle ? null : (
       <div
-        id='handle'
+        id='out-handle'
+        className='handle'
         onMouseDown={this.handleMouseDown}
         style={{
-          top: this.props.handle.y,
-          left: this.props.handle.x
+          top: this.props.out_handle.y,
+          left: this.props.out_handle.x
+        }}
+      />
+    );
+  },
+  getInHandle() {
+    return !this.props.in_handle ? null : (
+      <div
+        id='in-handle'
+        className='handle'
+        style={{
+          top: this.props.in_handle.y,
+          left: this.props.in_handle.x
         }}
       />
     );
   },
   getLine() {
-    // console.log(this.props.connecting);
+    const end_pos = this.getEndPos();
     return !this.props.connecting ? null : (
       <svg id='edge-line'>
         <line
-          x1={this.props.handle.x}
-          y1={this.props.handle.y}
-          x2={this.state.x}
-          y2={this.state.y}
+          x1={this.props.out_handle.x}
+          y1={this.props.out_handle.y}
+          x2={end_pos.x}
+          y2={end_pos.y}
         />
       </svg>
     );
@@ -44,7 +60,8 @@ export default createClass({
   render() {
     return (
       <div id='edges'>
-        {this.getHandle()}
+        {this.getOutHandle()}
+        {this.getInHandle()}
         {this.getLine()}
       </div>
     );

@@ -10,9 +10,9 @@ export default combineReducers({
     last_layout: null,
     show_controls: true,
     selected: null,
-    handle: null,
+    in_handle: null,
+    out_handle: null,
     connecting: false
-    // targeted: null
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -34,32 +34,34 @@ export default combineReducers({
         last_redraw: action.payload.last_redraw,
         selected: null,
         handle: null
-        // targeted: null
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
-      state.merge({
-        selected: action.payload.element,
-        // targeted: null
-      }),
+      state.set('selected', action.payload.element),
     [actions.DESELECT_ELEMENT]: (state, action) =>
-      state.merge({
-        selected: null,
-        // targeted: null
+      state.set('selected', null),
+    [actions.SET_IN_HANDLE]: (state, action) =>
+      state.set('in_handle', {
+        id: action.payload.id,
+        x: action.payload.x,
+        y: action.payload.y
       }),
-    [actions.SHOW_HANDLE]: (state, action) =>
-      state.set('handle', {x: action.payload.x, y: action.payload.y}),
-    [actions.HIDE_HANDLES]: (state, action) =>
-      state.set('handle', null),
+    [actions.SET_OUT_HANDLE]: (state, action) =>
+      state.set('out_handle', {
+        nodetype: action.payload.nodetype,
+        id: action.payload.id,
+        x: action.payload.x,
+        y: action.payload.y
+      }),
+    [actions.CLEAR_IN_HANDLE]: (state, action) =>
+      state.set('in_handle', null),
+    [actions.CLEAR_OUT_HANDLE]: (state, action) =>
+      state.set('out_handle', null),
     [actions.START_CONNECTING]: (state, action) =>
       state.set('connecting', true),
     [actions.END_CONNECTING]: (state, action) =>
       state.set('connecting', false),
-    // [actions.TARGET_NODE]: (state, action) =>
-    //   state.set('targeted', action.payload.node),
-    // [actions.UNTARGET_NODE]: (state, action) =>
-    //   state.set('targeted', null),
-    // [actions.ADD_EDGE]: (state, action) =>
-    //   state.set('last_redraw', action.payload.last_redraw),
+    [actions.ADD_EDGE]: (state, action) =>
+      state.set('last_redraw', action.payload.last_redraw),
     [actions.SET_NODE_ATTRIBUTE]: (state, action) => {
       let record = action.payload.node;
       record = record.set(action.payload.attribute, action.payload.value);
@@ -158,20 +160,19 @@ function edgeHandlers(nodetype) {
     }
     return state;
   };
-  // handlers[actions.ADD_EDGE] = (state, action) => {
-  //   const from = action.payload.from;
-  //   if (from.nodetype === nodetype) {
-  //     const id = ShortID.generate();
-  //     const edge = Edge({
-  //       nodetype,
-  //       id,
-  //       from: from.id,
-  //       to: action.payload.to.id
-  //     });
-  //     state = state.set(id, edge);
-  //   }
-  //   return state;
-  // };
+  handlers[actions.ADD_EDGE] = (state, action) => {
+    if (action.payload.nodetype === nodetype) {
+      const id = ShortID.generate();
+      const edge = Edge({
+        nodetype,
+        id,
+        from: action.payload.from_id,
+        to: action.payload.to_id
+      });
+      state = state.set(id, edge);
+    }
+    return state;
+  };
   return handlers;
 }
 
