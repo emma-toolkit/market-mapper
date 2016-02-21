@@ -10,7 +10,8 @@ export default combineReducers({
     last_layout: null,
     show_controls: true,
     selected: null,
-    handle: null
+    handle: null,
+    connecting: false
     // targeted: null
   }), {
     [actions.LOAD_DONE]: (state, action) => {
@@ -32,6 +33,7 @@ export default combineReducers({
       state.merge({
         last_redraw: action.payload.last_redraw,
         selected: null,
+        handle: null
         // targeted: null
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
@@ -48,6 +50,10 @@ export default combineReducers({
       state.set('handle', {x: action.payload.x, y: action.payload.y}),
     [actions.HIDE_HANDLES]: (state, action) =>
       state.set('handle', null),
+    [actions.START_CONNECTING]: (state, action) =>
+      state.set('connecting', true),
+    [actions.END_CONNECTING]: (state, action) =>
+      state.set('connecting', false),
     // [actions.TARGET_NODE]: (state, action) =>
     //   state.set('targeted', action.payload.node),
     // [actions.UNTARGET_NODE]: (state, action) =>

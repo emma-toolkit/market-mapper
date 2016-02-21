@@ -153,7 +153,7 @@ textarea.controls-input
 .qtip-bootstrap
   font-family sans-serif
 
-#edges
+#edges, #edge-line
   position absolute
   top 0
   left 0
@@ -168,6 +168,10 @@ textarea.controls-input
   margin-top -(handle_size / 2)px
   margin-left -(handle_size / 2)px
   cursor -webkit-grab
+#edge-line line
+  stroke handle_color
+  stroke-width 3
+  stroke-dasharray 8,4
 
 #toggle-controls
   ui_button()

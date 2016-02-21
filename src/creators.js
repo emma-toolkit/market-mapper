@@ -94,6 +94,14 @@ const hideHandles = createAction(
   actions.HIDE_HANDLES
 );
 
+const startConnecting = createAction(
+  actions.START_CONNECTING
+);
+
+const endConnecting = createAction(
+  actions.END_CONNECTING
+);
+
 // const targetNode = createAction(
 //   actions.TARGET_NODE,
 //   node => {return {node}}
@@ -185,6 +193,8 @@ export default {
   deselectElement,
   showHandle,
   hideHandles,
+  startConnecting,
+  endConnecting,
   // targetNode,
   // untargetNode,
   // addEdge,

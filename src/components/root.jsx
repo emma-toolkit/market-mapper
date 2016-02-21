@@ -27,6 +27,8 @@ const App = connect(
       deselectElement() {dispatch(creators.deselectElement())},
       showHandle(x, y) {dispatch(creators.showHandle(x, y))},
       hideHandles() {dispatch(creators.hideHandles())},
+      startConnecting() {dispatch(creators.startConnecting())},
+      endConnecting() {dispatch(creators.endConnecting())},
       // targetNode(node) {dispatch(creators.targetNode(node))},
       // untargetNode() {dispatch(creators.untargetNode())},
       // addEdge(from, to) {dispatch(creators.addEdge(from, to))},
@@ -115,7 +117,12 @@ const App = connect(
             <NodeType nodetype='chain' addNode={this.props.addNode} />
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
-          <Edges handle={this.getHandle()} />
+          <Edges
+            handle={this.getHandle()}
+            startConnecting={this.props.startConnecting}
+            endConnecting={this.props.endConnecting}
+            connecting={this.props.state.getIn(['app', 'connecting'])}
+          />
           <Graph
             state={this.props.state}
             layoutDone={this.props.layoutDone}

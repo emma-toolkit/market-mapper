@@ -19,15 +19,22 @@ export default class Graph extends React.Component {
   constructor(props) {super(props)}
 
   shouldComponentUpdate(next_props) {
-    if (next_props.state.getIn(['app', 'last_layout']) !==
-      this.props.state.getIn(['app', 'last_layout'])) {
+    if (
+      next_props.state.getIn(['app', 'selected']) === null &&
+      this.props.state.getIn(['app', 'selected']) !== null
+    ) {
+      this.graph.nodes(':selected').deselect();
+    }
+    
+    if (
+      next_props.state.getIn(['app', 'last_layout']) !==
+      this.props.state.getIn(['app', 'last_layout'])
+    ) {
       this.doLayout();
     }
+
     return next_props.state.getIn(['app', 'last_redraw']) !==
-      this.props.state.getIn(['app', 'last_redraw'])/* || (
-        next_props.state.getIn(['app', 'selected']) === null &&
-        this.props.state.getIn(['app', 'selected']) !== null
-      )*/;
+      this.props.state.getIn(['app', 'last_redraw']);
   }
 
   componentDidUpdate() {
@@ -147,11 +154,10 @@ export default class Graph extends React.Component {
     this.graph.on('unselect', 'node', e => {
       this.props.deselectElement()
     });
-    // this.graph.on('click', 'node', e => {
-    //   if (e.cyTarget.isParent()) {
-    //     e.cy.nodes(':selected').deselect();
-    //     return;
-    //   }
+    this.graph.on('click', 'node', e => {
+      if (e.cyTarget.isParent()) {
+        e.cy.nodes(':selected').deselect();
+      }
 
     //   const targeted = this.props.getTargeted();
     //   if (
@@ -160,7 +166,7 @@ export default class Graph extends React.Component {
     //   ) {
     //     this.props.addEdge();
     //   }
-    // });
+    });
 
     this.graph.nodes().nonorphans().forEach(node => {
       const examples = node.data('examples');
