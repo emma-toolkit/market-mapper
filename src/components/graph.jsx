@@ -286,6 +286,9 @@ export default class Graph extends React.Component {
 
   convertNode(record, id, nodetype, self) {
     const classes = [nodetype];
+    if (!record.get('active')) {
+      classes.push('inactive');
+    }
     const position = record.get('position');
     if (position !== null) classes.push(position);
     const disruption = record.get('disruption');
@@ -307,6 +310,10 @@ export default class Graph extends React.Component {
   }
 
   convertEdge(record, id, nodetype) {
+    const classes = [nodetype];
+    if (!record.get('active')) {
+      classes.push('inactive');
+    }
     const data = record.toObject();
     data.id = id;
     data.source = data.from;
@@ -314,10 +321,10 @@ export default class Graph extends React.Component {
     return {
       group: 'edges',
       data,
-      classes: nodetype,
       style: {
         width: `${record.width}px`
-      }
+      },
+      classes: classes.join(' ')
     };
   }
 

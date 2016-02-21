@@ -9,7 +9,8 @@ export const Node = Record({
   disruption: '',
   x: 0,
   y: 0,
-  color: '#ffffff'
+  color: '#ffffff',
+  active: true
 });
 
 export const Edge = Record({
@@ -20,5 +21,6 @@ export const Edge = Record({
   disruption: '',
   from: null,
   to: null,
-  width: 1
+  width: 1,
+  active: true
 });

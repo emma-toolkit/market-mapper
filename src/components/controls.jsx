@@ -3,6 +3,7 @@ import TextInput from './textinput.jsx'
 import ColorInput from './colorinput.jsx'
 import RadioInput from './radioinput.jsx'
 import NumberInput from './numberinput.jsx'
+import CheckBoxInput from './checkboxinput.jsx'
 import config from '../config.json'
 const createClass = React.createClass;
 
@@ -51,6 +52,12 @@ export default createClass({
           setAttribute={this.setAttribute}
           options={config.disruptions}
         />
+        <label className='controls-label'>Active</label>
+        <CheckBoxInput
+          attribute='active'
+          value={this.getAttribute('active')}
+          setAttribute={this.setAttribute}
+        />
         <div className='controls-buttons'>
           <button onClick={this.props.removeElement}>Remove Node</button>
         </div>
@@ -65,6 +72,12 @@ export default createClass({
         <NumberInput
           attribute='width'
           value={this.getAttribute('width')}
+          setAttribute={this.setAttribute}
+        />
+        <label className='controls-label'>Active</label>
+        <CheckBoxInput
+          attribute='active'
+          value={this.getAttribute('active')}
           setAttribute={this.setAttribute}
         />
         <div className='controls-buttons'>
