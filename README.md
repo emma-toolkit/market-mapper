@@ -1,5 +1,7 @@
 # EMMA Toolkit
 
+[![Circle CI](https://circleci.com/gh/theoephraim/emma-toolkit.svg?style=svg)](https://circleci.com/gh/theoephraim/emma-toolkit)
+
 Sample data can be loaded from `dev/data`.
 
 - `npm run dev`
