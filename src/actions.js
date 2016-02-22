@@ -4,7 +4,6 @@ const actions = [
   'LAYOUT_DONE',
   'REDRAW',
   'CLEAR',
-  'EXPORT_DONE',
   'TOGGLE_CONTROLS',
   'ADD_NODE',
   'REMOVE_ELEMENT',
@@ -18,7 +17,8 @@ const actions = [
   'START_CONNECTING',
   'END_CONNECTING',
   'SET_ELEMENT_ATTRIBUTE',
-  'SET_GRAPH_ATTRIBUTE'
+  'SET_GRAPH_ATTRIBUTE',
+  'EXPORT_JSON'
 ];
 
 export default actions.reduce((prev, cur) => {

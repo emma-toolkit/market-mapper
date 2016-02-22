@@ -9,7 +9,6 @@ const entry = {
     'cytoscape',
     'cytoscape-dagre',
     'dagre',
-    'fast-csv',
     'immutable',
     'jquery',
     'localforage',

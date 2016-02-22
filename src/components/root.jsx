@@ -44,7 +44,7 @@ const App = connect(
       },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
-      exportCSV(state) {dispatch(creators.exportCSV(state))}
+      exportJSON(state) {dispatch(creators.exportJSON(state))}
    }
   }
 )(createClass({
@@ -72,8 +72,8 @@ const App = connect(
     };
     this.props.loadLocal(this.props.state);
   },
-  exportCSV() {
-    this.props.exportCSV(this.props.state);
+  exportJSON() {
+    this.props.exportJSON(this.props.state);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
   removeElement() {
@@ -179,7 +179,7 @@ const App = connect(
           loadCSV={this.props.loadCSV}
           doLayout={this.props.doLayout}
           clear={this.props.clear}
-          exportCSV={this.exportCSV}
+          exportJSON={this.exportJSON}
           toggleControls={this.toggleControls}
           removeElement={this.removeElement}
           setElementAttribute={this.setElementAttribute}

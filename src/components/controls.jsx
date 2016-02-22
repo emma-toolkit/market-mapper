@@ -121,7 +121,7 @@ export default createClass({
           <button onClick={this.props.clear}>Clear Graph</button>
         </div>
         <div className='controls-buttons'>
-          <button onClick={this.props.exportCSV}>Export</button>
+          <button onClick={this.props.exportJSON}>Export</button>
           <input type='file' name='csv' onChange={this.props.loadCSV} />
         </div>
       </div>

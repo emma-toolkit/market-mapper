@@ -19,7 +19,7 @@ export default createClass({
     }
   },
   setValue(value) {
-    this.props.setAttribute(this.props.attribute, this.state.value);
+    this.props.setAttribute(this.props.attribute, parseInt(this.state.value));
   },
   handleChange(e) {
     this.setState({value: e.target.value})

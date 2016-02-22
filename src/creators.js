@@ -1,11 +1,8 @@
 import { createAction } from 'redux-actions'
 import Promise from 'bluebird'
-import FastCSV from 'fast-csv'
 import local from './localforage'
 import actions from './actions'
-import csv from './csv'
 
-const writeToString = Promise.promisify(FastCSV.writeToString);
 const reader = new FileReader();
 
 // Synchronous
@@ -40,8 +37,6 @@ const clear = createAction(
   () => {return {last_layout: Date.now()}},
   persistGraph
 );
-
-const exportDone = createAction(actions.EXPORT_DONE);
 
 const toggleControls = createAction(
   actions.TOGGLE_CONTROLS,
@@ -143,41 +138,50 @@ const setGraphAttribute = createAction(
   persistGraph
 );
 
+const exportJSON = createAction(
+  actions.EXPORT_JSON,
+  (state) => {
+    const title = state.getIn(['graph', 'title']);
+    const data = {
+      title,
+      nodes: [],
+      edges: []
+    };
+    jsonAddNodes('environment', data, state);
+    jsonAddNodes('chain', data, state);
+    jsonAddNodes('infrastructure', data, state);
+    jsonAddEdges('chain', data, state);
+    jsonAddEdges('infrastructure', data, state);
+
+    let filename = title ? `${title} ` : '';
+    filename += `${new Date().toISOString()}.json`;
+    const json = JSON.stringify(data, null, 2);
+    const a = document.createElement('A');
+    a.href = `data:application/octet-stream;charset=utf-8,${escape(json)}`;
+    a.download = filename;
+    a.click();
+    return;
+  }
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
   .then((next_state) => loadDone({state: next_state}));
 
-const loadCSV = files => {
-  reader.readAsText(files.item(0));
-  return new Promise(resolve =>
-    reader.onload = e => resolve(e.target.result)
-  ).then(str => {
-    const element_map = new Map();
-    const parser = FastCSV.fromString(str, {headers: true});
-    parser.on('data', (d) => element_map.set(d.id, d));
-    return new Promise(resolve => {
-      parser.on('end', () => resolve({state: csv(element_map)}));
-    });
-  }).then(loadDone);
-};
-
-const exportCSV = (state) => {
-  const data = [];
-  csvAddNodes('environment', data, state);
-  csvAddNodes('chain', data, state);
-  csvAddNodes('infrastructure', data, state);
-  csvAddEdges('chain', data, state);
-  csvAddEdges('infrastructure', data, state);
-
-  return writeToString(data, {
-    headers: [
-      'id', 'element', 'nodetype', 'name', 'in', 'out', 'disruption', 'x', 'y'
-    ]
-  }).then(function(str) {
-    window.open(`data:text/csv;charset=utf-8,${escape(str)}`);
-  }).then(exportDone);
-};
+// const loadCSV = files => {
+//   reader.readAsText(files.item(0));
+//   return new Promise(resolve =>
+//     reader.onload = e => resolve(e.target.result)
+//   ).then(str => {
+//     const element_map = new Map();
+//     const parser = FastCSV.fromString(str, {headers: true});
+//     parser.on('data', (d) => element_map.set(d.id, d));
+//     return new Promise(resolve => {
+//       parser.on('end', () => resolve({state: csv(element_map)}));
+//     });
+//   }).then(loadDone);
+// };
 
 // Exports
 
@@ -202,8 +206,8 @@ export default {
   setElementAttribute,
   setGraphAttribute,
   loadLocal,
-  loadCSV,
-  exportCSV
+  // loadCSV,
+  exportJSON
 }
 
 // Functions
@@ -211,29 +215,32 @@ export default {
 function persistApp() {return {persist_app: true}}
 function persistGraph() {return {persist_graph: true}}
 
-function csvAddNodes(nodetype, data, state) {
-  state.getIn(['nodes', nodetype]).forEach((d, id) => {
-    data.push({
-      id: id,
-      type: 'nodes',
-      nodetype: nodetype,
-      name: d.get('name'),
-      disruption: d.get('disruption'),
-      x: d.get('x'),
-      y: d.get('y')
+function jsonAddNodes(nodetype, data, state) {
+  state.getIn(['nodes', nodetype]).forEach(node => {
+    data.nodes.push({
+      id: node.get('id'),
+      nodetype,
+      name: node.get('name'),
+      color: node.get('color'),
+      quantities: node.get('quantities'),
+      examples: node.get('examples'),
+      disruption: node.get('disruption'),
+      x: node.get('x'),
+      y: node.get('y')
     });
   });
 }
 
-function csvAddEdges(nodetype, data, state) {
-  state.getIn(['edges', nodetype]).forEach((d, id) => {
-    data.push({
-      id: id,
-      type: 'edges',
-      name: d.get('name'),
-      from: d.get('from'),
-      to: d.get('to'),
-      disruption: d.get('disruption')
+function jsonAddEdges(nodetype, data, state) {
+  state.getIn(['edges', nodetype]).forEach(edge => {
+    data.edges.push({
+      id: edge.get('id'),
+      nodetype,
+      from: edge.get('from'),
+      to: edge.get('to'),
+      width: edge.get('width'),
+      quantities: edge.get('quantities'),
+      disruption: edge.get('disruption')
     });
   });
 }
