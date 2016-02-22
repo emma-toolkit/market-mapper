@@ -1,5 +1,7 @@
 import { createAction } from 'redux-actions'
 import Promise from 'bluebird'
+import { Map as IMap } from 'immutable'
+import { Node, Edge } from './records'
 import local from './localforage'
 import actions from './actions'
 
@@ -169,19 +171,43 @@ const exportJSON = createAction(
 const loadLocal = state => local.load(state)
   .then((next_state) => loadDone({state: next_state}));
 
-// const loadCSV = files => {
-//   reader.readAsText(files.item(0));
-//   return new Promise(resolve =>
-//     reader.onload = e => resolve(e.target.result)
-//   ).then(str => {
-//     const element_map = new Map();
-//     const parser = FastCSV.fromString(str, {headers: true});
-//     parser.on('data', (d) => element_map.set(d.id, d));
-//     return new Promise(resolve => {
-//       parser.on('end', () => resolve({state: csv(element_map)}));
-//     });
-//   }).then(loadDone);
-// };
+const loadJSON = files => {
+  reader.readAsText(files.item(0));
+  return new Promise(resolve =>
+    reader.onload = e => resolve(e.target.result)
+  ).then(str => {
+    const data = JSON.parse(str);
+    let state = new IMap({
+      graph: new IMap({title: data.title}),
+      nodes: new IMap({
+        environment: new IMap(),
+        chain: new IMap(),
+        infrastructure: new IMap()
+      }),
+      edges: new IMap({
+        chain: new IMap(),
+        infrastructure: new IMap()
+      })
+    });
+
+    for (var i in data.nodes) {
+      const node = Node(data.nodes[i]);
+      state = state.setIn(
+        ['nodes', node.get('nodetype'), node.get('id')],
+        node
+      );
+    }
+    for (var i in data.edges) {
+      const edge = Edge(data.edges[i]);
+      state = state.setIn(
+        ['edges', edge.get('nodetype'), edge.get('id')],
+        edge
+      );
+    }
+
+    return {state};
+  }).then(loadDone);
+};
 
 // Exports
 
@@ -206,7 +232,7 @@ export default {
   setElementAttribute,
   setGraphAttribute,
   loadLocal,
-  // loadCSV,
+  loadJSON,
   exportJSON
 }
 

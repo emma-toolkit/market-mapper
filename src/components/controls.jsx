@@ -122,7 +122,7 @@ export default createClass({
         </div>
         <div className='controls-buttons'>
           <button onClick={this.props.exportJSON}>Export</button>
-          <input type='file' name='csv' onChange={this.props.loadCSV} />
+          <input type='file' name='csv' onChange={this.props.loadJSON} />
         </div>
       </div>
     );

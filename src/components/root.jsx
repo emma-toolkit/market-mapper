@@ -43,7 +43,7 @@ const App = connect(
         dispatch(creators.setGraphAttribute(attribute, value));
       },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
-      loadCSV(e) {dispatch(creators.loadCSV(e.target.files))},
+      loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
       exportJSON(state) {dispatch(creators.exportJSON(state))}
    }
   }
@@ -176,7 +176,7 @@ const App = connect(
           selected={this.getSelected()}
           show_controls={this.controlsShown()}
           setGraphAttribute={this.props.setGraphAttribute}
-          loadCSV={this.props.loadCSV}
+          loadJSON={this.props.loadJSON}
           doLayout={this.props.doLayout}
           clear={this.props.clear}
           exportJSON={this.exportJSON}
