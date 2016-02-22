@@ -1,0 +1,23 @@
+{
+  "layout": {
+    "w": 4096,
+    "h": 2160
+  },
+  "nodetypes": {
+    "environment": "Environment",
+    "chain": "Market Chain",
+    "infrastructure": "Infrastructure"
+  },
+  "colors": [
+    "#ffffff",
+    "#b3c6d6",
+    "#d5dbc7",
+    "#ffccc4"
+  ],
+  "disruptions": {
+    "": "None",
+    "partial": "Partial",
+    "major": "Major",
+    "critical": "Critical"
+  }
+}

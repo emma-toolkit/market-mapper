@@ -1,0 +1,327 @@
+{
+  "title": "Fishing Nets",
+  "nodes": [
+    {
+      "id": "VkPtLtXil",
+      "nodetype": "environment",
+      "name": "Control of import permits",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 501.2889280360978,
+      "y": 289.6831527923534
+    },
+    {
+      "id": "V1_Y8KQsx",
+      "nodetype": "environment",
+      "name": "Foreign exchange restrictions",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "critical",
+      "x": 1265.3148022808396,
+      "y": 183.53348045609238
+    },
+    {
+      "id": "41FY8tXol",
+      "nodetype": "environment",
+      "name": "Bribery and corruption",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "critical",
+      "x": 2030.435677530017,
+      "y": 331.74317817014446
+    },
+    {
+      "id": "VkctIFXsx",
+      "nodetype": "environment",
+      "name": "Seasonal fishing licenses",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 2802.2172814323753,
+      "y": 196.10599917531025
+    },
+    {
+      "id": "V1xcFLtQsl",
+      "nodetype": "environment",
+      "name": "Gender roles in fishing activities",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 3568.004862495428,
+      "y": 321.09724790774806
+    },
+    {
+      "id": "Ny7AUFXjl",
+      "nodetype": "chain",
+      "name": "Thai manufacturers",
+      "color": "#b3c6d6",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 548.7094339622641,
+      "y": 1064.167916041979
+    },
+    {
+      "id": "4ylXC8K7ix",
+      "nodetype": "chain",
+      "name": "Small traders",
+      "color": "#ffffff",
+      "quantities": "Yangon = 20",
+      "examples": "",
+      "disruption": "",
+      "x": 1290.5955239233488,
+      "y": 809.1260874524149
+    },
+    {
+      "id": "41EALY7je",
+      "nodetype": "chain",
+      "name": "Importers and wholesalers",
+      "color": "#ffffff",
+      "quantities": "Yangon = 5\nPathein = 3",
+      "examples": "",
+      "disruption": "",
+      "x": 1265.9949233227483,
+      "y": 1277.7304622220313
+    },
+    {
+      "id": "41rRUtmog",
+      "nodetype": "chain",
+      "name": "Market town retailers",
+      "color": "#ffffff",
+      "quantities": "Pathein = 10\nBogale = 10\nAywgyun = 15\nPyapone = 5",
+      "examples": "",
+      "disruption": "",
+      "x": 2073.2977463949196,
+      "y": 903.688155922039
+    },
+    {
+      "id": "4JLCLKQix",
+      "nodetype": "chain",
+      "name": "Village shops",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "critical",
+      "x": 2861.2262217729194,
+      "y": 786.0976016952935
+    },
+    {
+      "id": "NyPCIYmjl",
+      "nodetype": "chain",
+      "name": "Large boat owners and traders",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "major",
+      "x": 2772.6640596107572,
+      "y": 1350.3768292259601
+    },
+    {
+      "id": "41d0LFmjx",
+      "nodetype": "chain",
+      "name": "Poor fishing households",
+      "color": "#ffccc4",
+      "quantities": "",
+      "examples": "",
+      "disruption": "critical",
+      "x": 3631.5993138936533,
+      "y": 1058.4107946026986
+    },
+    {
+      "id": "N1ZKDY7il",
+      "nodetype": "infrastructure",
+      "name": "Warehousing storage",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 1869.6535575026144,
+      "y": 1951.245058837726
+    },
+    {
+      "id": "4kGYDtmje",
+      "nodetype": "infrastructure",
+      "name": "Credit services",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "major",
+      "x": 1001.5846542940883,
+      "y": 1944.1006266436796
+    },
+    {
+      "id": "VkXYPYQsg",
+      "nodetype": "infrastructure",
+      "name": "Transport and fuel",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "critical",
+      "x": 2639.6692349296127,
+      "y": 1949.909717688014
+    },
+    {
+      "id": "VJEKPYmie",
+      "nodetype": "infrastructure",
+      "name": "Fishing inputs: boats, nylon, floats",
+      "color": "#ffffff",
+      "quantities": "",
+      "examples": "",
+      "disruption": "",
+      "x": 3414.2558558558558,
+      "y": 1936.5777287761857
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1jnvKQsg",
+      "nodetype": "chain",
+      "from": "Ny7AUFXjl",
+      "to": "41EALY7je",
+      "width": 8,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "VJ_nvY7se",
+      "nodetype": "chain",
+      "from": "Ny7AUFXjl",
+      "to": "4ylXC8K7ix",
+      "width": 4,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "N1qCDYmox",
+      "nodetype": "chain",
+      "from": "41rRUtmog",
+      "to": "4JLCLKQix",
+      "width": 6,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "VyMkdFmil",
+      "nodetype": "chain",
+      "from": "4JLCLKQix",
+      "to": "41d0LFmjx",
+      "width": 6,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "VJEpvKmog",
+      "nodetype": "chain",
+      "from": "4ylXC8K7ix",
+      "to": "41rRUtmog",
+      "width": 4,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "VyxyOKXsl",
+      "nodetype": "chain",
+      "from": "41rRUtmog",
+      "to": "41d0LFmjx",
+      "width": 4,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "E1t1dtmjl",
+      "nodetype": "chain",
+      "from": "NyPCIYmjl",
+      "to": "41d0LFmjx",
+      "width": 6,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "4yyCwKXsx",
+      "nodetype": "chain",
+      "from": "41EALY7je",
+      "to": "NyPCIYmjl",
+      "width": 8,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "NkPpPFXog",
+      "nodetype": "chain",
+      "from": "41EALY7je",
+      "to": "41rRUtmog",
+      "width": 6,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "Ny9e_Y7ie",
+      "nodetype": "infrastructure",
+      "from": "4kGYDtmje",
+      "to": "41EALY7je",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "VJ7-_KXol",
+      "nodetype": "infrastructure",
+      "from": "N1ZKDY7il",
+      "to": "41rRUtmog",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "4ylfOtQix",
+      "nodetype": "infrastructure",
+      "from": "4kGYDtmje",
+      "to": "41rRUtmog",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "V15GdtQje",
+      "nodetype": "infrastructure",
+      "from": "VkXYPYQsg",
+      "to": "NyPCIYmjl",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "4J-muYmse",
+      "nodetype": "infrastructure",
+      "from": "4kGYDtmje",
+      "to": "NyPCIYmjl",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "NJp7OFQjg",
+      "nodetype": "infrastructure",
+      "from": "VJEKPYmie",
+      "to": "NyPCIYmjl",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    },
+    {
+      "id": "NyxVOFXoe",
+      "nodetype": "infrastructure",
+      "from": "VJEKPYmie",
+      "to": "41d0LFmjx",
+      "width": 1,
+      "quantities": "",
+      "disruption": ""
+    }
+  ]
+}

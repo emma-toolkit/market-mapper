@@ -1,0 +1,63 @@
+{
+  "name": "emma-toolkit",
+  "version": "0.1.0",
+  "description": "Emergency Market Mapper Diagram Tool",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack-dev-server --progress --inline --hot --debug --devtool eval",
+    "test": "echo \"No tests yet!\" && exit 0",
+    "build": "npm run clean && NODE_ENV=production webpack -p",
+    "clean": "rm -rf build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theoephraim/emma-toolkit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theoephraim/emma-toolkit/issues"
+  },
+  "homepage": "https://github.com/theoephraim/emma-toolkit#readme",
+  "dependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.3",
+    "babel-plugin-syntax-jsx": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "bluebird": "^3.3.1",
+    "css-loader": "^0.23.1",
+    "cytoscape": "github:jaschaephraim/cytoscape.js#dist",
+    "cytoscape-dagre": "^1.1.2",
+    "dagre": "^0.7.4",
+    "eslint": "^1.10.3",
+    "eslint-loader": "^1.3.0",
+    "html-webpack-plugin": "^2.9.0",
+    "html5-reset": "^2.1.3",
+    "immutable": "^3.7.6",
+    "jquery": "^2.2.0",
+    "json-loader": "^0.5.4",
+    "localforage": "^1.4.0",
+    "lodash.debounce": "^4.0.3",
+    "lodash.throttle": "^4.0.1",
+    "offline-plugin": "^2.0.4",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1",
+    "redux-actions": "^0.9.1",
+    "redux-immutablejs": "0.0.8",
+    "redux-promise": "^0.5.1",
+    "shortid": "^2.2.4",
+    "style-loader": "^0.13.0",
+    "stylus-loader": "^1.5.0",
+    "webpack": "^1.12.13"
+  },
+  "devDependencies": {
+    "react-hot-loader": "^1.3.0",
+    "redux-devtools": "^3.1.1",
+    "redux-devtools-dock-monitor": "^1.1.0",
+    "redux-devtools-log-monitor": "^1.0.4",
+    "webpack-dev-server": "^1.14.1"
+  }
+}

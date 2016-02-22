@@ -1,0 +1,9 @@
+deployment:
+  production:
+    branch: master
+    commands:
+      - npm run build
+      - git config --global user.email "theozero@gmail.com"
+      - git config --global user.name "Autodeploy"
+      - wget https://github.com/X1011/git-directory-deploy/raw/master/deploy.sh && chmod +x deploy.sh
+      - GIT_DEPLOY_DIR=build ./deploy.sh
