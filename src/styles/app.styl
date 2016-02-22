@@ -39,6 +39,8 @@ ui_button()
 
 #display
   position absolute
+  &.connecting
+    cursor -webkit-grabbing
 #controls
   position absolute
   right 0
@@ -74,12 +76,11 @@ ui_button()
   text-transform uppercase
   font-size 0.7em
   margin-bottom 2px
-  display block
-.controls-input
-  padding 2px 3px 1px
-input.controls-input
+  display block  
+input[type="text"].controls-input
 textarea.controls-input
     border input_border
+    padding 2px 3px 1px
 .controls-input
 .controls-buttons
   display block
@@ -114,6 +115,8 @@ textarea.controls-input
 
 #graph-title
   position absolute
+  text-align center
+  width 100%
   font-size 1.5em
   padding small_margin
   z-index 100

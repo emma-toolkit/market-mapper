@@ -133,11 +133,13 @@ const App = connect(
   render() {
     const className = this.controlsShown() ?
       'controls-shown' : 'controls-hidden';
+    const divClassName = this.getConnecting() ? 'connecting' : null;
     const title = this.props.state.getIn(['graph', 'title']);
     return (
       <div className={className}>
         <div
           id='display'
+          className={divClassName}
           style={{height: window.innerHeight}}
           onMouseUp={this.handleMouseUp}
         >
