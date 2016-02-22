@@ -2,15 +2,12 @@ import React from 'react'
 import Cytoscape from 'cytoscape'
 import $ from 'jquery'
 import Dagre from 'dagre'
-import Qtip from 'qtip2'
 import CytoscapeDagre from 'cytoscape-dagre'
-import CytoscapeQtip from 'cytoscape-qtip'
 import debounce from 'lodash.debounce'
 import Promise from 'bluebird'
 import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
-CytoscapeQtip(Cytoscape, $);
 
 const [W, H] = [4096, 2160];
 
@@ -44,7 +41,6 @@ export default class Graph extends React.Component {
     // Destroy existing graph instance
     if (this.graph !== undefined) {
       this.graph.destroy();
-      $('.qtip').remove();
     }
 
     // Push parent nodes
@@ -147,31 +143,6 @@ export default class Graph extends React.Component {
       if (e.cyTarget.isParent()) {
         e.cy.elements(':selected').deselect();
       }
-    });
-
-    this.graph.nodes().nonorphans().forEach(node => {
-      const examples = node.data('examples');
-      if (examples === '') return;
-
-      node.qtip({
-        content: {text: node.data('examples').replace(/\n/g, '<br>')},
-        show: {
-          event: 'mouseover',
-          effect: false
-        },
-        hide: {
-          event: 'mouseout',
-          effect: false
-        },
-        style: {
-          classes: 'qtip-bootstrap'
-        },
-        position: {
-          adjust: {
-            method: 'none'
-          }
-        }
-      });
     });
 
     const selected = this.props.getSelected();
@@ -289,17 +260,26 @@ export default class Graph extends React.Component {
     if (!record.get('active')) {
       classes.push('inactive');
     }
+    
     const position = record.get('position');
     if (position !== null) classes.push(position);
+    
     const disruption = record.get('disruption');
     if (disruption !== '') classes.push(disruption);
+    
     const data = record.toObject();
     data.parent = data.nodetype;
+    
     data.label = record.get('name');
     const quantities = record.get('quantities');
     if (quantities) {
-      data.label += "\n\n" + record.get('quantities');
+      data.label += "\n\n" + quantities;
     }
+    const examples = record.get('examples');
+    if (examples) {
+      data.label += "\n\n" + examples;
+    }
+    
     return {
       group: 'nodes',
       data,
