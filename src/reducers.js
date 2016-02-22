@@ -3,6 +3,7 @@ import { createReducer, combineReducers } from 'redux-immutablejs'
 import ShortID from 'shortid'
 import actions from './actions'
 import { Node, Edge } from './records'
+import config from './config.json'
 
 export default combineReducers({
   app: createReducer(new IMap({
@@ -104,24 +105,40 @@ function nodeHandlers(nodetype) {
   };
   handlers[actions.ADD_NODE] = (state, action) => {
     if (action.payload.nodetype === nodetype) {
+      const id = ShortID.generate();
+
+      const x_int = config.layout.w / 8;
+      let x = x_int;
+      const num_nodes = state.size;
+      let i = 0;
+      while (i < num_nodes) {
+        i = state.forEach(node => {
+          if (Math.abs(node.get('x') - x) < x_int) {
+            x += x_int;
+            return false;
+          }
+          return true;
+        });
+      }
+
       let y;
       switch (nodetype) {
         case 'environment':
-          y = (2160 / 6) - (2160 / 20);
+          y = (config.layout.h / 6) - (config.layout.h / 20);
           break;
         case 'chain':
-          y = 2160 / 2;
+          y = config.layout.h / 2;
           break;
         case 'infrastructure':
-          y = (2160 * (5/6)) + (2160 / 20);
+          y = (config.layout.h * (5/6)) + (config.layout.h / 20);
           break;
       }
-      const id = ShortID.generate();
+      
       state = state.set(id, Node({
         nodetype,
         id,
         name: '<new node>',
-        x: 2048,
+        x,
         y
       }));
     }

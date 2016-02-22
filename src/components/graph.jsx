@@ -5,11 +5,10 @@ import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
 import debounce from 'lodash.debounce'
 import Promise from 'bluebird'
+import config from '../config.json'
 import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
-
-const [W, H] = [4096, 2160];
 
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
@@ -284,8 +283,8 @@ export default class Graph extends React.Component {
       group: 'nodes',
       data,
       position: {
-        x: record.get('x') * self.refs.div.offsetWidth / W,
-        y: record.get('y') * self.refs.div.offsetHeight / H
+        x: record.get('x') * self.refs.div.offsetWidth / config.layout.w,
+        y: record.get('y') * self.refs.div.offsetHeight / config.layout.h
       },
       style: {
         'background-color': record.get('color')
@@ -320,8 +319,8 @@ export default class Graph extends React.Component {
       if (element.group() === 'edges') return;
 
       const position = element.position();
-      const x = position.x * W / this.refs.div.offsetWidth;
-      const y = position.y * H / this.refs.div.offsetHeight;
+      const x = position.x * config.layout.w / this.refs.div.offsetWidth;
+      const y = position.y * config.layout.h / this.refs.div.offsetHeight;
 
       const data = element.data();
       const record = this.props.state.getIn(['nodes', data.nodetype, data.id]);

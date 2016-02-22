@@ -57,7 +57,7 @@ export default createClass({
   },
   render() {
     return (
-      <div id='edges'>
+      <div id='overlay'>
         {this.getOutHandle()}
         {this.getInHandle()}
         {this.getLine()}

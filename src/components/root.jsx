@@ -4,7 +4,7 @@ import Promise from 'bluebird'
 import creators from '../creators'
 import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
-import Edges from './edges.jsx'
+import Overlay from './overlay.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
@@ -147,7 +147,7 @@ const App = connect(
             <NodeType nodetype='chain' addNode={this.props.addNode} />
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
-          <Edges
+          <Overlay
             out_handle={this.getOutHandle()}
             in_handle={this.getInHandle()}
             startConnecting={this.props.startConnecting}

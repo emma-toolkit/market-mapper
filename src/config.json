@@ -1,4 +1,8 @@
 {
+  "layout": {
+    "w": 4096,
+    "h": 2160
+  },
   "nodetypes": {
     "environment": "Environment",
     "chain": "Market Chain",
