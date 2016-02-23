@@ -59,10 +59,10 @@ function setStore(store, state) {
   }
 }
 
-function setElements(type, nodetype, state) {
-  state.getIn([type, nodetype]).forEach((d, id) => {
+function setElements(element, nodetype, state) {
+  state.getIn([element, nodetype]).forEach((d, id) => {
     const obj = d.toObject();
-    obj.type = type;
+    obj.element = element;
     stores.graph.setItem(String(id), obj);
   });
 }
@@ -85,8 +85,8 @@ function loadType(type, state) {
                 path = ['graph', key];
                 new_value = value.value;
               } else {
-                path = [value.type, value.nodetype, key];
-                const record = value.type === 'nodes' ? Node : Edge;
+                path = [value.element, value.nodetype, key];
+                const record = value.element === 'nodes' ? Node : Edge;
                 new_value = record(value);
               }
               break;

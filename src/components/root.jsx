@@ -79,8 +79,8 @@ const App = connect(
   removeElement() {
     const selected = this.getSelected();
     if (selected === null) return;
-    const type = selected.type === 'nodes' ? 'node' : 'edge';
-    if (confirm(`Are you sure you want to delete the selected ${type}?`)) {
+    const element = selected.element === 'nodes' ? 'node' : 'edge';
+    if (confirm(`Are you sure you want to delete the selected ${element}?`)) {
       this.props.removeElement(selected);
     }
   },
@@ -109,7 +109,7 @@ const App = connect(
   },
   getRecordFromElement(element) {
     const data = element.data();
-    return this.props.state.getIn([data.type, data.nodetype, data.id]);
+    return this.props.state.getIn([data.element, data.nodetype, data.id]);
   },
   handleMouseUp() {
     if (!this.getConnecting()) return;

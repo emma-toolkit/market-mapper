@@ -1,9 +1,10 @@
 import { Record } from 'immutable'
 
 export const Node = Record({
-  type: 'nodes',
+  element: 'nodes',
   nodetype: '',
   id: '',
+  type: '',
   name: '',
   disruption: '',
   x: 0,
@@ -15,7 +16,7 @@ export const Node = Record({
 });
 
 export const Edge = Record({
-  type: 'edges',
+  element: 'edges',
   nodetype: '',
   id: '',
   name: '',

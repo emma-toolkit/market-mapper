@@ -146,13 +146,13 @@ function nodeHandlers(nodetype) {
   };
   handlers[actions.REMOVE_ELEMENT] = (state, action) => {
     const element = action.payload.element;
-    if (element.type === 'nodes' && element.nodetype === nodetype) {
+    if (element.element === 'nodes' && element.nodetype === nodetype) {
       state = state.delete(element.id);
     }
     return state;
   };
   handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
-    if (action.payload.element.type === 'nodes') {
+    if (action.payload.element.element === 'nodes') {
       const node = action.payload.element;
       if (node.nodetype === nodetype) {
         let record = state.get(node.id);
@@ -169,14 +169,14 @@ function edgeHandlers(nodetype) {
   const handlers = commonHandlers('edges', nodetype);
   handlers[actions.REMOVE_ELEMENT] = (state, action) => {
     const element = action.payload.element;
-    if (element.type === 'nodes' && nodetype !== 'environment') {
+    if (element.element === 'nodes' && nodetype !== 'environment') {
       const id = element.id;
       state.forEach((edge, key) => {
         if (edge.from === id || edge.to === id) {
           state = state.delete(key);
         }
       });
-    } else if (element.type === 'edges' && element.nodetype === nodetype) {
+    } else if (element.element === 'edges' && element.nodetype === nodetype) {
       state = state.delete(element.id);
     }
     return state;
@@ -195,7 +195,7 @@ function edgeHandlers(nodetype) {
     return state;
   };
   handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
-    if (action.payload.element.type === 'edges') {
+    if (action.payload.element.element === 'edges') {
       const edge = action.payload.element;
       if (edge.nodetype === nodetype) {
         let record = state.get(edge.id);
@@ -208,10 +208,10 @@ function edgeHandlers(nodetype) {
   return handlers;
 }
 
-function commonHandlers(type, nodetype) {
+function commonHandlers(element, nodetype) {
   return {
     [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.getIn([type, nodetype]),
+      action.payload.state.getIn([element, nodetype]),
     [actions.CLEAR]: state => state.clear()
   };
 }

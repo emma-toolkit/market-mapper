@@ -1,6 +1,7 @@
 import React from 'react'
 import TextInput from './textinput.jsx'
 import ColorInput from './colorinput.jsx'
+import SelectInput from './selectinput.jsx'
 import RadioInput from './radioinput.jsx'
 import NumberInput from './numberinput.jsx'
 import CheckBoxInput from './checkboxinput.jsx'
@@ -24,6 +25,17 @@ export default createClass({
     return (
       <div className='controls-section'>
         <h2 className='controls-heading'>Node</h2>
+        <label className='controls-label'>Type</label>
+        <SelectInput
+          attribute='type'
+          value={this.getAttribute('type')}
+          setAttribute={this.setAttribute}
+          options={
+            [''].concat(
+              Object.keys(config.types[this.getAttribute('nodetype')])
+            )
+          }
+        />
         <label className='controls-label'>Name</label>
         <TextInput
           attribute='name'
@@ -132,8 +144,8 @@ export default createClass({
     const selected = this.props.selected;
     return (
       <div>
-        {selected !== null && selected.type === 'nodes' && this.nodeControls()}
-        {selected !== null && selected.type === 'edges' && this.edgeControls()}
+        {selected !== null && selected.element === 'nodes' && this.nodeControls()}
+        {selected !== null && selected.element === 'edges' && this.edgeControls()}
         {this.graphControls()}
       </div>
     );
