@@ -1,5 +1,6 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
+import config from '../config.json'
 const createClass = React.createClass
 
 export default createClass({
@@ -11,9 +12,44 @@ export default createClass({
       throttle(e => this.setState({x: e.clientX, y: e.clientY})) :
       null;
     window.onmousemove = onMouseMove;
+
+      // [...document.getElementsByClassName('disruption')]
+      //   .forEach(old => old.remove());
+
+      // this.props.state.get('nodes').forEach(nodetype => {
+      //   nodetype.forEach(node => {
+      //     const disruption = node.get('disruption');
+      //     if (disruption) {
+      //       let char;
+      //       switch (disruption) {
+      //         case 'partial':
+      //           char = '/';
+      //           break;
+      //         case 'major':
+      //           char = 'X';
+      //           break;
+      //         case 'critical':
+      //           char = '!';
+      //           break;
+      //       }
+      //       console.log(this.refs.div.offsetWidth, this.refs.div.offsetHeight);
+      //       const element = document.createElement('DIV');
+      //       element.className = 'disruption';
+      //       element.style.bottom = `${node.get('y') *
+      //         this.refs.div.offsetHeight / config.layout.h}px`;
+      //       element.style.right = `${node.get('x') *
+      //         this.refs.div.offsetWidth / config.layout.w}px`;
+      //       element.textContent = char;
+      //       this.refs.div.appendChild(element);
+      //     }
+      //   });
+      // });
   },
   handleMouseDown() {
-    this.setState({x: this.props.out_handle.x, y: this.props.out_handle.y});
+    this.setState({
+      x: this.props.out_handle.x,
+      y: this.props.out_handle.y
+    });
     this.props.startConnecting();
   },
   getEndPos() {
@@ -57,7 +93,7 @@ export default createClass({
   },
   render() {
     return (
-      <div id='overlay'>
+      <div id='overlay' ref='div'>
         {this.getOutHandle()}
         {this.getInHandle()}
         {this.getLine()}

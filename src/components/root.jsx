@@ -150,6 +150,7 @@ const App = connect(
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
           <Overlay
+            state={this.props.state}
             out_handle={this.getOutHandle()}
             in_handle={this.getInHandle()}
             startConnecting={this.props.startConnecting}
