@@ -3,21 +3,136 @@
     "w": 4096,
     "h": 2160
   },
+  
   "nodetypes": {
     "environment": "Environment",
     "chain": "Market Chain",
     "infrastructure": "Infrastructure"
   },
+  
   "colors": [
     "#ffffff",
     "#b3c6d6",
     "#d5dbc7",
     "#ffccc4"
   ],
+  
   "disruptions": {
     "": "None",
     "partial": "Partial",
     "major": "Major",
     "critical": "Critical"
+  },
+  
+  "types": {
+    "environment": {
+      "Customs agencies": [
+        "Ports",
+        "Import & export"
+      ],
+      "Local government agencies": [
+        "Police",
+        "Tax collection",
+        "Agricultural"
+      ],
+      "Federal government agencies": [
+        "Military",
+        "Disaster relief"
+      ],
+      "NGOs": [
+        "International",
+        "Community-based"
+      ],
+      "Laws": [
+        "Permits/licenses",
+        "Restrictions",
+        "Land rights"
+      ],
+      "Monetary trends": [
+        "Costs",
+        "Debt",
+        "Taxes & duties",
+        "Subsidies",
+        "Inflation"
+      ],
+      "Environmental trends": [
+        "Seasonality",
+        "Environmental conditions"
+      ],
+      "Societal trends": [
+        "Gender roles",
+        "Bribery & corruption"
+      ]
+    },
+    "chain": {
+      "Manufacturers": [],
+      "Suppliers": [
+        "Agricultural"
+      ],
+      "Retailers": [
+        "Village",
+        "Urban",
+        "Wholesalers"
+      ],
+      "Consumers": [
+        "Households"
+      ],
+      "Landowners": [
+        "Small-scale",
+        "Large-scale"
+      ],
+      "Farmers": [
+        "Small-scale",
+        "Large-scale"
+      ],
+      "Importers": [],
+      "Exporters": [],
+      "Brokers": [],
+      "NGOs": [],
+      "Workers": [
+        "Tenant farmers"
+      ]
+    },
+    "infrastructure": {
+      "Banking": [
+        "Banks",
+        "Loans/credit"
+      ],
+      "Transportation Services": [
+        "Buses",
+        "Trains",
+        "Ferries"
+      ],
+      "Transportation Infrastructure": [
+        "Roads",
+        "Bridges",
+        "Canals",
+        "Highways",
+        "Boats",
+        "Vehicles"
+      ],
+      "Storage": [
+        "Warehouses"
+      ],
+      "Labor": [],
+      "Natural Resources": [
+        "Land",
+        "Forest",
+        "River",
+        "Ocean"
+      ],
+      "Processing": [
+        "Mills"
+      ],
+      "Production": [
+        "Factories",
+        "Farms"
+      ],
+      "Communication": [
+        "postal service",
+        "cell phones",
+        "internet"
+      ]
+    }
   }
 }
