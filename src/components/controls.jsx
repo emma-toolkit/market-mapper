@@ -131,6 +131,13 @@ export default createClass({
           value={this.getAttribute('quantities')}
           setAttribute={this.setAttribute}
         />
+        <label className='controls-label'>Disruption</label>
+        <RadioInput
+          attribute='disruption'
+          value={this.getAttribute('disruption')}
+          setAttribute={this.setAttribute}
+          options={config.disruptions}
+        />
         <label className='controls-label'>Active</label>
         <CheckBoxInput
           attribute='active'
