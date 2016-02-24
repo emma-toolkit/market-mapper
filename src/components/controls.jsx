@@ -1,10 +1,10 @@
 import React from 'react'
-import TextInput from './textinput.jsx'
-import ColorInput from './colorinput.jsx'
-import SelectInput from './selectinput.jsx'
-import RadioInput from './radioinput.jsx'
-import NumberInput from './numberinput.jsx'
-import CheckBoxInput from './checkboxinput.jsx'
+import TextInput from './inputs/text.jsx'
+import ColorInput from './inputs/color.jsx'
+import SelectInput from './inputs/select.jsx'
+import RadioInput from './inputs/radio.jsx'
+import NumberInput from './inputs/number.jsx'
+import CheckBoxInput from './inputs/checkbox.jsx'
 import config from '../config.json'
 const createClass = React.createClass;
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import config from '../config.json'
+import config from '../../config.json'
 const createClass = React.createClass;
 const colors = config.colors;
 

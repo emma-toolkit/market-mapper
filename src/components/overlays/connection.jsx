@@ -1,6 +1,6 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
-import config from '../config.json'
+import config from '../../config.json'
 const createClass = React.createClass
 
 export default createClass({
