@@ -269,22 +269,8 @@ export default class Graph extends React.Component {
     const data = record.toObject();
     data.parent = data.nodetype;
     
-    data.label = '';
-
-    const name = record.get('name');
-    if (name) {
-      data.label += name;
-    } else {
-      const subtype = record.get('subtype');
-      if (subtype) {
-        data.label += subtype;
-      } else {
-        const type = record.get('type');
-        if (type) {
-          data.label += type;
-        }
-      }
-    }
+    data.label = record.get('name') || record.get('subtype') ||
+      record.get('type') || '<new node>';
 
     const double_space = "\n\n";
     const quantities = record.get('quantities');

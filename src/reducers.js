@@ -137,7 +137,6 @@ function nodeHandlers(nodetype) {
       state = state.set(id, Node({
         nodetype,
         id,
-        name: '<new node>',
         x,
         y
       }));
