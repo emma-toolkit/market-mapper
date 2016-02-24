@@ -61,7 +61,7 @@ export default createClass({
   },
   render() {
     return (
-      <div id='connection-overlay'>
+      <div className='overlay'>
         {this.getOutHandle()}
         {this.getInHandle()}
         {this.getLine()}

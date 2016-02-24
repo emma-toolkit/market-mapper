@@ -157,10 +157,8 @@ textarea.controls-input
   height 100%
 .grabbed
   cursor move
-.qtip-bootstrap
-  font-family sans-serif
 
-#connection-overlay, #edge-line
+.overlay, #edge-line
   position absolute
   top 0
   left 0
@@ -181,10 +179,12 @@ textarea.controls-input
   stroke-dasharray 8,4
 .disruption
   position absolute
-  font-family sans-serif
-  color red
-  font-size 2em
+  // font-family sans-serif
+  background-color red
+  // font-size 2em
   z-index 100
+  width 10px
+  height 10px
 
 #toggle-controls
   ui_button()
