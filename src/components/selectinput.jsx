@@ -12,10 +12,12 @@ export default createClass({
         value={this.props.value}
         onChange={this.handleChange}
       >
-        {Object.keys(this.props.options).map((key) => {
-          const value = this.props.options[key];
-          return <option key={key} value={value}>{value}</option>;
-        })}
+        {
+          Object.keys(this.props.options).map((key) => {
+            const value = this.props.options[key];
+            return <option key={key} value={value}>{value}</option>;
+          })
+        }
       </select>
     );
   }

@@ -20,6 +20,20 @@ export default createClass({
   },
   setAttribute(att, value) {
     this.props.setElementAttribute(att, value);
+    if (att === 'type') {
+      const subtype = this.getAttribute('subtype');
+      if (subtype) {
+        if (!value) {
+          this.setAttribute('subtype', '');
+        } else {
+          const nodetype = this.getAttribute('nodetype');
+          const type_children = config.types[nodetype][value];
+          if (type_children.indexOf(subtype) === -1) {
+            this.setAttribute('subtype', '');
+          }
+        }
+      }
+    }
   },
   nodeControls() {
     return (
@@ -33,6 +47,17 @@ export default createClass({
           options={
             [''].concat(
               Object.keys(config.types[this.getAttribute('nodetype')])
+            )
+          }
+        />
+        <label className='controls-label'>Subtype</label>
+        <SelectInput
+          attribute='subtype'
+          value={this.getAttribute('subtype')}
+          setAttribute={this.setAttribute}
+          options={
+            [''].concat(
+              config.types[this.getAttribute('nodetype')][this.getAttribute('type')]
             )
           }
         />
