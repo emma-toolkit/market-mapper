@@ -5,6 +5,7 @@ import creators from '../creators'
 import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
 import ConnectionOverlay from './overlays/connection.jsx'
+import DisruptionOverlay from './overlays/disruption.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
@@ -150,12 +151,15 @@ const App = connect(
             <NodeType nodetype='infrastructure' addNode={this.props.addNode} />
           </div>
           <ConnectionOverlay
-            state={this.props.state}
             out_handle={this.getOutHandle()}
             in_handle={this.getInHandle()}
             startConnecting={this.props.startConnecting}
             endConnecting={this.props.endConnecting}
             connecting={this.getConnecting()}
+          />
+          <DisruptionOverlay
+            nodes={this.props.state.get('nodes')}
+            edges={this.props.state.get('edges')}
           />
           <Graph
             state={this.props.state}
