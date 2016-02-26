@@ -158,8 +158,8 @@ export default class Graph extends React.Component {
         const location = {disruption};
         const box = element.boundingBox();
         if (element.group() === 'nodes') {
-          location.x = box.x2;
-          location.y = box.y1;
+          location.x = box.x2 - 15;
+          location.y = box.y1 + 15;
         } else {
           location.x = (box.x1 + box.x2) / 2;
           location.y = (box.y1 + box.y2) / 2;

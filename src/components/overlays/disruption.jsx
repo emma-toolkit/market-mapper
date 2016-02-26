@@ -2,7 +2,7 @@ import React from 'react'
 import config from '../../config.json'
 const createClass = React.createClass;
 
-const x_offset = -25;
+const x_offset = -10;
 const y_offset = -10;
 
 export default createClass({
