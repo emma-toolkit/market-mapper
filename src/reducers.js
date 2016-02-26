@@ -1,4 +1,4 @@
-import { Map as IMap } from 'immutable'
+import { Map as IMap, Set as ISet } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
 import ShortID from 'shortid'
 import actions from './actions'
@@ -13,7 +13,8 @@ export default combineReducers({
     selected: null,
     in_handle: null,
     out_handle: null,
-    connecting: false
+    connecting: false,
+    disruptions: new ISet()
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -63,6 +64,8 @@ export default combineReducers({
       state.set('connecting', true),
     [actions.END_CONNECTING]: (state, action) =>
       state.set('connecting', false),
+    [actions.SET_DISRUPTIONS]: (state, action) =>
+      state.set('disruptions', new ISet(action.payload.disruptions)),
     [actions.ADD_EDGE]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {

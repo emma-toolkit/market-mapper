@@ -108,6 +108,11 @@ const endConnecting = createAction(
   actions.END_CONNECTING
 );
 
+const setDisruptions = createAction(
+  actions.SET_DISRUPTIONS,
+  (disruptions) => {return {disruptions}}
+);
+
 const addEdge = createAction(
   actions.ADD_EDGE,
   (nodetype, from_id, to_id) => {
@@ -228,6 +233,7 @@ export default {
   clearOutHandle,
   startConnecting,
   endConnecting,
+  setDisruptions,
   addEdge,
   setElementAttribute,
   setGraphAttribute,

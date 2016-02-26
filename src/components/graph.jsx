@@ -50,14 +50,14 @@ export default class Graph extends React.Component {
       selectable: false,
       locked: true,
       grabbable: false
-    },{
+    }, {
       group: 'nodes',
       data: {id: 'chain'},
       classes: 'parent',
       selectable: false,
       locked: true,
       grabbable: false
-    },{
+    }, {
       group: 'nodes',
       data: {id: 'infrastructure'},
       classes: 'parent',
@@ -144,10 +144,30 @@ export default class Graph extends React.Component {
       }
     });
 
-    const selected = this.props.getSelected();
-    if (selected !== null && this.graph.elements(':selected').length === 0) {
-      this.graph.elements(`#${selected.id}`).select();
-    }
+    this.graph.ready(() => {
+      const selected = this.props.getSelected();
+      if (selected !== null && this.graph.elements(':selected').length === 0) {
+        this.graph.elements(`#${selected.id}`).select();
+      }
+
+      const disruptions = [];
+      this.graph.elements().forEach(element => {
+        const disruption = element.data('disruption');
+        if (!disruption) return;
+
+        const location = {disruption};
+        const box = element.boundingBox();
+        if (element.group() === 'nodes') {
+          location.x = box.x2;
+          location.y = box.y1;
+        } else {
+          location.x = (box.x1 + box.x2) / 2;
+          location.y = (box.y1 + box.y2) / 2;
+        }
+        disruptions.push(location);
+      });
+      this.props.setDisruptions(disruptions);
+    });
   }
 
   doLayout() {
@@ -228,7 +248,6 @@ export default class Graph extends React.Component {
       });
     });
 
-    // Dispatch LAYOUT_DONE when all layouts are done
     Promise.reduce(
       [environment_done, chain_done, infrastructure_done],
       (nodes, nodetype_nodes) => nodes.union(nodetype_nodes),

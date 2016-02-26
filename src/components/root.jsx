@@ -34,6 +34,9 @@ const App = connect(
       clearInHandle() {dispatch(creators.clearInHandle())},
       startConnecting() {dispatch(creators.startConnecting())},
       endConnecting() {dispatch(creators.endConnecting())},
+      setDisruptions(disruptions) {
+        dispatch(creators.setDisruptions(disruptions));
+      },
       addEdge(nodetype, from_id, to_id) {
         dispatch(creators.addEdge(nodetype, from_id, to_id));
       },
@@ -158,7 +161,7 @@ const App = connect(
             connecting={this.getConnecting()}
           />
           <DisruptionOverlay
-            nodes={this.props.state.get('nodes')}
+            disruptions={this.props.state.getIn(['app', 'disruptions'])}
             edges={this.props.state.get('edges')}
           />
           <Graph
@@ -174,6 +177,7 @@ const App = connect(
             setInHandle={this.props.setInHandle}
             clearOutHandle={this.props.clearOutHandle}
             clearInHandle={this.props.clearInHandle}
+            setDisruptions={this.props.setDisruptions}
           />
         </div>
         <Controls
