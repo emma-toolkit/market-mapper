@@ -15,7 +15,7 @@ export default createClass({
                 type='radio'
                 name={this.props.attribute}
                 value={key}
-                checked={key === this.props.value}
+                checked={key === this.props.value.toString()}
                 onChange={this.handleChange}
               />
               {this.props.options[key]}

@@ -12,7 +12,8 @@ export default createClass({
   shouldComponentUpdate(next_props) {
     return next_props.show_controls !== this.props.show_controls ||
       next_props.selected !== this.props.selected ||
-      next_props.graph !== this.props.graph;
+      next_props.graph !== this.props.graph ||
+      next_props.state !== this.props.state;
   },
   getAttribute(att) {
     const selected = this.props.selected;
@@ -34,6 +35,9 @@ export default createClass({
         }
       }
     }
+  },
+  setState(att, num) {
+    this.props.setState(parseInt(num));
   },
   nodeControls() {
     return (
@@ -154,7 +158,13 @@ export default createClass({
     return (
       <div id="graph-controls" className='controls-section'>
         <h2 className='controls-heading'>Graph</h2>
-        {/*<label className='controls-label'>State</label>*/}
+        <label className='controls-label'>State</label>
+        <RadioInput
+          attribute='state'
+          value={this.props.state}
+          setAttribute={this.setState}
+          options={[0, 1, 2]}
+        />
         <label className='controls-label'>Graph Title</label>
         <TextInput
           attribute='title'
