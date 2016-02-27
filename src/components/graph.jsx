@@ -124,6 +124,7 @@ export default class Graph extends React.Component {
     });
     this.graph.on('grab', 'node', () => {
       this.refs.div.classList.add('grabbed')
+      this.props.clearOutHandle();
     });
     this.graph.on('free', 'node', debounce(e => {
       const classes = this.refs.div.classList;
@@ -149,7 +150,9 @@ export default class Graph extends React.Component {
       if (selected !== null && this.graph.elements(':selected').length === 0) {
         this.graph.elements(`#${selected.id}`).select();
       }
+    });
 
+    this.graph.onRender(() => {
       const disruptions = [];
       this.graph.elements().forEach(element => {
         const disruption = element.data('disruption');
