@@ -112,7 +112,7 @@ const endConnecting = createAction(
 
 const setDisruptions = createAction(
   actions.SET_DISRUPTIONS,
-  (disruptions) => {return {disruptions}}
+  disruptions => {return {disruptions}}
 );
 
 const addEdge = createAction(
@@ -150,7 +150,7 @@ const setGraphAttribute = createAction(
 
 const exportJSON = createAction(
   actions.EXPORT_JSON,
-  (state) => {
+  state => {
     const title = state.getIn(['graph', 'title']);
     const data = {
       title,
@@ -172,6 +172,11 @@ const exportJSON = createAction(
     a.click();
     return;
   }
+);
+
+const setState = createAction(
+  actions.SET_STATE,
+  num => {return {num}}
 );
 
 // Promises
@@ -242,7 +247,8 @@ export default {
   setGraphAttribute,
   loadLocal,
   loadJSON,
-  exportJSON
+  exportJSON,
+  setState
 }
 
 // Functions

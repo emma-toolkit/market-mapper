@@ -19,7 +19,8 @@ const actions = [
   'SET_DISRUPTIONS',
   'SET_ELEMENT_ATTRIBUTE',
   'SET_GRAPH_ATTRIBUTE',
-  'EXPORT_JSON'
+  'EXPORT_JSON',
+  'SET_STATE'
 ];
 
 export default actions.reduce((prev, cur) => {

@@ -13,7 +13,8 @@ export default combineReducers({
     in_handle: null,
     out_handle: null,
     connecting: false,
-    disruptions: new ISet()
+    disruptions: new ISet(),
+    state: 0
   }), {
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
@@ -86,7 +87,9 @@ export default combineReducers({
         last_redraw: action.payload.last_redraw,
         selected: record
       });
-    }
+    },
+    [actions.SET_STATE]: (state, action) =>
+      state.set('state', action.payload.num)
   }),
   graph: createReducer(new IMap({
     title: '',

@@ -154,6 +154,7 @@ export default createClass({
     return (
       <div id="graph-controls" className='controls-section'>
         <h2 className='controls-heading'>Graph</h2>
+        {/*<label className='controls-label'>State</label>*/}
         <label className='controls-label'>Graph Title</label>
         <TextInput
           attribute='title'
