@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions'
 import Promise from 'bluebird'
 import { Map as IMap } from 'immutable'
 import { Node, Edge } from './records'
+import ShortID from 'shortid'
 import local from './localforage'
 import actions from './actions'
 
@@ -56,6 +57,7 @@ const addNode = createAction(
   nodetype => {
     return {
       nodetype,
+      id: ShortID.generate(),
       last_redraw: Date.now()
     }
   },
@@ -118,6 +120,7 @@ const addEdge = createAction(
   (nodetype, from_id, to_id) => {
     return {
       nodetype,
+      id: ShortID.generate(),
       from_id,
       to_id,
       last_redraw: Date.now()

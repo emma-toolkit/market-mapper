@@ -1,6 +1,5 @@
 import { Map as IMap, Set as ISet } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
-import ShortID from 'shortid'
 import actions from './actions'
 import { Node, Edge } from './records'
 import config from './config.json'
@@ -30,7 +29,21 @@ export default combineReducers({
     [actions.TOGGLE_CONTROLS]: (state, action) =>
       state.merge(action.payload),
     [actions.ADD_NODE]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
+      state.merge({
+        selected: Node({
+          nodetype: action.payload.nodetype,
+          id: action.payload.id
+        }),
+        last_redraw: action.payload.last_redraw
+      }),
+    [actions.ADD_EDGE]: (state, action) =>
+      state.merge({
+        selected: Edge({
+          nodetype: action.payload.nodetype,
+          id: action.payload.id
+        }),
+        last_redraw: action.payload.last_redraw
+      }),
     [actions.REMOVE_ELEMENT]: (state, action) =>
       state.merge({
         last_redraw: action.payload.last_redraw,
@@ -66,8 +79,6 @@ export default combineReducers({
       state.set('connecting', false),
     [actions.SET_DISRUPTIONS]: (state, action) =>
       state.set('disruptions', new ISet(action.payload.disruptions)),
-    [actions.ADD_EDGE]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
     [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
       let record = action.payload.element;
       record = record.set(action.payload.attribute, action.payload.value);
@@ -108,8 +119,6 @@ function nodeHandlers(nodetype) {
   };
   handlers[actions.ADD_NODE] = (state, action) => {
     if (action.payload.nodetype === nodetype) {
-      const id = ShortID.generate();
-
       const x_int = config.layout.w / 8;
       let x = x_int;
       const num_nodes = state.size;
@@ -137,6 +146,7 @@ function nodeHandlers(nodetype) {
           break;
       }
       
+      const id = action.payload.id;
       state = state.set(id, Node({
         nodetype,
         id,
@@ -185,7 +195,7 @@ function edgeHandlers(nodetype) {
   };
   handlers[actions.ADD_EDGE] = (state, action) => {
     if (action.payload.nodetype === nodetype) {
-      const id = ShortID.generate();
+      const id = action.payload.id;
       const edge = Edge({
         nodetype,
         id,
