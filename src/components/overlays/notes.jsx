@@ -22,7 +22,13 @@ export default createClass({
   },
   
   handleMouseUp() {
+    const dragged = this.props.notes.get(this.props.dragging);
+    const clicked = dragged.get('x') === this.state.x &&
+      dragged.get('y') === this.state.y;
     this.props.endDragging(this.props.dragging, this.state);
+    if (clicked) {
+      this.props.selectNote(dragged);
+    }
   },
 
   getNotes() {

@@ -197,6 +197,7 @@ const App = connect(
             startDragging={this.props.startDraggingNote}
             endDragging={this.props.endDraggingNote}
             setPosition={this.props.setNotePosition}
+            selectNote={this.props.selectElement}
           />
           <ConnectionOverlay
             out_handle={this.getOutHandle()}
