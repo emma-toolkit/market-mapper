@@ -29,9 +29,8 @@ export default combineReducers({
     [actions.HIDE_SPLASH]: (state, action) =>
       state.set('show_splash', false),
     [actions.LOAD_DONE]: (state, action) => {
-      state = action.payload.state.get('app') || state;
-      state = state.set('last_redraw', action.payload.last_redraw);
-      return state;
+      state = state.merge(action.payload.state.get('app'));
+      return state.set('last_redraw', action.payload.last_redraw);
     },
     [actions.DO_LAYOUT]: (state, action) =>
       state.set('last_layout', action.payload.last_layout),

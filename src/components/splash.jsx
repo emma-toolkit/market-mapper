@@ -45,7 +45,7 @@ export default class SplashPage extends React.Component {
               <input
                 type='file'
                 style={{display: 'none'}}
-                onClick={this.props.loadJSON}
+                onChange={this.props.loadJSON}
                 ref='file_input'
               />
             </div>

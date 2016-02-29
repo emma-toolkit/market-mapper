@@ -260,6 +260,7 @@ const loadJSON = files => {
   ).then(str => {
     const data = JSON.parse(str);
     let state = new IMap({
+      app: new IMap({show_splash: false}),
       graph: new IMap({title: data.title}),
       nodes: new IMap({
         environment: new IMap(),
