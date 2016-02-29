@@ -19,29 +19,42 @@ title_color = #37474F
     margin-right .3em
     vertical-align baseline
 
-.add-entity-button.button
-  position absolute
-  bottom small_margin * 3
-  left small_margin
-  text-align center
-  width: 30px
-  height 30px
-  vertical-align baseline
-  display inline-block
-  line-height 24px
-  z-index: 1000
-  background: emma_magenta
-  font-size: 24px
-  padding 0
-  border-radius 50%
-  &:hover
-    background #C2185B
-
-.nodetype-title
+.section-title
   position absolute
   color #78909C
   text-transform uppercase
   font-size 11px
   bottom small_margin
   left small_margin
+
+
+.overlay, #edge-line
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+.handle
+  width handle_size
+  height handle_size
+  background handle_color
+  z-index 100
+  position absolute
+  margin-top -(handle_size / 2)px
+  margin-left -(handle_size / 2)px
+  cursor -webkit-grab
+#edge-line line
+  stroke handle_color
+  stroke-width 3
+  stroke-dasharray 8,4
+.disruption
+  position absolute
+  font-size disruption_size
+  font-weight bold
+  line-height disruption_size
+  width disruption_size
+  height disruption_size
+  text-align center
+  color red
+  z-index 100
 

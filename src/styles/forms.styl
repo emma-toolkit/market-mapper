@@ -1,39 +1,62 @@
-input_border_radius = 2px
+$input-border-radius=2px
 
 .form
-  background #546E7A
+  background #546e7a
   color #FFF
-  position relative
+  position: relative
+
+  h3, h4
+    font-family body_fonts
 
   h3
-    color white
-    padding 8px 15px
-    font-size 16px
-    width 100%
-    background #37474F
-    display block
-    position relative
+    padding 8px 0
+    font-size: 13px
+    // font-weight bold
+    width: 100%
+    background: #37474f
+    // background $emma-green
+    display: block
+    position: relative
+
+  h4
+    padding 8px 0
+    font-size: 14px
+    width: 100%
+    display: block
+    position: relative
+
+    font-weight: bold
+    font-size: 11px
+    text-transform uppercase
+    // background-color: #66cccc
+
+  h3, h4
+    padding-left 15px
+    padding-right 15px
 
 .form-section
   padding 15px 15px
+  h3, h4
+    padding-left 0
+    padding-right 0
 
 .form-section-note
-  font-style italic
-  font-size 12px
+  font-style: italic
+  font-size: 12px
   text-align center
   margin-bottom 1em
   border-top 1px solid #CCC
   color #CCC
 
 
-// Basic input styles
 
+// Basic input styles
 input[type="text"], textarea, select, .button
   font-size 13px
   padding .3rem .5rem
   border 1px solid #ccc
   -webkit-appearance none
-  border-radius input_border_radius
+  border-radius $input-border-radius
   border none
   background-clip padding-box
   display inline-block
@@ -41,7 +64,7 @@ input[type="text"], textarea, select, .button
 
 input[type="text"], textarea, select
   background-color #FFF
-  color #333
+  color: #333
   &:focus
     outline none
     box-shadow 0px 0px 0px 3px #37474F
@@ -54,7 +77,7 @@ input[type="checkbox"]
 .form-input
   margin-bottom 1.2em
   display block
-  font-size 13px
+  font-size: 13px
   input[type="text"], textarea, select, .button
     width 100%
 
@@ -87,16 +110,16 @@ input[type="checkbox"]
     &:first-child
       padding-left 0
       input
-        border-top-left-radius input_border_radius
-        border-bottom-left-radius input_border_radius
+        border-top-left-radius $input-border-radius
+        border-bottom-left-radius $input-border-radius
       .button
         border-top-right-radius 0px
         border-bottom-right-radius 0px
     &:last-child
       padding-right 0
       input
-        border-top-right-radius input_border_radius
-        border-bottom-right-radius input_border_radius
+        border-top-right-radius $input-border-radius
+        border-bottom-right-radius $input-border-radius
       .button
         border-top-left-radius 0px
         border-bottom-left-radius 0px
@@ -105,6 +128,7 @@ input[type="checkbox"]
       width 100%
       display block
       border-radius 0px
+
 
 .form-input
   input[type="radio"], input[type="checkbox"]
@@ -118,6 +142,9 @@ input[type="checkbox"]
   margin-right 1em
   display inline-block
 
+
+
+
 .form-swatch-group
   display inline-block
 .form-swatch-item
@@ -130,30 +157,35 @@ input[type="checkbox"]
   &.selected
     border 3px solid #000
 
+
+
 .button
   width auto
-  height 40px
-  line-height 40px
+  height 36px
+  line-height 36px
   display inline-block
   background red
   color white
   font-size 11px
-  font-weight bold
+  font-weight: bold
   text-transform uppercase
   background-color #039BE5
   text-decoration none
   padding 0
-  padding-left 2em
-  padding-right 2em
-  border-radius 30px
+  padding-left 1.6em
+  padding-right 1.6em
+  border-radius 3px
+  margin-right 8px
+  margin-bottom 8px
+
 
   &.multiline
-    line-height 16px
-    padding-top 10px
-    padding-bottom 10px
+    line-height: 16px
+    padding-top: 10px
+    padding-bottom: 10px
 
   &.magenta
-    background-color emma_magenta
+    background-color $emma-magenta
   &.green
     background-color #4CAF50
   &.blue
@@ -162,6 +194,22 @@ input[type="checkbox"]
     background-color #BF360C
   &.purple
     background-color #3F51B5
+
+  &:hover
+    background #333
+
+
+  &.big-circle
+    width 55px
+    height 55px
+    line-height: 55px
+    text-align: center
+    border-radius 50%
+    color white
+    padding 0
+    font-size 30px
+
+
 
 // .controls-heading
 //   margin 0 0 small_margin
