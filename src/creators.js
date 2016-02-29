@@ -165,8 +165,7 @@ const exportJSON = createAction(
     jsonAddEdges('chain', data, state);
     jsonAddEdges('infrastructure', data, state);
 
-    let filename = title ? `${title} ` : '';
-    filename += `${new Date().toISOString()}.json`;
+    const filename = getFilename(title, 'json');
     const json = JSON.stringify(data, null, 2);
     const dataURL = `data:application/octet-stream;charset=utf-8,${escape(json)}`;
     download(dataURL, filename);
@@ -176,19 +175,15 @@ const exportJSON = createAction(
 
 const exportPNG = createAction(
   actions.EXPORT_PNG,
-  el => {
+  (el, title) => {
+    const filename = getFilename(title, 'png');
     html2canvas(el, {
       background: '#FFFFFF',
-      onclone(new_el) {
-        const buttons = new_el.getElementsByClassName('add-entity-button');
-        const len = buttons.length;
-        for (let i = 0; i < len; i++) {
-          buttons[0].remove();
-        }
-      }
+      // onclone(new_el) {
+      // }
     }).then(canvas => {
       const dataURL = canvas.toDataURL('image/png');
-      download(dataURL, 'graph-image.png');
+      download(dataURL, filename);
     });
   }
 );
@@ -292,6 +287,11 @@ function persistAll() {
     persist_app: true,
     persist_graph: true
   };
+}
+
+function getFilename(title, extension) {
+  let filename = title ? `${title} ` : '';
+  return `${filename}${new Date().toISOString()}.${extension}`;
 }
 
 function download(dataURL, filename) {

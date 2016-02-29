@@ -58,8 +58,20 @@ export default createClass({
 
         <div className='form-section'>
           <h4>Save / Export</h4>
-          <a className='button' href='#'>Export Image (PNG)</a>
-          <a className='button' href='#'>Save Data File</a>
+          <a
+            className='button'
+            href='#'
+            onClick={this.props.exportPNG}
+          >
+            Export Image (PNG)
+          </a>
+          <a
+            className='button'
+            href='#'
+            onClick={this.props.exportJSON}
+          >
+            Save Data File
+          </a>
           <p>Your work will be saved locally in your browser and is this tool is still available while offline!</p>
         </div>
 
@@ -216,35 +228,35 @@ export default createClass({
     );
   },
 
-  graphControls() {
-    return (
-      <div id="graph-controls" className='controls-section'>
-        <h3 className='controls-heading'>Graph</h3>
-        <div className='form-input'>State</div>
-        <StateRadioInput
-          attribute='state'
-          value={this.props.state}
-          setState={this.props.setState}
-          setStateName={this.props.setStateName}
-          options={this.props.graph.get('states')}
-        />
-        <label className='form-input'>Graph Title</label>
-        <TextInput
-          attribute='title'
-          value={this.props.graph.get('title')}
-          setAttribute={this.props.setGraphAttribute}
-        />
-        <div className='controls-buttons'>
-          <button onClick={this.props.doLayout}>Auto Layout Graph</button>
-          <button onClick={this.props.clear}>Clear Graph</button>
-        </div>
-        <div className='controls-buttons'>
-          <button onClick={this.props.exportJSON}>Export</button>
-          <input type='file' name='csv' onChange={this.props.loadJSON} />
-        </div>
-      </div>
-    );
-  },
+  // graphControls() {
+  //   return (
+  //     <div id="graph-controls" className='controls-section'>
+  //       <h3 className='controls-heading'>Graph</h3>
+  //       <div className='form-input'>State</div>
+  //       <StateRadioInput
+  //         attribute='state'
+  //         value={this.props.state}
+  //         setState={this.props.setState}
+  //         setStateName={this.props.setStateName}
+  //         options={this.props.graph.get('states')}
+  //       />
+  //       <label className='form-input'>Graph Title</label>
+  //       <TextInput
+  //         attribute='title'
+  //         value={this.props.graph.get('title')}
+  //         setAttribute={this.props.setGraphAttribute}
+  //       />
+  //       <div className='controls-buttons'>
+  //         <button onClick={this.props.doLayout}>Auto Layout Graph</button>
+  //         <button onClick={this.props.clear}>Clear Graph</button>
+  //       </div>
+  //       <div className='controls-buttons'>
+  //         <button onClick={this.props.exportJSON}>Export</button>
+  //         <input type='file' name='csv' onChange={this.props.loadJSON} />
+  //       </div>
+  //     </div>
+  //   );
+  // },
   renderControls() {
     if (!this.props.show_controls) return null;
     const selected = this.props.selected;

@@ -53,7 +53,7 @@ const App = connect(
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
       exportJSON(state) {dispatch(creators.exportJSON(state))},
-      exportPNG(el) {dispatch(creators.exportPNG(el))} 
+      exportPNG(el, title) {dispatch(creators.exportPNG(el, title))} 
    }
   }
 )(createClass({
@@ -85,7 +85,7 @@ const App = connect(
     this.props.exportJSON(this.props.state);
   },
   exportPNG() {
-    this.props.exportPNG(this.refs.display);
+    this.props.exportPNG(this.refs.display, this.props.state.getIn(['graph', 'title']));
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
   removeElement() {
@@ -150,10 +150,6 @@ const App = connect(
     return (
       <div id='main-wrapper' className={className}>
         {/* <SplashPage /> */}
-        <button onClick={this.exportPNG} style={{
-          zIndex: 200,
-          position: 'absolute'
-        }}>Export PNG</button>
         <header id='header-bar'>
           <h1>Emergency Market Map Diagram Builder</h1>
         </header>
@@ -215,6 +211,7 @@ const App = connect(
           doLayout={this.props.doLayout}
           clear={this.props.clear}
           exportJSON={this.exportJSON}
+          exportPNG={this.exportPNG}
           toggleControls={this.toggleControls}
           removeElement={this.removeElement}
           setElementAttribute={this.setElementAttribute}
