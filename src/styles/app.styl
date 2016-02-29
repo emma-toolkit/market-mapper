@@ -18,22 +18,22 @@ header_bar_height = 40px
 header_fonts = Futura, 'Trebuchet MS', Arial, sans-serif;
 body_fonts = 'Helvetica Neue', Helvetica, Arial, sans-serif
 
-$emma-green = #008080
-$emma-green-dark = #006666
-$emma-magenta = #660033
+emma_green = #008080
+emma_green_dark = #006666
+emma_magenta = #660033
 
 html, body
-  height: 100%
+  height 100%
 
 *, *:before, *:after
-  box-sizing: border-box
+  box-sizing border-box
 
 body
   color body_color
-  font-family: body_fonts
+  font-family body_fonts
 
 input, button
-  font-family: body_fonts
+  font-family body_fonts
 
 a
   color ui_color
@@ -52,9 +52,8 @@ ui_button()
   border-radius border_radius
   background controls_background
 
-
 h1, h2, h3, h4, h5
-  font-family: header_fonts
+  font-family header_fonts
 
 #main-wrapper
   width 100%
@@ -62,20 +61,20 @@ h1, h2, h3, h4, h5
   overflow hidden
 
 #header-bar
-  height: header_bar_height
-  line-height: header_bar_height
-  padding-left:15px
-  background: $emma-green
-  color: white
+  height header_bar_height
+  line-height header_bar_height
+  padding-left 15px
+  background emma_green
+  color white
   h1
-    font-size: 18px
+    font-size 18px
 
 #display
   position absolute
-  top: header_bar_height
-  bottom: 0px
-  -webkit-user-select: none
-  cursor: default
+  top header_bar_height
+  bottom 0px
+  -webkit-user-select none
+  cursor default
   &.connecting
     cursor -webkit-grabbing
 
@@ -99,67 +98,6 @@ h1, h2, h3, h4, h5
   position absolute
   width 100%
   bottom 0
-
-// .controls-section
-//   padding button_size
-// .controls-heading
-//   margin 0 0 small_margin
-//   font-size 1em
-//   text-transform uppercase
-//   color #425882
-//   border-bottom 1px solid #bbb
-// .controls-label
-//   text-transform uppercase
-//   font-size 0.7em
-//   margin-bottom 2px
-//   display block  
-// input[type="text"].controls-input
-// textarea.controls-input
-//     border input_border
-//     padding 2px 3px 1px
-// .controls-input
-// .controls-buttons
-//   display block
-//   margin-bottom small_margin
-//   width 100%
-//   color body_color
-// .controls-buttons button
-//   margin-right h_space
-//   font-size 0.8em
-//   text-transform uppercase
-//   border-radius border_radius
-//   background #fde6d9
-//   border input_border
-//   color body_color
-// .controls-radio, .controls-editable-radio
-//   display inline-block
-//   margin-right small_margin
-//   input
-//     margin-right h_space
-//     vertical-align baseline
-// .controls-editable-radio-label
-//   display inline-block
-  
-// #swatches
-//   display inline-block
-// .swatch
-//   display inline-block
-//   border 1px solid #999
-//   width 1.2em
-//   height 1.2em
-//   margin-right h_space
-//   &.selected
-//     border-color red
-
-// #graph-title
-//   position absolute
-//   text-align center
-//   width 100%
-//   font-size 1.5em
-//   padding small_margin
-//   z-index 100
-//   color heading_color
-//   font-weight bold
 
 
 // Property panel
@@ -225,12 +163,13 @@ h1, h2, h3, h4, h5
   border-radius border_radius 0 0 border_radius
 
 
-// splash page
+// Splash page
+
 #splash
   position fixed
   width 100%
   height 100%
-  background $emma-green
+  background emma_green
   z-index 100000
   text-align center
   color white
@@ -240,7 +179,7 @@ h1, h2, h3, h4, h5
     font-size 26px
     margin-bottom 1em
   p
-    max-width: 600px
+    max-width 600px
     margin 20px
     margin 0 auto
     a
@@ -259,7 +198,6 @@ h1, h2, h3, h4, h5
   .splash-logos img
     max-height 140px
     margin 0 10px
-
 
 #file-option-continue
   // width 300px
