@@ -31,7 +31,7 @@ export default class SplashPage extends React.Component {
             </div>
 
             <div id='file-options-other'>
-              <a className='button magenta' href='#'>
+              <a className='button magenta' href='#' onClick={this.props.newGraph}>
                 Start a new project
               </a>
               <br/>

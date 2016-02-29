@@ -53,7 +53,7 @@ export default createClass({
         <div className='form-section'>
           <h4>Settings</h4>
 
-          <a className='button' href='#'>Edit Diagram Settings</a>
+          <a className='button' href='#' onClick={this.props.showGraphControls}>Edit Diagram Settings</a>
         </div>
 
 

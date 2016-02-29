@@ -18,6 +18,7 @@ const App = connect(
   state => {return {state}},
   dispatch => {
     return {
+      newGraph() {dispatch(creators.newGraph())},
       hideSplash() {dispatch(creators.hideSplash())},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
@@ -164,6 +165,7 @@ const App = connect(
           graph={this.props.state.get('graph')}
           hideSplash={this.props.hideSplash}
           loadJSON={this.props.loadJSON}
+          newGraph={this.props.newGraph}
         />}
         <header id='header-bar'>
           <h1>Emergency Market Map Diagram Builder</h1>
@@ -227,6 +229,7 @@ const App = connect(
           setStateName={this.props.setStateName}
           show_controls={this.controlsShown()}
           controls_state={this.getAppProp('controls')}
+          showGraphControls={this.props.showGraphControls}
           setGraphAttribute={this.props.setGraphAttribute}
           loadJSON={this.props.loadJSON}
           doLayout={this.props.doLayout}

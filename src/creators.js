@@ -4,12 +4,18 @@ import { Map as IMap } from 'immutable'
 import { Node, Edge } from './records'
 import ShortID from 'shortid'
 import html2canvas from 'html2canvas'
+import reducers from './reducers'
 import local from './localforage'
 import actions from './actions'
 
 const reader = new FileReader();
 
 // Synchronous
+
+const resetGraph = createAction(
+  actions.RESET_GRAPH,
+  () => {return {state: reducers()}}
+);
 
 const hideSplash = createAction(
   actions.HIDE_SPLASH
@@ -240,6 +246,10 @@ const setStateName = createAction(
 
 // Promises
 
+const newGraph = () =>
+  local.clear()
+    .then(resetGraph);
+
 const loadLocal = state => local.load(state)
   .then((next_state) => loadDone({state: next_state}));
 
@@ -284,6 +294,7 @@ const loadJSON = files => {
 // Exports
 
 export default {
+  newGraph,
   hideSplash,
   loadDone,
   doLayout,

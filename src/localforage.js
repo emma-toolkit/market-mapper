@@ -37,6 +37,10 @@ export default {
   load(state) {
     return loadType('app', state)
       .then(next_state => loadType('graph', next_state));
+  },
+  clear() {
+    return stores['app'].clear()
+      .then(() => stores['graph'].clear());
   }
 };
 

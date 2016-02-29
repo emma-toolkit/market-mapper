@@ -1,4 +1,5 @@
 const actions = [
+  'RESET_GRAPH',
   'HIDE_SPLASH',
   'LOAD_DONE',
   'DO_LAYOUT',

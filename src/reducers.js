@@ -22,6 +22,10 @@ export default combineReducers({
     disruptions: new ISet(),
     state: 0
   }), {
+    [actions.RESET_GRAPH]: (state, action) => {
+      const app_state = action.payload.state.get('app');
+      return app_state.set('show_splash', false);
+    },
     [actions.HIDE_SPLASH]: (state, action) =>
       state.set('show_splash', false),
     [actions.LOAD_DONE]: (state, action) => {
@@ -129,6 +133,8 @@ export default combineReducers({
     title: '',
     states: new List(['Base'])
   }), {
+    [actions.RESET_GRAPH]: (state, action) =>
+      action.payload.state.get('graph'),
     [actions.LOAD_DONE]: (state, action) =>
       state.merge(action.payload.state.get('graph')),
     [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
@@ -266,6 +272,8 @@ function edgeHandlers(nodetype) {
 function commonHandlers(element, nodetype) {
   const stateful = config.stateful[element];
   return {
+    [actions.RESET_GRAPH]: (state, action) =>
+      action.payload.state.get(element),
     [actions.LOAD_DONE]: (state, action) =>
       action.payload.state.getIn([element, nodetype]),
     [actions.CLEAR]: state => state.clear(),
