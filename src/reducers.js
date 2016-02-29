@@ -5,7 +5,7 @@ import { Node, Edge, Note } from './records'
 import config from './config.json'
 
 const DEFAULT_NODETYPE = 'chain';
-const DEFAULT_STATE_NAME = 'New State';
+const DEFAULT_STATE_NAME = '';
 const DEFAULT_NOTE_TEXT = 'New note.'
 
 export default combineReducers({
@@ -27,6 +27,8 @@ export default combineReducers({
       const app_state = action.payload.state.get('app');
       return app_state.set('show_splash', false);
     },
+    [actions.SHOW_SPLASH]: (state, action) =>
+      state.set('show_splash', true),
     [actions.HIDE_SPLASH]: (state, action) =>
       state.set('show_splash', false),
     [actions.LOAD_DONE]: (state, action) => {
@@ -134,7 +136,7 @@ export default combineReducers({
   }),
 
   graph: createReducer(new IMap({
-    title: '',
+    title: 'New Market Map',
     states: new List(['Base'])
   }), {
     [actions.RESET_GRAPH]: (state, action) =>
@@ -225,7 +227,7 @@ function nodeHandlers(nodetype) {
           y = (config.layout.h * (5/6)) + (config.layout.h / 20);
           break;
       }
-      
+
       const id = action.payload.id;
       state = state.set(id, Node({
         nodetype,

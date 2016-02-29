@@ -17,6 +17,10 @@ const resetGraph = createAction(
   () => {return {state: reducers()}}
 );
 
+const showSplash = createAction(
+  actions.SHOW_SPLASH
+);
+
 const hideSplash = createAction(
   actions.HIDE_SPLASH
 );
@@ -309,6 +313,7 @@ const loadJSON = files => {
 
 export default {
   newGraph,
+  showSplash,
   hideSplash,
   loadDone,
   doLayout,

@@ -73,6 +73,17 @@ input[type="checkbox"]
   width auto
   display inline-block
 
+.form-select-container
+  position relative
+  .select-down-arrow
+    &:before
+      display block
+      content '▾'
+      color #00695C
+      position absolute
+      right 8px
+      top 6px
+
 
 .form-input
   margin-bottom 1.2em
@@ -174,9 +185,10 @@ input[type="checkbox"]
   padding 0
   padding-left 1.6em
   padding-right 1.6em
-  border-radius 3px
+  border-radius 20px
   margin-right 8px
   margin-bottom 8px
+  transition all .5s
 
 
   &.multiline
@@ -186,6 +198,8 @@ input[type="checkbox"]
 
   &.magenta
     background-color $emma-magenta
+    &:hover
+      background-color $emma-magenta-bright
   &.green
     background-color #4CAF50
   &.blue
