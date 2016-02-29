@@ -67,11 +67,11 @@ function setStore(store, state) {
       setElements('nodes', 'infrastructure', state);
       setElements('edges', 'chain', state);
       setElements('edges', 'infrastructure', state);
-      state.get('notes').forEach((note, id) => {
-        const obj = note.toObject();
-        obj.element = 'notes';
-        stores.graph.setItem(String(id), obj);
-      });
+      // state.get('notes').forEach((note, id) => {
+      //   const obj = note.toObject();
+      //   obj.element = 'notes';
+      //   stores.graph.setItem(String(id), obj);
+      // });
       break;
   }
 }
@@ -110,18 +110,17 @@ function loadType(type, state) {
                   new_value = value.value;
                 }
               } else {
-                if (value.element === 'notes') {
-                  path = ['notes', key];
-                  new_value = Note(value);
-                } else {
-                  path = [value.element, value.nodetype, key];
-                  for (var prop in value.states) {
-                    value.states[prop] = new IMap(value.states[prop]);
-                  }
-                  value.states = new IMap(value.states);
-                  const record = value.element === 'nodes' ? Node : Edge;
-                  new_value = record(value);
+                // if (value.element === 'notes') {
+                //   path = ['notes', key];
+                //   new_value = Note(value);
+                // } else {
+                path = [value.element, value.nodetype, key];
+                for (var prop in value.states) {
+                  value.states[prop] = new IMap(value.states[prop]);
                 }
+                value.states = new IMap(value.states);
+                const record = value.element === 'nodes' ? Node : Edge;
+                new_value = record(value);
               }
               break;
           }

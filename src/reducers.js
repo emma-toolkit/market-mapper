@@ -172,21 +172,21 @@ export default combineReducers({
     infrastructure: createReducer(new IMap(), edgeHandlers('infrastructure'))
   }),
 
-  notes: createReducer(new IMap(), {
-    [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.get('notes'),
-    [actions.ADD_NOTE]: (state, action) => {
-      const id = action.payload.id;
-      const note = Note({
-        id,
-        text: DEFAULT_NOTE_TEXT
-      });
-      return state.set(id, note);
-    },
-    [actions.END_DRAGGING_NOTE]: (state, action) => {
-      return state.mergeIn([action.payload.id], action.payload.position)
-    }
-  })
+  // notes: createReducer(new IMap(), {
+  //   [actions.LOAD_DONE]: (state, action) =>
+  //     action.payload.state.get('notes'),
+  //   [actions.ADD_NOTE]: (state, action) => {
+  //     const id = action.payload.id;
+  //     const note = Note({
+  //       id,
+  //       text: DEFAULT_NOTE_TEXT
+  //     });
+  //     return state.set(id, note);
+  //   },
+  //   [actions.END_DRAGGING_NOTE]: (state, action) => {
+  //     return state.mergeIn([action.payload.id], action.payload.position)
+  //   }
+  // })
 });
 
 function nodeHandlers(nodetype) {
@@ -284,7 +284,7 @@ function commonHandlers(element, nodetype) {
   const stateful = config.stateful[element];
   return {
     [actions.RESET_GRAPH]: (state, action) =>
-      action.payload.state.get(element),
+      action.payload.state.getIn([element, nodetype]),
     [actions.LOAD_DONE]: (state, action) =>
       action.payload.state.getIn([element, nodetype]),
     [actions.CLEAR]: state => state.clear(),
