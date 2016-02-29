@@ -10,12 +10,13 @@ import config from '../config.json'
 const createClass = React.createClass;
 
 export default createClass({
-  shouldComponentUpdate(next_props) {
-    return next_props.show_controls !== this.props.show_controls ||
-      next_props.selected !== this.props.selected ||
-      next_props.graph !== this.props.graph ||
-      next_props.state !== this.props.state;
-  },
+  // shouldComponentUpdate(next_props) {
+  //   return next_props.show_controls !== this.props.show_controls ||
+  //     next_props.selected !== this.props.selected ||
+  //     next_props.graph !== this.props.graph ||
+  //     next_props.state !== this.props.state ||
+  //     next_props.controls_state !== this.props.controls_state;
+  // },
   getAttribute(att) {
     const selected = this.props.selected;
     return selected !== null ? selected[att] : '';
@@ -228,46 +229,111 @@ export default createClass({
     );
   },
 
-  // graphControls() {
-  //   return (
-  //     <div id="graph-controls" className='controls-section'>
-  //       <h3 className='controls-heading'>Graph</h3>
-  //       <div className='form-input'>State</div>
-  //       <StateRadioInput
-  //         attribute='state'
-  //         value={this.props.state}
-  //         setState={this.props.setState}
-  //         setStateName={this.props.setStateName}
-  //         options={this.props.graph.get('states')}
-  //       />
-  //       <label className='form-input'>Graph Title</label>
-  //       <TextInput
-  //         attribute='title'
-  //         value={this.props.graph.get('title')}
-  //         setAttribute={this.props.setGraphAttribute}
-  //       />
-  //       <div className='controls-buttons'>
-  //         <button onClick={this.props.doLayout}>Auto Layout Graph</button>
-  //         <button onClick={this.props.clear}>Clear Graph</button>
-  //       </div>
-  //       <div className='controls-buttons'>
-  //         <button onClick={this.props.exportJSON}>Export</button>
-  //         <input type='file' name='csv' onChange={this.props.loadJSON} />
-  //       </div>
-  //     </div>
-  //   );
-  // },
+  getSetStateName(num) {
+    return (e) => this.props.setStateName(num, e.target.value);
+  },
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      e.target.blur();
+    }
+  },
+
+  graphControls() {
+    return (
+      <div>
+        <h3>Graph Settings</h3>
+        <div className='form-section'>
+          <label className='form-input'>
+            <span className='form-label'>Title</span>
+            <TextInput
+              attribute='title'
+              placeholder='graph title'
+              value={this.props.graph.get('title')}
+              setAttribute={this.props.setGraphAttribute}
+            />
+          </label>
+        </div>
+
+        <div className='form-section'>
+          <span className='form-label'>States</span>
+          {this.props.graph.get('states').map((state, i) => {
+            return (
+              <div key={i} className='form-input'>
+              <input
+                placeholder='state name'
+                type='text'
+                value={state}
+                onChange={this.getSetStateName(i)}
+                onKeyPress={this.handleKeyPress}
+              />
+              </div>
+            );
+          })}
+          <a
+            className='button'
+            href='#'
+            onClick={this.props.addState}
+          >
+            Add state
+          </a>
+          <a
+            className='button'
+            href='#'
+            onClick={this.props.removeState}
+          >
+            Remove state
+          </a>
+        </div>
+      </div>
+    );
+    // return (
+    //   <div id="graph-controls" className='controls-section'>
+    //     <h3 className='controls-heading'>Graph</h3>
+    //     <div className='form-input'>State</div>
+    //     <StateRadioInput
+    //       attribute='state'
+    //       value={this.props.state}
+    //       setState={this.props.setState}
+    //       setStateName={this.props.setStateName}
+    //       options={this.props.graph.get('states')}
+    //     />
+    //     <label className='form-input'>Graph Title</label>
+    //     <TextInput
+    //       attribute='title'
+    //       value={this.props.graph.get('title')}
+    //       setAttribute={this.props.setGraphAttribute}
+    //     />
+    //     <div className='controls-buttons'>
+    //       <button onClick={this.props.doLayout}>Auto Layout Graph</button>
+    //       <button onClick={this.props.clear}>Clear Graph</button>
+    //     </div>
+    //     <div className='controls-buttons'>
+    //       <button onClick={this.props.exportJSON}>Export</button>
+    //       <input type='file' name='csv' onChange={this.props.loadJSON} />
+    //     </div>
+    //   </div>
+    // );
+  },
+
   renderControls() {
     if (!this.props.show_controls) return null;
     const selected = this.props.selected;
-    return (
-      <div>
-        {selected === null && this.generalControls()}
-        {selected !== null && this.nodeControls()}
-        {/*this.graphControls()*/}
-      </div>
-    );
+    let controls;
+    switch (this.props.controls_state) {
+      case 'app':
+        controls = this.generalControls();
+        break;
+      case 'graph':
+        controls = this.graphControls();
+        break;
+      case 'element':
+        controls = this.nodeControls();
+        break;
+    }
+    return <div>{controls}</div>;
   },
+
   render() {
     const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab';
     return (

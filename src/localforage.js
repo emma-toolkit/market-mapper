@@ -1,4 +1,4 @@
-import { Map as IMap } from 'immutable'
+import { Map as IMap, List } from 'immutable'
 import Promise from 'bluebird'
 import { createInstance } from 'localforage'
 import { Node, Edge } from './records'
@@ -54,6 +54,10 @@ function setStore(store, state) {
         type: 'meta',
         value: state.getIn(['graph', 'title'])
       });
+      stores.graph.setItem('states', {
+        type: 'meta',
+        value: state.getIn(['graph', 'states']).toArray()
+      });
       setElements('nodes', 'environment', state);
       setElements('nodes', 'chain', state);
       setElements('nodes', 'infrastructure', state);
@@ -91,7 +95,11 @@ function loadType(type, state) {
             case 'graph':
               if (value.type === 'meta') {
                 path = ['graph', key];
-                new_value = value.value;
+                if (key === 'states') {
+                  new_value = new List(value.value);
+                } else {
+                  new_value = value.value;
+                }
               } else {
                 path = [value.element, value.nodetype, key];
                 for (var prop in value.states) {

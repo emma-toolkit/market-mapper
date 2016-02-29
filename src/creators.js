@@ -53,11 +53,14 @@ const toggleControls = createAction(
   persistApp
 );
 
+const showGraphControls = createAction(
+  actions.SHOW_GRAPH_CONTROLS
+);
+
 const addNode = createAction(
   actions.ADD_NODE,
-  nodetype => {
+  () => {
     return {
-      nodetype,
       id: ShortID.generate(),
       last_redraw: Date.now()
     }
@@ -199,6 +202,23 @@ const setState = createAction(
   persistAll
 );
 
+const addState = createAction(
+  actions.ADD_STATE,
+  () => {},
+  persistGraph
+);
+
+const removeState = createAction(
+  actions.REMOVE_STATE,
+  num => {
+    return {
+      num,
+      last_redraw: Date.now()
+    }
+  },
+  persistAll
+);
+
 const setStateName = createAction(
   actions.SET_STATE_NAME,
   (num, name) => {return {num, name}}
@@ -256,6 +276,7 @@ export default {
   redraw,
   clear,
   toggleControls,
+  showGraphControls,
   addNode,
   removeElement,
   selectElement,
@@ -275,6 +296,8 @@ export default {
   exportJSON,
   exportPNG,
   setState,
+  addState,
+  removeState,
   setStateName
 }
 

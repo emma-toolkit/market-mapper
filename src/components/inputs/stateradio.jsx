@@ -8,17 +8,17 @@ export default createClass({
   render() {
     return (
       <fieldset id='state-toggle'>
-        {Object.keys(this.props.states).map((key) => {
+        {Array.from(this.props.states.keys()).map((key) => {
           return (
             <label key={key}>
               <input
                 type='radio'
                 name='state'
                 value={key}
-                checked={key === this.props.state.toString()}
+                checked={key === this.props.state}
                 onChange={this.handleChange}
               />
-              {this.props.states[key]}
+              {this.props.states.get(key)}
             </label>
           );
         })}

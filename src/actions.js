@@ -5,6 +5,7 @@ const actions = [
   'REDRAW',
   'CLEAR',
   'TOGGLE_CONTROLS',
+  'SHOW_GRAPH_CONTROLS',
   'ADD_NODE',
   'REMOVE_ELEMENT',
   'SELECT_ELEMENT',
@@ -22,6 +23,8 @@ const actions = [
   'EXPORT_JSON',
   'EXPORT_PNG',
   'SET_STATE',
+  'ADD_STATE',
+  'REMOVE_STATE',
   'SET_STATE_NAME'
 ];
 

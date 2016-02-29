@@ -1,14 +1,18 @@
-import { Map as IMap, Set as ISet } from 'immutable'
+import { Map as IMap, Set as ISet, List } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
 import actions from './actions'
 import { Node, Edge } from './records'
 import config from './config.json'
+
+const DEFAULT_NODETYPE = 'chain';
+const DEFAULT_STATE_NAME = 'New State';
 
 export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
     last_layout: null,
     show_controls: true,
+    controls: 'app',
     selected: null,
     in_handle: null,
     out_handle: null,
@@ -26,19 +30,26 @@ export default combineReducers({
     [actions.REDRAW]: (state, action) =>
       state.set('last_redraw', action.payload.last_redraw),
     [actions.CLEAR]: (state, action) =>
-      state.set('last_redraw', action.payload.last_redraw),
+      state.merge({
+        last_redraw: action.payload.last_redraw,
+        controls: 'app'
+      }),
     [actions.TOGGLE_CONTROLS]: (state, action) =>
       state.merge(action.payload),
+    [actions.SHOW_GRAPH_CONTROLS]: (state, action) =>
+      state.set('controls', 'graph'),
     [actions.ADD_NODE]: (state, action) =>
       state.merge({
+        controls: 'element',
         selected: Node({
-          nodetype: action.payload.nodetype,
+          nodetype: DEFAULT_NODETYPE,
           id: action.payload.id
         }),
         last_redraw: action.payload.last_redraw
       }),
     [actions.ADD_EDGE]: (state, action) =>
       state.merge({
+        controls: 'element',
         selected: Edge({
           nodetype: action.payload.nodetype,
           id: action.payload.id
@@ -47,6 +58,7 @@ export default combineReducers({
       }),
     [actions.REMOVE_ELEMENT]: (state, action) =>
       state.merge({
+        controls: 'app',
         last_redraw: action.payload.last_redraw,
         selected: null,
         in_handle: null,
@@ -54,9 +66,15 @@ export default combineReducers({
         connecting: false
       }),
     [actions.SELECT_ELEMENT]: (state, action) =>
-      state.set('selected', action.payload.element),
+      state.merge({
+        selected: action.payload.element,
+        controls: 'element'
+      }),
     [actions.DESELECT_ELEMENT]: (state, action) =>
-      state.set('selected', null),
+      state.merge({
+        selected: null,
+        controls: 'app'
+      }),
     [actions.SET_IN_HANDLE]: (state, action) =>
       state.set('in_handle', {
         id: action.payload.id,
@@ -88,6 +106,11 @@ export default combineReducers({
         selected: record
       });
     },
+    [actions.REMOVE_STATE]: (state, action) =>
+      state.merge({
+        last_redraw: action.payload.last_redraw,
+        state: action.payload.num - 1
+      }),
     [actions.SET_STATE]: (state, action) =>
       state.merge({
         last_redraw: action.payload.last_redraw,
@@ -96,15 +119,25 @@ export default combineReducers({
   }),
   graph: createReducer(new IMap({
     title: '',
-    states: ['Base']
+    states: new List(['Base'])
   }), {
     [actions.LOAD_DONE]: (state, action) =>
       state.merge(action.payload.state.get('graph')),
     [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
       state.set(action.payload.attribute, action.payload.value),
     [actions.SET_STATE_NAME]: (state, action) => {
-      const states = state.get('states');
-      states[action.payload.num] = action.payload.name;
+      let states = state.get('states');
+      states = states.set(action.payload.num, action.payload.name);
+      return state.set('states', states);
+    },
+    [actions.ADD_STATE]: (state, action) => {
+      let states = state.get('states');
+      states = states.push(DEFAULT_STATE_NAME);
+      return state.set('states', states);
+    },
+    [actions.REMOVE_STATE]: (state, action) => {
+      let states = state.get('states');
+      states = states.pop();
       return state.set('states', states);
     }
   }),
@@ -130,7 +163,7 @@ function nodeHandlers(nodetype) {
     return state;
   };
   handlers[actions.ADD_NODE] = (state, action) => {
-    if (action.payload.nodetype === nodetype) {
+    if (nodetype === DEFAULT_NODETYPE) {
       const x_int = config.layout.w / 8;
       let x = x_int;
       const num_nodes = state.size;
@@ -236,32 +269,51 @@ function commonHandlers(element, nodetype) {
       }
       return state;
     },
-    [actions.SET_STATE]: (state, action) => {
+    [actions.REMOVE_STATE]: (state, action) => {
       state.forEach(el => {
         const state_keys = Array.from(el.get('states').keys()).sort();
-        let state_num = null;
         for (let i = 0; i < state_keys.length; i++) {
           const key = parseInt(state_keys[i]);
-          if (key > action.payload.num) {
-            state_num = state_keys[i - 1];
-            break;
-          }
-          if (key === action.payload.num) {
-            state_num = action.payload.num.toString();
-            break;
-          }
-        }
-        if (state_num === null) {
-          state_num = state_keys[state_keys.length - 1];
-        }
-        for (const prop of stateful) {
-          const state_value = el.getIn(['states', state_num, prop]);
-          if (state_value !== undefined) {
-            state = state.set(el.id, el.set(prop, state_value));
+          if (key >= action.payload.num) {
+            let states = el.get('states');
+            states = states.delete(key.toString());
+            el = el.set('states', states);
+            state = state.set(el.get('id'), el);
           }
         }
       });
-      return state;
+      return setState(state, action.payload.num - 1, stateful);
+    },
+    [actions.SET_STATE]: (state, action) => {
+      return setState(state, action.payload.num, stateful);
     }
   };
+}
+
+function setState(state, num, stateful) {
+  state.forEach(el => {
+    const state_keys = Array.from(el.get('states').keys()).sort();
+    let state_num = null;
+    for (let i = 0; i < state_keys.length; i++) {
+      const key = parseInt(state_keys[i]);
+      if (key > num) {
+        state_num = state_keys[i - 1];
+        break;
+      }
+      if (key === num) {
+        state_num = num.toString();
+        break;
+      }
+    }
+    if (state_num === null) {
+      state_num = state_keys[state_keys.length - 1];
+    }
+    for (const prop of stateful) {
+      const state_value = el.getIn(['states', state_num, prop]);
+      if (state_value !== undefined) {
+        state = state.set(el.id, el.set(prop, state_value));
+      }
+    }
+  });
+  return state;
 }

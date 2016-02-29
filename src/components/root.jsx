@@ -24,9 +24,12 @@ const App = connect(
       toggleControls(show_controls) {
         dispatch(creators.toggleControls(show_controls));
       },
+      showGraphControls() {dispatch(creators.showGraphControls())},
       setState(num) {dispatch(creators.setState(num))},
+      addState() {dispatch(creators.addState())},
+      removeState(num) {dispatch(creators.removeState(num))},
       setStateName(num, name) {dispatch(creators.setStateName(num, name))},
-      addNode(nodetype) {dispatch(creators.addNode(nodetype))},
+      addNode() {dispatch(creators.addNode())},
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
       deselectElement() {dispatch(creators.deselectElement())},
@@ -80,6 +83,10 @@ const App = connect(
       }
     };
     this.props.loadLocal(this.props.state);
+  },
+  removeState() {
+    const states = this.props.state.getIn(['graph', 'states']);
+    this.props.removeState(states.size - 1);
   },
   exportJSON() {
     this.props.exportJSON(this.props.state);
@@ -160,7 +167,7 @@ const App = connect(
           ref='display'
         >
           <div id='graph-header'>
-            {title !== null && <h1 id='graph-title'>{title}</h1>}
+            <h1 id='graph-title' onClick={this.props.showGraphControls}>{title}</h1>
             [ <StateRadioInput
               states={this.props.state.getIn(['graph', 'states'])}
               state={this.getAppProp('state')}
@@ -204,8 +211,11 @@ const App = connect(
           selected={this.getSelected()}
           state={this.getAppProp('state')}
           setState={this.props.setState}
+          addState={this.props.addState}
+          removeState={this.removeState}
           setStateName={this.props.setStateName}
           show_controls={this.controlsShown()}
+          controls_state={this.getAppProp('controls')}
           setGraphAttribute={this.props.setGraphAttribute}
           loadJSON={this.props.loadJSON}
           doLayout={this.props.doLayout}
@@ -215,6 +225,8 @@ const App = connect(
           toggleControls={this.toggleControls}
           removeElement={this.removeElement}
           setElementAttribute={this.setElementAttribute}
+          addNode={this.props.addNode}
+          setStateName={this.props.setStateName}
         />
       </div>
     );
