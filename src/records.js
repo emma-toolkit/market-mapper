@@ -43,3 +43,10 @@ export const Edge = Record({
     })
   })
 });
+
+export const Note = Record({
+  id: '',
+  html: '',
+  x: 0,
+  y: 0
+});
