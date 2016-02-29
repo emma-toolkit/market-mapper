@@ -3,11 +3,11 @@
     "w": 4096,
     "h": 2160
   },
-  
+
   "nodetypes": {
-    "environment": "Environment",
+    "environment": "Market Environment",
     "chain": "Market Chain",
-    "infrastructure": "Infrastructure"
+    "infrastructure": "Infrastructure, inputs, services"
   },
 
   "stateful": {
@@ -23,23 +23,32 @@
       "disruption"
     ]
   },
-  
+
   "colors": [
     "#ffffff",
-    "#b3c6d6",
-    "#d5dbc7",
-    "#ffccc4"
+    "#FFCDD2",
+    "#BBDEFB",
+    "#C8E6C9",
+    "#FFF9C4",
+    "#E1BEE7"
   ],
-  
+
+  "linestyles": [
+    "solid",
+    "dashed",
+    "dotted"
+  ],
+
   "disruptions": {
     "": "None",
     "partial": "Partial",
     "major": "Major",
     "critical": "Critical"
   },
-  
+
   "types": {
     "environment": {
+      "Other": [],
       "Customs agencies": [
         "Ports",
         "Import & export"
@@ -79,6 +88,7 @@
       ]
     },
     "chain": {
+      "Other": [],
       "Manufacturers": [],
       "Suppliers": [
         "Agricultural"
@@ -108,6 +118,7 @@
       ]
     },
     "infrastructure": {
+      "Other": [],
       "Banking": [
         "Banks",
         "Loans/credit"

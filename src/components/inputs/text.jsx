@@ -44,6 +44,7 @@ export default createClass({
       <input
         type='text'
         className='controls-input'
+        placeholder={this.props.placeholder}
         value={this.state.value}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
@@ -54,6 +55,7 @@ export default createClass({
     return (
       <textarea
         className='controls-input'
+        placeholder={this.props.placeholder}
         value={this.state.value}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}

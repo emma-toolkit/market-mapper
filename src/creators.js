@@ -283,7 +283,6 @@ function jsonAddNodes(nodetype, data, state) {
       name: node.get('name'),
       color: node.get('color'),
       quantities: node.get('quantities'),
-      examples: node.get('examples'),
       disruption: node.get('disruption'),
       x: node.get('x'),
       y: node.get('y')

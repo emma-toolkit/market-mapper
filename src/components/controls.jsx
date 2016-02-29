@@ -37,126 +37,163 @@ export default createClass({
       }
     }
   },
+
+  instructions() {
+    return (
+      <div>
+        <p>Start building your market map!</p>
+        <ul>
+          <li>Click an entity or connection to edit it.</li>
+          <li>Drag entities to reposition them</li>
+        </ul>
+
+      </div>
+    );
+  },
+
   nodeControls() {
+    const selected = this.props.selected;
+    const section_title = selected.element === 'nodes' ?
+      'Entity Properties' : 'Connection Properties';
     return (
       <div className='controls-section'>
-        <h2 className='controls-heading'>Node</h2>
-        <div className='controls-label'>Type</div>
-        <SelectInput
-          attribute='type'
-          value={this.getAttribute('type')}
-          setAttribute={this.setAttribute}
-          options={
-            [''].concat(
-              Object.keys(config.types[this.getAttribute('nodetype')])
-            )
-          }
-        />
-        <div className='controls-label'>Subtype</div>
-        <SelectInput
-          attribute='subtype'
-          value={this.getAttribute('subtype')}
-          setAttribute={this.setAttribute}
-          options={
-            [''].concat(
-              config.types[this.getAttribute('nodetype')][this.getAttribute('type')]
-            )
-          }
-        />
-        <div className='controls-label'>Name</div>
-        <TextInput
-          attribute='name'
-          value={this.getAttribute('name')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>Color</div>
-        <ColorInput
-          value={this.getAttribute('color')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>
-          Quantities
-          <span className='label-tip'>shift+enter to submit</span>
+        <h3>{section_title}</h3>
+
+        <div className='form-section'>
+          {selected.element === 'nodes' && this._nodeOnlyInputs()}
+          {selected.element === 'edges' && this._edgeOnlyInputs()}
         </div>
-        <TextInput
-          is_textarea={true}
-          attribute='quantities'
-          value={this.getAttribute('quantities')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>
-          Examples
-          <span className='label-tip'>shift+enter to submit</span>
+
+        <div className='form-section'>
+
+          <div className='form-section-note'>
+            ↓ These properties may differ between states ↓
+          </div>
+
+          <label className='form-input'>
+            <span className='form-label'>Number, Price, Volume</span>
+            <TextInput
+              placeholder='ex: N=100, P=$20'
+              is_textarea={true}
+              attribute='quantities'
+              value={this.getAttribute('quantities')}
+              setAttribute={this.setAttribute}
+            />
+          </label>
+
+          <div className='form-input'>
+            <span className='form-label'>Disruption</span>
+            <RadioInput
+              attribute='disruption'
+              value={this.getAttribute('disruption')}
+              setAttribute={this.setAttribute}
+              options={config.disruptions}
+            />
+          </div>
+
+          <label className='form-input'>
+            <span className='form-label'>Active</span>
+            <CheckBoxInput
+              attribute='active'
+              value={this.getAttribute('active')}
+              setAttribute={this.setAttribute}
+            />
+            <span>This element is active</span>
+          </label>
         </div>
-        <TextInput
-          is_textarea={true}
-          attribute='examples'
-          value={this.getAttribute('examples')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>Disruption</div>
-        <RadioInput
-          attribute='disruption'
-          value={this.getAttribute('disruption')}
-          setAttribute={this.setAttribute}
-          options={config.disruptions}
-        />
-        <div className='controls-label'>Active</div>
-        <CheckBoxInput
-          attribute='active'
-          value={this.getAttribute('active')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-buttons'>
-          <button onClick={this.props.removeElement}>Remove Node</button>
+
+
+        <button className='red inline button' onClick={this.props.removeElement}>Remove Node</button>
+      </div>
+    );
+  },
+
+  _nodeOnlyInputs() {
+    return (
+      <div>
+        <div className='input-bar'>
+          <label className='form-input'>
+            <span className='form-label'>Type</span>
+            <SelectInput
+              attribute='type'
+              value={this.getAttribute('type')}
+              setAttribute={this.setAttribute}
+              options={
+                [].concat(
+                  Object.keys(config.types[this.getAttribute('nodetype')])
+                )
+              }
+            />
+          </label>
+
+          <label className='form-input'>
+            <span className='form-label'>Subtype</span>
+            <SelectInput
+              attribute='subtype'
+              value={this.getAttribute('subtype')}
+              setAttribute={this.setAttribute}
+              options={
+                [''].concat(
+                  config.types[this.getAttribute('nodetype')][this.getAttribute('type')]
+                )
+              }
+            />
+          </label>
+        </div>
+
+        <label className='form-input'>
+          <span className='form-label'>Name</span>
+          <TextInput
+            attribute='name'
+            placeholder='(optional)'
+            value={this.getAttribute('name')}
+            setAttribute={this.setAttribute}
+          />
+        </label>
+
+        <div className='form-input'>
+          <span className='form-label'>Color</span>
+          <ColorInput
+            value={this.getAttribute('color')}
+            setAttribute={this.setAttribute}
+          />
         </div>
       </div>
     );
   },
-  edgeControls() {
+
+  _edgeOnlyInputs() {
     return (
-      <div className='controls-section'>
-        <h2 className='controls-heading'>Edge</h2>
-        <div className='controls-label'>Width</div>
-        <NumberInput
-          attribute='width'
-          value={this.getAttribute('width')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>
-          Quantities
-          <span className='label-tip'>shift+enter to submit</span>
+      <div>
+        <div className='form-input'>
+          <span className='form-label'>Line Width</span>
+          <NumberInput
+            attribute='width'
+            value={this.getAttribute('width')}
+            setAttribute={this.setAttribute}
+          />
         </div>
-        <TextInput
-          is_textarea={true}
-          attribute='quantities'
-          value={this.getAttribute('quantities')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-label'>Disruption</div>
-        <RadioInput
-          attribute='disruption'
-          value={this.getAttribute('disruption')}
-          setAttribute={this.setAttribute}
-          options={config.disruptions}
-        />
-        <div className='controls-label'>Active</div>
-        <CheckBoxInput
-          attribute='active'
-          value={this.getAttribute('active')}
-          setAttribute={this.setAttribute}
-        />
-        <div className='controls-buttons'>
-          <button onClick={this.props.removeElement}>Remove Edge</button>
+
+        <div className='form-input'>
+          <span className='form-label'>Line Style</span>
+          <SelectInput
+            attribute='linestyle'
+            value={this.getAttribute('linestyle')}
+            setAttribute={this.setAttribute}
+            options={
+              [].concat(config.linestyles)
+            }
+          />
         </div>
       </div>
     );
   },
+
   graphControls() {
     return (
       <div id="graph-controls" className='controls-section'>
-        <h2 className='controls-heading'>Graph</h2>
-        <div className='controls-label'>State</div>
+        <h3 className='controls-heading'>Graph</h3>
+        <div className='form-input'>State</div>
         <StateRadioInput
           attribute='state'
           value={this.props.state}
@@ -164,7 +201,7 @@ export default createClass({
           setStateName={this.props.setStateName}
           options={this.props.graph.get('states')}
         />
-        <div className='controls-label'>Graph Title</div>
+        <label className='form-input'>Graph Title</label>
         <TextInput
           attribute='title'
           value={this.props.graph.get('title')}
@@ -186,16 +223,16 @@ export default createClass({
     const selected = this.props.selected;
     return (
       <div>
-        {selected !== null && selected.element === 'nodes' && this.nodeControls()}
-        {selected !== null && selected.element === 'edges' && this.edgeControls()}
+        {selected === null && this.instructions()}
+        {selected !== null && this.nodeControls()}
         {this.graphControls()}
       </div>
     );
   },
   render() {
-    const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab'; 
+    const toggle_icon = this.props.show_controls ? '\u00bb' : '\u00ab';
     return (
-      <div id='controls'>
+      <div id='controls' className='form'>
         <a
           id='toggle-controls'
           href='#'
