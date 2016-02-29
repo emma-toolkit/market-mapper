@@ -136,7 +136,7 @@ export default class Graph extends React.Component {
     this.graph.on('select', e => {
       this.props.selectElement(e.cyTarget);
     });
-    this.graph.on('unselect', 'node', e => {
+    this.graph.on('unselect', e => {
       this.props.deselectElement()
     });
     this.graph.on('click', 'node', e => {
