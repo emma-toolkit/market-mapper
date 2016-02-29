@@ -1,15 +1,23 @@
 small_margin = 10px
 title_color = #37474F
 
-#graph-title
+#graph-header
   position absolute
   text-align center
   width 100%
-  font-size 1.3em
   padding small_margin
   z-index 100
+#graph-title
+  font-size 1.3em
   color title_color
   font-weight bold
+  display inline-block
+  margin-right small_margin
+#state-toggle
+  display inline-block
+  input
+    margin-right .3em
+    vertical-align baseline
 
 .add-entity-button.button
   position absolute

@@ -7,6 +7,7 @@ import Graph from './graph.jsx'
 import SplashPage from './splash.jsx'
 import ConnectionOverlay from './overlays/connection.jsx'
 import DisruptionOverlay from './overlays/disruption.jsx'
+import StateRadioInput from './inputs/stateradio.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
@@ -154,7 +155,14 @@ const App = connect(
           className={divClassName}
           onMouseUp={this.handleMouseUp}
         >
-          {title !== null && <h1 id='graph-title'>{title}</h1>}
+          <div id='graph-header'>
+            {title !== null && <h1 id='graph-title'>{title}</h1>}
+            [ <StateRadioInput
+              states={this.props.state.getIn(['graph', 'states'])}
+              state={this.getAppProp('state')}
+              setState={this.props.setState}
+            /> ]
+          </div>
           <div id='background'>
             <NodeType nodetype='environment' addNode={this.props.addNode} />
             <NodeType nodetype='chain' addNode={this.props.addNode} />
