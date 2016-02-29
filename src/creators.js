@@ -131,11 +131,12 @@ const addEdge = createAction(
 
 const setElementAttribute = createAction(
   actions.SET_ELEMENT_ATTRIBUTE,
-  (element, attribute, value) => {
+  (element, attribute, value, state_num) => {
     return {
       element,
       attribute,
       value,
+      state_num,
       last_redraw: Date.now()
     };
   },
@@ -176,7 +177,12 @@ const exportJSON = createAction(
 
 const setState = createAction(
   actions.SET_STATE,
-  num => {return {num}}
+  num => {
+    return {
+      num,
+      last_redraw: Date.now()
+    }
+  }
 );
 
 // Promises

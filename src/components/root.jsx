@@ -41,8 +41,8 @@ const App = connect(
       addEdge(nodetype, from_id, to_id) {
         dispatch(creators.addEdge(nodetype, from_id, to_id));
       },
-      setElementAttribute(element, attribute, value) {
-        dispatch(creators.setElementAttribute(element, attribute, value));
+      setElementAttribute(element, attribute, value, state_num) {
+        dispatch(creators.setElementAttribute(element, attribute, value, state_num));
       },
       setGraphAttribute(attribute, value) {
         dispatch(creators.setGraphAttribute(attribute, value));
@@ -95,7 +95,7 @@ const App = connect(
     );
   },
   setElementAttribute(attribute, value) {
-    this.props.setElementAttribute(this.getSelected(), attribute, value);
+    this.props.setElementAttribute(this.getSelected(), attribute, value, this.getAppProp('state'));
   },
   getSelected() {
     return this.getAppProp('selected');

@@ -89,7 +89,10 @@ export default combineReducers({
       });
     },
     [actions.SET_STATE]: (state, action) =>
-      state.set('state', action.payload.num)
+      state.merge({
+        last_redraw: action.payload.last_redraw,
+        state: action.payload.num
+      })
   }),
   graph: createReducer(new IMap({
     title: '',
@@ -166,17 +169,6 @@ function nodeHandlers(nodetype) {
     }
     return state;
   };
-  handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
-    if (action.payload.element.element === 'nodes') {
-      const node = action.payload.element;
-      if (node.nodetype === nodetype) {
-        let record = state.get(node.id);
-        record = record.set(action.payload.attribute, action.payload.value);
-        state = state.set(node.id, record);
-      }
-    }
-    return state;
-  };
   return handlers;
 }
 
@@ -209,24 +201,61 @@ function edgeHandlers(nodetype) {
     }
     return state;
   };
-  handlers[actions.SET_ELEMENT_ATTRIBUTE] = (state, action) => {
-    if (action.payload.element.element === 'edges') {
-      const edge = action.payload.element;
-      if (edge.nodetype === nodetype) {
-        let record = state.get(edge.id);
-        record = record.set(action.payload.attribute, action.payload.value);
-        state = state.set(edge.id, record);
-      }
-    }
-    return state;
-  };
   return handlers;
 }
 
 function commonHandlers(element, nodetype) {
+  const stateful = config.stateful[element];
   return {
     [actions.LOAD_DONE]: (state, action) =>
       action.payload.state.getIn([element, nodetype]),
-    [actions.CLEAR]: state => state.clear()
+    [actions.CLEAR]: state => state.clear(),
+    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
+      if (action.payload.element.element === element) {
+        const el = action.payload.element;
+        if (el.nodetype === nodetype) {
+          let record = state.get(el.id);
+          const attribute = action.payload.attribute;
+          const value = action.payload.value;
+          record = record.set(attribute, value);
+          if (stateful.indexOf(attribute) !== -1) {
+            const state_str = action.payload.state_num.toString();
+            if (!record.hasIn(['states', state_str])) {
+              record.setIn(['states', state_str], new IMap());
+            }
+            record = record.setIn(['states', state_str, attribute], value);
+          }
+          state = state.set(el.id, record);
+        }
+      }
+      return state;
+    },
+    [actions.SET_STATE]: (state, action) => {
+      state.forEach(el => {
+        const state_keys = Array.from(el.get('states').keys()).sort();
+        let state_num = null;
+        for (let i = 0; i < state_keys.length; i++) {
+          const key = parseInt(state_keys[i]);
+          if (key > action.payload.num) {
+            state_num = state_keys[i - 1];
+            break;
+          }
+          if (key === action.payload.num) {
+            state_num = action.payload.num.toString();
+            break;
+          }
+        }
+        if (state_num === null) {
+          state_num = state_keys[state_keys.length - 1];
+        }
+        for (const prop of stateful) {
+          const state_value = el.getIn(['states', state_num, prop]);
+          if (state_value !== undefined) {
+            state = state.set(el.id, el.set(prop, state_value));
+          }
+        }
+      });
+      return state;
+    }
   };
 }

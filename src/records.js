@@ -1,4 +1,4 @@
-import { Record } from 'immutable'
+import { Record, Map as IMap } from 'immutable'
 
 export const Node = Record({
   element: 'nodes',
@@ -13,7 +13,14 @@ export const Node = Record({
   color: '#ffffff',
   examples: '',
   quantities: '',
-  active: true
+  active: true,
+  states: new IMap({
+    0: new IMap({
+      active: true,
+      quantities: '',
+      disruption: ''
+    })
+  })
 });
 
 export const Edge = Record({
@@ -26,5 +33,13 @@ export const Edge = Record({
   to: null,
   width: 1,
   quantities: '',
-  active: true
+  active: true,
+  states: new IMap({
+    0: new IMap({
+      active: true,
+      width: 1,
+      quantities: '',
+      disruption: ''
+    })
+  })
 });

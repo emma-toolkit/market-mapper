@@ -9,6 +9,20 @@
     "chain": "Market Chain",
     "infrastructure": "Infrastructure"
   },
+
+  "stateful": {
+    "nodes": [
+      "active",
+      "quantities",
+      "disruption"
+    ],
+    "edges": [
+      "active",
+      "width",
+      "quantities",
+      "disruption"
+    ]
+  },
   
   "colors": [
     "#ffffff",
