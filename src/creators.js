@@ -86,7 +86,8 @@ const addNote = createAction(
       id: ShortID.generate(),
       last_redraw: Date.now()
     }
-  }
+  },
+  persistGraph
 );
 
 const removeElement = createAction(
@@ -133,6 +134,17 @@ const startConnecting = createAction(
 
 const endConnecting = createAction(
   actions.END_CONNECTING
+);
+
+const startDraggingNote = createAction(
+  actions.START_DRAGGING_NOTE,
+  id => {return {id}}
+);
+
+const endDraggingNote = createAction(
+  actions.END_DRAGGING_NOTE,
+  (id, position) => {return {id, position}},
+  persistGraph
 );
 
 const setDisruptions = createAction(
@@ -316,6 +328,8 @@ export default {
   clearOutHandle,
   startConnecting,
   endConnecting,
+  startDraggingNote,
+  endDraggingNote,
   setDisruptions,
   addEdge,
   setElementAttribute,

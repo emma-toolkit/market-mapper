@@ -19,6 +19,7 @@ export default combineReducers({
     in_handle: null,
     out_handle: null,
     connecting: false,
+    dragging_note: null,
     disruptions: new ISet(),
     state: 0
   }), {
@@ -106,6 +107,10 @@ export default combineReducers({
       state.set('connecting', true),
     [actions.END_CONNECTING]: (state, action) =>
       state.set('connecting', false),
+    [actions.START_DRAGGING_NOTE]: (state, action) =>
+      state.set('dragging_note', action.payload.id),
+    [actions.END_DRAGGING_NOTE]: (state, action) =>
+      state.set('dragging_note', null),
     [actions.SET_DISRUPTIONS]: (state, action) =>
       state.set('disruptions', new ISet(action.payload.disruptions)),
     [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
@@ -166,6 +171,8 @@ export default combineReducers({
   }),
 
   notes: createReducer(new IMap(), {
+    [actions.LOAD_DONE]: (state, action) =>
+      action.payload.state.get('notes'),
     [actions.ADD_NOTE]: (state, action) => {
       const id = action.payload.id;
       const note = Note({
@@ -173,6 +180,9 @@ export default combineReducers({
         text: DEFAULT_NOTE_TEXT
       });
       return state.set(id, note);
+    },
+    [actions.END_DRAGGING_NOTE]: (state, action) => {
+      return state.mergeIn([action.payload.id], action.payload.position)
     }
   })
 });

@@ -59,7 +59,7 @@ export default createClass({
             href='#'
             onClick={() => this.props.addNode('infrastructure')}
           >+ Infrastructure</a><br/>
-          {/*<a className='button magenta' href='#' onClick={this.props.addNote}>+ Text Field</a>*/}
+          <a className='button magenta' href='#' onClick={this.props.addNote}>+ Text Field</a>
         </div>
 
         <div className='form-section'>

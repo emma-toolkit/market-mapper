@@ -4,34 +4,47 @@ const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {
-    return {dragging: null}
+    return {x: null, y: null};
   },
-  componentDidMount() {
-    // console.log('HEY!');
-    // const onMouseMove = throttle(e => {
-    //   console.log('o');
-    //   // console.log(e.offsetX, e.offsetY);
-    // });
-    window.onmousemove = () => console.log('yo!');
+  componentDidUpdate() {
+    const box = this.refs.div.getBoundingClientRect();
+    const onMouseMove = this.props.dragging ?
+      throttle(e => {
+        const x = e.pageX - box.left;
+        const y = e.pageY - box.top;
+        this.setState({x, y})
+      }) :
+      null;
+    window.onmousemove = onMouseMove;
   },
   getHandleMouseDown(id) {
-    return () => this.setState({dragging: id});
+    return () => this.props.startDragging(id);
   },
+  
   handleMouseUp() {
-    this.setState({dragging: null});
+    this.props.endDragging(this.props.dragging, this.state);
   },
-  handleMouseMove(e) {
-    console.log(e);
-  },
+
   getNotes() {
     return this.props.notes.toArray().map(note => {
+      const id = note.get('id');
+      const classes = ['note'];
+      let position;
+      if (this.props.dragging === id) {
+        classes.push('grabbed');
+        position = {
+          top: this.state.y,
+          left: this.state.x
+        };
+      } else {
+        position = {top: note.get('y'), left: note.get('x')};
+      }
       return (
         <div
-          key={note.get('id')}
-          className='note'
-          style={{top: note.get('x'), left: note.get('y')}}
-          onMouseDown={this.getHandleMouseDown(note.get('id'))}
-          onMouseUp={this.handleMouseUp}
+          key={id}
+          className={classes.join(' ')}
+          style={position}
+          onMouseDown={this.getHandleMouseDown(id)}
         >
           {note.get('text')}
         </div>
@@ -40,7 +53,7 @@ export default createClass({
   },
   render() {
     return (
-      <div className='overlay'>
+      <div className='overlay' onMouseUp={this.handleMouseUp} ref='div'>
         {this.getNotes()}
       </div>
     );

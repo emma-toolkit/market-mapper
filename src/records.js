@@ -45,6 +45,7 @@ export const Edge = Record({
 });
 
 export const Note = Record({
+  element: 'notes',
   id: '',
   text: '',
   x: 0,
