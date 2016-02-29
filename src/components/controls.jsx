@@ -38,14 +38,37 @@ export default createClass({
     }
   },
 
-  instructions() {
+  generalControls() {
     return (
       <div>
-        <p>Start building your market map!</p>
-        <ul>
-          <li>Click an entity or connection to edit it.</li>
-          <li>Drag entities to reposition them</li>
-        </ul>
+        <div className='form-section'>
+          <h4>Create New Elements</h4>
+
+          <a className='button magenta' href='#' onClick={this.props.addNode}>Add Diagram Entity</a>
+          <a className='button' href='#'>Add Text Box</a>
+
+        </div>
+
+        <div className='form-section'>
+          <h4>Settings</h4>
+
+          <a className='button' href='#'>Edit Diagram Settings</a>
+        </div>
+
+
+        <div className='form-section'>
+          <h4>Save / Export</h4>
+          <a className='button' href='#'>Export Image (PNG)</a>
+          <a className='button' href='#'>Save Data File</a>
+          <p>Your work will be saved locally in your browser and is this tool is still available while offline!</p>
+        </div>
+
+        <div className='about-footer'>
+          <a href='#' className='big-circle button'>?</a>
+
+
+        </div>
+
       </div>
     );
   },
@@ -54,9 +77,11 @@ export default createClass({
     const selected = this.props.selected;
     const section_title = selected.element === 'nodes' ?
       'Entity Properties' : 'Connection Properties';
+    const remove_label = selected.element === 'nodes' ?
+      'Delete Entity' : 'Remove Connection';
     return (
       <div className='controls-section'>
-        <h3>{section_title}</h3>
+        <h3>Edit {section_title}</h3>
 
         <div className='form-section'>
           {selected.element === 'nodes' && this._nodeOnlyInputs()}
@@ -101,8 +126,11 @@ export default createClass({
           </label>
         </div>
 
+        <div className='form-section'>
+          <button className='red inline button' onClick={this.props.removeElement}>{remove_label}</button>
+        </div>
 
-        <button className='red inline button' onClick={this.props.removeElement}>Remove Node</button>
+
       </div>
     );
   },
@@ -188,43 +216,43 @@ export default createClass({
     );
   },
 
-  // graphControls() {
-  //   return (
-  //     <div id="graph-controls" className='controls-section'>
-  //       <h3 className='controls-heading'>Graph</h3>
-  //       <div className='form-input'>State</div>
-  //       <StateRadioInput
-  //         attribute='state'
-  //         value={this.props.state}
-  //         setState={this.props.setState}
-  //         setStateName={this.props.setStateName}
-  //         options={this.props.graph.get('states')}
-  //       />
-  //       <label className='form-input'>Graph Title</label>
-  //       <TextInput
-  //         attribute='title'
-  //         value={this.props.graph.get('title')}
-  //         setAttribute={this.props.setGraphAttribute}
-  //       />
-  //       <div className='controls-buttons'>
-  //         <button onClick={this.props.doLayout}>Auto Layout Graph</button>
-  //         <button onClick={this.props.clear}>Clear Graph</button>
-  //       </div>
-  //       <div className='controls-buttons'>
-  //         <button onClick={this.props.exportJSON}>Export</button>
-  //         <input type='file' name='csv' onChange={this.props.loadJSON} />
-  //       </div>
-  //     </div>
-  //   );
-  // },
-
+  graphControls() {
+    return (
+      <div id="graph-controls" className='controls-section'>
+        <h3 className='controls-heading'>Graph</h3>
+        <div className='form-input'>State</div>
+        <StateRadioInput
+          attribute='state'
+          value={this.props.state}
+          setState={this.props.setState}
+          setStateName={this.props.setStateName}
+          options={this.props.graph.get('states')}
+        />
+        <label className='form-input'>Graph Title</label>
+        <TextInput
+          attribute='title'
+          value={this.props.graph.get('title')}
+          setAttribute={this.props.setGraphAttribute}
+        />
+        <div className='controls-buttons'>
+          <button onClick={this.props.doLayout}>Auto Layout Graph</button>
+          <button onClick={this.props.clear}>Clear Graph</button>
+        </div>
+        <div className='controls-buttons'>
+          <button onClick={this.props.exportJSON}>Export</button>
+          <input type='file' name='csv' onChange={this.props.loadJSON} />
+        </div>
+      </div>
+    );
+  },
   renderControls() {
     if (!this.props.show_controls) return null;
     const selected = this.props.selected;
     return (
       <div>
-        {selected === null && this.instructions()}
+        {selected === null && this.generalControls()}
         {selected !== null && this.nodeControls()}
+        {/*this.graphControls()*/}
       </div>
     );
   },

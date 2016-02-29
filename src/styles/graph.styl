@@ -1,33 +1,31 @@
 // This is a special css file + format used by cytoscape
 // - see http://js.cytoscape.org/#style
 
-max_label_width = 150
-selected_color = blue
-inactive_opacity = 0.4
+$line-color = #666
+$selected-color = #660033
 
 core
   active-bg-color white
   active-bg-opacity 0
 
-node
-edge
+node, edge
   color #333
   content data(label)
   text-wrap wrap
   overlay-color white
   overlay-opacity 0
   &.inactive
-    opacity inactive_opacity
+    opacity 0.4
 
 node
   width label
   height label
   background-color white
   border-width 1px
-  border-color #666
+  border-color $line-color
   text-valign center
   text-halign center
-  text-max-width max_label_width
+  text-max-width 150
   padding-top 15px
   padding-bottom 15px
   padding-right 20px
@@ -46,20 +44,23 @@ node
     shape octagon
 
 edge
-  line-color gray
-  target-arrow-color gray
-  text-background-color white
-  text-background-opacity 1
-  text-background-shape roundrectangle
+  line-color $line-color
+  target-arrow-color $line-color
   text-valign bottom
+  text-border-opacity 0
+  text-outline-color white
+  text-outline-opacity .8
+  text-outline-width 2
+  font-size: 13px
+
   &.chain
     target-arrow-shape triangle
   &.infrastructure
     target-arrow-shape circle
 
-
-node:selected, edge:selected
-  border-color #660033
-  line-color #660033
-  target-arrow-color #660033
-  border-width 2px
+node, edge
+  &:selected
+    border-color $selected-color
+    line-color $selected-color
+    target-arrow-color $selected-color
+    border-width 2px
