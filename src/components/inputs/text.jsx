@@ -5,37 +5,13 @@ export default createClass({
   getDefaultProps() {
     return {is_textarea: false};
   },
-  getInitialState() {return {
-    value: this.props.value,
-    last_value: this.props.value
-  }},
-  shouldComponentUpdate(next_props, next_state) {
-    return next_props.value !== this.props.value ||
-      next_state.value !== this.state.value;
-  },
-  componentDidUpdate() {
-    if (this.state.last_value !== this.props.value) {
-      this.setState({
-        value: this.props.value,
-        last_value: this.props.value
-      });
-    }
-  },
-  setValue(value) {
-    this.props.setAttribute(this.props.attribute, this.state.value);
-  },
   handleChange(e) {
-    this.setState({value: e.target.value})
+    this.props.setAttribute(this.props.attribute, e.target.value);
   },
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      if (!this.props.is_textarea) {
+      if (!this.props.is_textarea || e.shiftKey) {
         e.target.blur();
-        this.setValue(this.state.value);
-      } else if (e.shiftKey) {
-        e.preventDefault();
-        e.target.blur();
-        this.setValue(this.state.value);
       }
     }
   },
@@ -45,7 +21,7 @@ export default createClass({
         type='text'
         className='controls-input'
         placeholder={this.props.placeholder}
-        value={this.state.value}
+        value={this.props.value}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
       />
@@ -56,7 +32,7 @@ export default createClass({
       <textarea
         className='controls-input'
         placeholder={this.props.placeholder}
-        value={this.state.value}
+        value={this.props.value}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
       />
