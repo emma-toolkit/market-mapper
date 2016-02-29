@@ -23,6 +23,7 @@ const App = connect(
         dispatch(creators.toggleControls(show_controls));
       },
       setState(num) {dispatch(creators.setState(num))},
+      setStateName(num, name) {dispatch(creators.setStateName(num, name))},
       addNode(nodetype) {dispatch(creators.addNode(nodetype))},
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
@@ -186,6 +187,7 @@ const App = connect(
           selected={this.getSelected()}
           state={this.getAppProp('state')}
           setState={this.props.setState}
+          setStateName={this.props.setStateName}
           show_controls={this.controlsShown()}
           setGraphAttribute={this.props.setGraphAttribute}
           loadJSON={this.props.loadJSON}

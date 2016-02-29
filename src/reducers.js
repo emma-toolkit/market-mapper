@@ -96,11 +96,17 @@ export default combineReducers({
   }),
   graph: createReducer(new IMap({
     title: '',
+    states: ['Base']
   }), {
     [actions.LOAD_DONE]: (state, action) =>
       state.merge(action.payload.state.get('graph')),
     [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
-      state.set(action.payload.attribute, action.payload.value)
+      state.set(action.payload.attribute, action.payload.value),
+    [actions.SET_STATE_NAME]: (state, action) => {
+      const states = state.get('states');
+      states[action.payload.num] = action.payload.name;
+      return state.set('states', states);
+    }
   }),
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),

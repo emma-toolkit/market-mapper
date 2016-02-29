@@ -186,6 +186,11 @@ const setState = createAction(
   persistAll
 );
 
+const setStateName = createAction(
+  actions.SET_STATE_NAME,
+  (num, name) => {return {num, name}}
+);
+
 // Promises
 
 const loadLocal = state => local.load(state)
@@ -255,7 +260,8 @@ export default {
   loadLocal,
   loadJSON,
   exportJSON,
-  setState
+  setState,
+  setStateName
 }
 
 // Functions

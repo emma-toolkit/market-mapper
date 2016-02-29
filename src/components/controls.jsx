@@ -3,6 +3,7 @@ import TextInput from './inputs/text.jsx'
 import ColorInput from './inputs/color.jsx'
 import SelectInput from './inputs/select.jsx'
 import RadioInput from './inputs/radio.jsx'
+import StateRadioInput from './inputs/stateradio.jsx'
 import NumberInput from './inputs/number.jsx'
 import CheckBoxInput from './inputs/checkbox.jsx'
 import config from '../config.json'
@@ -36,14 +37,11 @@ export default createClass({
       }
     }
   },
-  setState(att, num) {
-    this.props.setState(parseInt(num));
-  },
   nodeControls() {
     return (
       <div className='controls-section'>
         <h2 className='controls-heading'>Node</h2>
-        <label className='controls-label'>Type</label>
+        <div className='controls-label'>Type</div>
         <SelectInput
           attribute='type'
           value={this.getAttribute('type')}
@@ -54,7 +52,7 @@ export default createClass({
             )
           }
         />
-        <label className='controls-label'>Subtype</label>
+        <div className='controls-label'>Subtype</div>
         <SelectInput
           attribute='subtype'
           value={this.getAttribute('subtype')}
@@ -65,45 +63,45 @@ export default createClass({
             )
           }
         />
-        <label className='controls-label'>Name</label>
+        <div className='controls-label'>Name</div>
         <TextInput
           attribute='name'
           value={this.getAttribute('name')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>Color</label>
+        <div className='controls-label'>Color</div>
         <ColorInput
           value={this.getAttribute('color')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>
+        <div className='controls-label'>
           Quantities
           <span className='label-tip'>shift+enter to submit</span>
-        </label>
+        </div>
         <TextInput
           is_textarea={true}
           attribute='quantities'
           value={this.getAttribute('quantities')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>
+        <div className='controls-label'>
           Examples
           <span className='label-tip'>shift+enter to submit</span>
-        </label>
+        </div>
         <TextInput
           is_textarea={true}
           attribute='examples'
           value={this.getAttribute('examples')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>Disruption</label>
+        <div className='controls-label'>Disruption</div>
         <RadioInput
           attribute='disruption'
           value={this.getAttribute('disruption')}
           setAttribute={this.setAttribute}
           options={config.disruptions}
         />
-        <label className='controls-label'>Active</label>
+        <div className='controls-label'>Active</div>
         <CheckBoxInput
           attribute='active'
           value={this.getAttribute('active')}
@@ -119,30 +117,30 @@ export default createClass({
     return (
       <div className='controls-section'>
         <h2 className='controls-heading'>Edge</h2>
-        <label className='controls-label'>Width</label>
+        <div className='controls-label'>Width</div>
         <NumberInput
           attribute='width'
           value={this.getAttribute('width')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>
+        <div className='controls-label'>
           Quantities
           <span className='label-tip'>shift+enter to submit</span>
-        </label>
+        </div>
         <TextInput
           is_textarea={true}
           attribute='quantities'
           value={this.getAttribute('quantities')}
           setAttribute={this.setAttribute}
         />
-        <label className='controls-label'>Disruption</label>
+        <div className='controls-label'>Disruption</div>
         <RadioInput
           attribute='disruption'
           value={this.getAttribute('disruption')}
           setAttribute={this.setAttribute}
           options={config.disruptions}
         />
-        <label className='controls-label'>Active</label>
+        <div className='controls-label'>Active</div>
         <CheckBoxInput
           attribute='active'
           value={this.getAttribute('active')}
@@ -158,14 +156,15 @@ export default createClass({
     return (
       <div id="graph-controls" className='controls-section'>
         <h2 className='controls-heading'>Graph</h2>
-        <label className='controls-label'>State</label>
-        <RadioInput
+        <div className='controls-label'>State</div>
+        <StateRadioInput
           attribute='state'
           value={this.props.state}
-          setAttribute={this.setState}
-          options={[0, 1, 2]}
+          setState={this.props.setState}
+          setStateName={this.props.setStateName}
+          options={this.props.graph.get('states')}
         />
-        <label className='controls-label'>Graph Title</label>
+        <div className='controls-label'>Graph Title</div>
         <TextInput
           attribute='title'
           value={this.props.graph.get('title')}

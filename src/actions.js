@@ -20,7 +20,8 @@ const actions = [
   'SET_ELEMENT_ATTRIBUTE',
   'SET_GRAPH_ATTRIBUTE',
   'EXPORT_JSON',
-  'SET_STATE'
+  'SET_STATE',
+  'SET_STATE_NAME'
 ];
 
 export default actions.reduce((prev, cur) => {

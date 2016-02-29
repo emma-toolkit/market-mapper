@@ -16,10 +16,8 @@ handle_color = ui_color
 disruption_size = 20px
 
 body
-  color body_color
-
-h1, h2, label
   font-family sans-serif
+  color body_color
 
 a
   color ui_color
@@ -96,12 +94,14 @@ textarea.controls-input
   background #fde6d9
   border input_border
   color body_color
-.controls-radio
+.controls-radio, .controls-editable-radio
   display inline-block
   margin-right small_margin
   input
     margin-right h_space
     vertical-align baseline
+.controls-editable-radio-label
+  display inline-block
   
 #swatches
   display inline-block
