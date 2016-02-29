@@ -182,7 +182,8 @@ const setState = createAction(
       num,
       last_redraw: Date.now()
     }
-  }
+  },
+  persistAll
 );
 
 // Promises
@@ -261,6 +262,12 @@ export default {
 
 function persistApp() {return {persist_app: true}}
 function persistGraph() {return {persist_graph: true}}
+function persistAll() {
+  return {
+    persist_app: true,
+    persist_graph: true
+  };
+}
 
 function jsonAddNodes(nodetype, data, state) {
   state.getIn(['nodes', nodetype]).forEach(node => {

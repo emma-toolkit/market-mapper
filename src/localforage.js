@@ -2,6 +2,7 @@ import { Map as IMap } from 'immutable'
 import Promise from 'bluebird'
 import { createInstance } from 'localforage'
 import { Node, Edge } from './records'
+import config from './config'
 
 const NAME = 'emma-toolkit';
 
@@ -16,7 +17,10 @@ const stores = {
   })
 };
 
-const app_persist = ['show_controls'];
+const app_persist = [
+  'show_controls',
+  'state'
+];
 
 export default {
   set(store, state) {
@@ -63,6 +67,10 @@ function setElements(element, nodetype, state) {
   state.getIn([element, nodetype]).forEach((d, id) => {
     const obj = d.toObject();
     obj.element = element;
+    obj.states = obj.states.toObject();
+    for (var num in obj.states) {
+      obj.states[num] = obj.states[num].toObject();
+    }
     stores.graph.setItem(String(id), obj);
   });
 }
@@ -86,6 +94,10 @@ function loadType(type, state) {
                 new_value = value.value;
               } else {
                 path = [value.element, value.nodetype, key];
+                for (var prop in value.states) {
+                  value.states[prop] = new IMap(value.states[prop]);
+                }
+                value.states = new IMap(value.states);
                 const record = value.element === 'nodes' ? Node : Edge;
                 new_value = record(value);
               }
