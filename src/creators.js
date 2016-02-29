@@ -11,6 +11,10 @@ const reader = new FileReader();
 
 // Synchronous
 
+const hideSplash = createAction(
+  actions.HIDE_SPLASH
+);
+
 const loadDone = createAction(
   actions.LOAD_DONE,
   payload => {
@@ -66,6 +70,16 @@ const addNode = createAction(
     }
   },
   persistGraph
+);
+
+const addNote = createAction(
+  actions.ADD_NOTE,
+  () => {
+    return {
+      id: ShortID.generate(),
+      last_redraw: Date.now()
+    }
+  }
 );
 
 const removeElement = createAction(
@@ -270,6 +284,7 @@ const loadJSON = files => {
 // Exports
 
 export default {
+  hideSplash,
   loadDone,
   doLayout,
   layoutDone,
@@ -278,6 +293,7 @@ export default {
   toggleControls,
   showGraphControls,
   addNode,
+  addNote,
   removeElement,
   selectElement,
   deselectElement,

@@ -33,9 +33,6 @@ export default createClass({
     });
   },
   render() {
-    return (
-      <div className='overlay' ref='div'>
-      </div>
-    );
+    return <div className='overlay' ref='div' />;
   }
 });

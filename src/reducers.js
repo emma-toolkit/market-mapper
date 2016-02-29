@@ -1,16 +1,18 @@
 import { Map as IMap, Set as ISet, List } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
 import actions from './actions'
-import { Node, Edge } from './records'
+import { Node, Edge, Note } from './records'
 import config from './config.json'
 
 const DEFAULT_NODETYPE = 'chain';
 const DEFAULT_STATE_NAME = 'New State';
+const DEFAULT_NOTE_TEXT = 'New note.'
 
 export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
     last_layout: null,
+    show_splash: true,
     show_controls: true,
     controls: 'app',
     selected: null,
@@ -20,6 +22,8 @@ export default combineReducers({
     disruptions: new ISet(),
     state: 0
   }), {
+    [actions.HIDE_SPLASH]: (state, action) =>
+      state.set('show_splash', false),
     [actions.LOAD_DONE]: (state, action) => {
       state = action.payload.state.get('app') || state;
       state = state.set('last_redraw', action.payload.last_redraw);
@@ -37,7 +41,10 @@ export default combineReducers({
     [actions.TOGGLE_CONTROLS]: (state, action) =>
       state.merge(action.payload),
     [actions.SHOW_GRAPH_CONTROLS]: (state, action) =>
-      state.set('controls', 'graph'),
+      state.merge({
+        controls: 'graph',
+        selected: null
+      }),
     [actions.ADD_NODE]: (state, action) =>
       state.merge({
         controls: 'element',
@@ -117,6 +124,7 @@ export default combineReducers({
         state: action.payload.num
       })
   }),
+
   graph: createReducer(new IMap({
     title: '',
     states: new List(['Base'])
@@ -141,6 +149,7 @@ export default combineReducers({
       return state.set('states', states);
     }
   }),
+
   nodes: combineReducers({
     environment: createReducer(new IMap(), nodeHandlers('environment')),
     chain: createReducer(new IMap(), nodeHandlers('chain')),
@@ -149,6 +158,17 @@ export default combineReducers({
   edges: combineReducers({
     chain: createReducer(new IMap(), edgeHandlers('chain')),
     infrastructure: createReducer(new IMap(), edgeHandlers('infrastructure'))
+  }),
+
+  notes: createReducer(new IMap(), {
+    [actions.ADD_NOTE]: (state, action) => {
+      const id = action.payload.id;
+      const note = Note({
+        id,
+        text: DEFAULT_NOTE_TEXT
+      });
+      return state.set(id, note);
+    }
   })
 });
 

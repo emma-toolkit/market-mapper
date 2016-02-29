@@ -46,7 +46,7 @@ export default createClass({
           <h4>Create New Elements</h4>
 
           <a className='button magenta' href='#' onClick={this.props.addNode}>Add Diagram Entity</a>
-          <a className='button' href='#'>Add Text Box</a>
+          <a className='button' href='#' onClick={this.props.addNote}>Add Text Box</a>
 
         </div>
 

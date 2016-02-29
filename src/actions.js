@@ -1,4 +1,5 @@
 const actions = [
+  'HIDE_SPLASH',
   'LOAD_DONE',
   'DO_LAYOUT',
   'LAYOUT_DONE',
@@ -7,6 +8,7 @@ const actions = [
   'TOGGLE_CONTROLS',
   'SHOW_GRAPH_CONTROLS',
   'ADD_NODE',
+  'ADD_NOTE',
   'REMOVE_ELEMENT',
   'SELECT_ELEMENT',
   'DESELECT_ELEMENT',

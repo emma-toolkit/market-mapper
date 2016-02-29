@@ -7,6 +7,7 @@ import Graph from './graph.jsx'
 import SplashPage from './splash.jsx'
 import ConnectionOverlay from './overlays/connection.jsx'
 import DisruptionOverlay from './overlays/disruption.jsx'
+import NotesOverlay from './overlays/notes.jsx'
 import StateRadioInput from './inputs/stateradio.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
@@ -17,6 +18,7 @@ const App = connect(
   state => {return {state}},
   dispatch => {
     return {
+      hideSplash() {dispatch(creators.hideSplash())},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
       redraw() {dispatch(creators.redraw())},
@@ -30,6 +32,7 @@ const App = connect(
       removeState(num) {dispatch(creators.removeState(num))},
       setStateName(num, name) {dispatch(creators.setStateName(num, name))},
       addNode() {dispatch(creators.addNode())},
+      addNote() {dispatch(creators.addNote())},
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
       deselectElement() {dispatch(creators.deselectElement())},
@@ -156,7 +159,12 @@ const App = connect(
     const title = this.props.state.getIn(['graph', 'title']);
     return (
       <div id='main-wrapper' className={className}>
-        {/* <SplashPage /> */}
+        {this.getAppProp('show_splash') &&
+        <SplashPage
+          graph={this.props.state.get('graph')}
+          hideSplash={this.props.hideSplash}
+          loadJSON={this.props.loadJSON}
+        />}
         <header id='header-bar'>
           <h1>Emergency Market Map Diagram Builder</h1>
         </header>
@@ -168,17 +176,20 @@ const App = connect(
         >
           <div id='graph-header'>
             <h1 id='graph-title' onClick={this.props.showGraphControls}>{title}</h1>
-            [ <StateRadioInput
+            [<StateRadioInput
               states={this.props.state.getIn(['graph', 'states'])}
               state={this.getAppProp('state')}
               setState={this.props.setState}
-            /> ]
+            />]
           </div>
           <div id='background'>
             <NodeType nodetype='environment' />
             <NodeType nodetype='chain' />
             <NodeType nodetype='infrastructure' />
           </div>
+          {/*<NotesOverlay
+            notes={this.props.state.get('notes')}
+          />*/}
           <ConnectionOverlay
             out_handle={this.getOutHandle()}
             in_handle={this.getInHandle()}
@@ -226,6 +237,7 @@ const App = connect(
           removeElement={this.removeElement}
           setElementAttribute={this.setElementAttribute}
           addNode={this.props.addNode}
+          addNote={this.props.addNote}
           setStateName={this.props.setStateName}
         />
       </div>

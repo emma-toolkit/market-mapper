@@ -1,9 +1,12 @@
 import React from 'react'
 
 export default class SplashPage extends React.Component {
-  constructor(props) {super(props)}
+  constructor(props) {
+    super(props)
+  }
 
   render() {
+    const title = this.props.graph.get('title');
     return (
       <div id="splash">
         <div id="splash-inner">
@@ -16,20 +19,35 @@ export default class SplashPage extends React.Component {
           <div id='splash-file-options'>
 
             <div id='file-option-continue'>
-              <a className='button green' href='#'>
+              <a className='button green' href='#' onClick={this.props.hideSplash}>
                 Continue working on your project
               </a>
               <div className='existing-project-info'>
-                <div><b>Project Title:</b> [title]</div>
+                {this.props.graph.get}
+                {title && <div><b>Project Title:</b> {title}</div>}
                 <div><b>Created:</b> [date]</div>
                 <div><b>Last updated:</b> [date]</div>
               </div>
             </div>
 
             <div id='file-options-other'>
-              <a className='button magenta' href='#'>Start a new project</a>
+              <a className='button magenta' href='#'>
+                Start a new project
+              </a>
               <br/>
-              <a className='button purple' href='#'>Load a saved project file</a>
+              <a
+                className='button purple'
+                href='#'
+                onClick={() => this.refs.file_input.click()}
+              >
+                Load a saved project file
+              </a>
+              <input
+                type='file'
+                style={{display: 'none'}}
+                onClick={this.props.loadJSON}
+                ref='file_input'
+              />
             </div>
           </div>
 
