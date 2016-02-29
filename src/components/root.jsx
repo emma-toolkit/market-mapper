@@ -20,6 +20,7 @@ const App = connect(
     return {
       newGraph() {dispatch(creators.newGraph())},
       hideSplash() {dispatch(creators.hideSplash())},
+      showSplash() {dispatch(creators.showSplash())},
       doLayout() {dispatch(creators.doLayout())},
       layoutDone(nodes) {dispatch(creators.layoutDone(nodes))},
       redraw() {dispatch(creators.redraw())},
@@ -170,7 +171,11 @@ const App = connect(
           newGraph={this.props.newGraph}
         />}
         <header id='header-bar'>
-          <h1>Emergency Market Map Diagram Builder</h1>
+          <h1>
+            <a href='#' onClick={this.props.showSplash}>
+              Emergency Market Map Diagram Builder
+            </a>
+          </h1>
         </header>
         <div
           id='display'

@@ -20,7 +20,9 @@ body_fonts = 'Helvetica Neue', Helvetica, Arial, sans-serif
 
 $emma-green = #008080
 $emma-green-dark = #006666
+$emma-green-bright = #A7FFEB
 $emma-magenta = #660033
+$emma-magenta-bright = #990033
 
 html, body
   height: 100%
@@ -69,6 +71,13 @@ h1, h2, h3, h4, h5
   color: white
   h1
     font-size: 15px
+    a
+      color white
+      text-decoration none
+      &:hover
+        color $emma-green-bright
+
+
 
 #display
   position absolute
@@ -154,6 +163,11 @@ h1, h2, h3, h4, h5
     img
       max-height 60px
       margin-left 10px
+
+.small-text
+  color #B2DFDB
+  font-size 10px
+  font-style italic
 
 @import './notes.styl'
 @import './forms.styl'

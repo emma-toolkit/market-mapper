@@ -83,17 +83,14 @@ export default createClass({
             href='#'
             onClick={this.props.exportJSON}
           >
-            Save Data File
+            Export Data File
           </a>
-          <p>Your work will be saved locally in your browser and is this tool is still available while offline!</p>
-        </div>
-
-        <div className='about-footer'>
-          <a href='#' className='big-circle button'>?</a>
-
+          <p className='small-text'>
+            <b>NOTE:</b>Your work is automatically saved in your browser!
+            <br/>
+          </p>
 
         </div>
-
       </div>
     );
   },
@@ -163,7 +160,7 @@ export default createClass({
   _nodeOnlyInputs() {
     return (
       <div>
-        <div className='input-bar'>
+        <div className='input-bar' style={{display: 'none'}}>
           <label className='form-input'>
             <span className='form-label'>Type</span>
             <SelectInput
@@ -261,7 +258,7 @@ export default createClass({
         <h3>Graph Settings</h3>
         <div className='form-section'>
           <label className='form-input'>
-            <span className='form-label'>Title</span>
+            <span className='form-label'>Diagram Title</span>
             <TextInput
               attribute='title'
               placeholder='graph title'
@@ -277,7 +274,7 @@ export default createClass({
             return (
               <div key={i} className='form-input'>
               <input
-                placeholder='state name'
+                placeholder='ex: drought, post-flood'
                 type='text'
                 value={state}
                 onChange={this.getSetStateName(i)}
