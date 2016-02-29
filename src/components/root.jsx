@@ -196,14 +196,14 @@ const App = connect(
             <NodeType nodetype='chain' />
             <NodeType nodetype='infrastructure' />
           </div>
-          <NotesOverlay
+          {/*<NotesOverlay
             notes={this.props.state.get('notes')}
             dragging={this.getAppProp('dragging_note')}
             startDragging={this.props.startDraggingNote}
             endDragging={this.props.endDraggingNote}
             setPosition={this.props.setNotePosition}
             selectNote={this.props.selectElement}
-          />
+          />*/}
           <ConnectionOverlay
             out_handle={this.getOutHandle()}
             in_handle={this.getInHandle()}
