@@ -3,6 +3,7 @@ import Promise from 'bluebird'
 import { Map as IMap } from 'immutable'
 import { Node, Edge } from './records'
 import ShortID from 'shortid'
+import html2canvas from 'html2canvas'
 import local from './localforage'
 import actions from './actions'
 
@@ -167,11 +168,28 @@ const exportJSON = createAction(
     let filename = title ? `${title} ` : '';
     filename += `${new Date().toISOString()}.json`;
     const json = JSON.stringify(data, null, 2);
-    const a = document.createElement('A');
-    a.href = `data:application/octet-stream;charset=utf-8,${escape(json)}`;
-    a.download = filename;
-    a.click();
+    const dataURL = `data:application/octet-stream;charset=utf-8,${escape(json)}`;
+    download(dataURL, filename);
     return;
+  }
+);
+
+const exportPNG = createAction(
+  actions.EXPORT_PNG,
+  el => {
+    html2canvas(el, {
+      background: '#FFFFFF',
+      onclone(new_el) {
+        const buttons = new_el.getElementsByClassName('add-entity-button');
+        const len = buttons.length;
+        for (let i = 0; i < len; i++) {
+          buttons[0].remove();
+        }
+      }
+    }).then(canvas => {
+      const dataURL = canvas.toDataURL('image/png');
+      download(dataURL, 'graph-image.png');
+    });
   }
 );
 
@@ -260,6 +278,7 @@ export default {
   loadLocal,
   loadJSON,
   exportJSON,
+  exportPNG,
   setState,
   setStateName
 }
@@ -273,6 +292,13 @@ function persistAll() {
     persist_app: true,
     persist_graph: true
   };
+}
+
+function download(dataURL, filename) {
+  const a = document.createElement('A');
+  a.href = dataURL;
+  a.download = filename;
+  a.click();
 }
 
 function jsonAddNodes(nodetype, data, state) {

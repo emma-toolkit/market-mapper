@@ -52,7 +52,8 @@ const App = connect(
       },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
-      exportJSON(state) {dispatch(creators.exportJSON(state))}
+      exportJSON(state) {dispatch(creators.exportJSON(state))},
+      exportPNG(el) {dispatch(creators.exportPNG(el))} 
    }
   }
 )(createClass({
@@ -82,6 +83,9 @@ const App = connect(
   },
   exportJSON() {
     this.props.exportJSON(this.props.state);
+  },
+  exportPNG() {
+    this.props.exportPNG(this.refs.display);
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
   removeElement() {
@@ -146,14 +150,18 @@ const App = connect(
     return (
       <div id='main-wrapper' className={className}>
         {/* <SplashPage /> */}
+        <button onClick={this.exportPNG} style={{
+          zIndex: 200,
+          position: 'absolute'
+        }}>Export PNG</button>
         <header id='header-bar'>
           <h1>Emergency Market Map Diagram Builder</h1>
         </header>
-
         <div
           id='display'
           className={divClassName}
           onMouseUp={this.handleMouseUp}
+          ref='display'
         >
           <div id='graph-header'>
             {title !== null && <h1 id='graph-title'>{title}</h1>}

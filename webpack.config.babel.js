@@ -9,6 +9,7 @@ const entry = {
     'cytoscape',
     'cytoscape-dagre',
     'dagre',
+    'html2canvas',
     'immutable',
     'jquery',
     'localforage',
@@ -69,7 +70,9 @@ export default {
     contentBase: './build'
   },
   node: {
-    fs: 'empty'
+    child_process: 'empty',
+    fs: 'empty',
+    net: 'empty'
   },
   eslint: {
     configFile: './.eslintrc',

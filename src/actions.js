@@ -20,6 +20,7 @@ const actions = [
   'SET_ELEMENT_ATTRIBUTE',
   'SET_GRAPH_ATTRIBUTE',
   'EXPORT_JSON',
+  'EXPORT_PNG',
   'SET_STATE',
   'SET_STATE_NAME'
 ];
