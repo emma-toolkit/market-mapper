@@ -69,8 +69,9 @@ const showGraphControls = createAction(
 
 const addNode = createAction(
   actions.ADD_NODE,
-  () => {
+  nodetype => {
     return {
+      nodetype,
       id: ShortID.generate(),
       last_redraw: Date.now()
     }

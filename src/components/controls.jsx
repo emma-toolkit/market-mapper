@@ -44,10 +44,22 @@ export default createClass({
       <div>
         <div className='form-section'>
           <h4>Create New Elements</h4>
-          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Environment</a><br/>
-          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Chain</a><br/>
-          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Infrastructure</a><br/>
-          <a className='button magenta' href='#' onClick={this.props.addNote}>+ Text Field</a>
+          <a
+            className='button magenta'
+            href='#'
+            onClick={() => this.props.addNode('environment')}
+          >+ Environment</a><br/>
+          <a
+            className='button magenta'
+            href='#'
+            onClick={() => this.props.addNode('chain')}
+          >+ Chain</a><br/>
+          <a
+            className='button magenta'
+            href='#'
+            onClick={() => this.props.addNode('infrastructure')}
+          >+ Infrastructure</a><br/>
+          {/*<a className='button magenta' href='#' onClick={this.props.addNote}>+ Text Field</a>*/}
         </div>
 
         <div className='form-section'>

@@ -52,7 +52,7 @@ export default combineReducers({
       state.merge({
         controls: 'element',
         selected: Node({
-          nodetype: DEFAULT_NODETYPE,
+          nodetype: action.payload.nodetype,
           id: action.payload.id
         }),
         last_redraw: action.payload.last_redraw
@@ -188,7 +188,7 @@ function nodeHandlers(nodetype) {
     return state;
   };
   handlers[actions.ADD_NODE] = (state, action) => {
-    if (nodetype === DEFAULT_NODETYPE) {
+    if (action.payload.nodetype === nodetype) {
       const x_int = config.layout.w / 8;
       let x = x_int;
       const num_nodes = state.size;

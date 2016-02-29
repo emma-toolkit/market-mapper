@@ -32,7 +32,7 @@ const App = connect(
       addState() {dispatch(creators.addState())},
       removeState(num) {dispatch(creators.removeState(num))},
       setStateName(num, name) {dispatch(creators.setStateName(num, name))},
-      addNode() {dispatch(creators.addNode())},
+      addNode(nodetype) {dispatch(creators.addNode(nodetype))},
       addNote() {dispatch(creators.addNote())},
       removeElement(selected) {dispatch(creators.removeElement(selected))},
       selectElement(element) {dispatch(creators.selectElement(element))},
