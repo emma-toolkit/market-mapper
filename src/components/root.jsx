@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import creators from '../creators'
 import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
+import SplashPage from './splash.jsx'
 import ConnectionOverlay from './overlays/connection.jsx'
 import DisruptionOverlay from './overlays/disruption.jsx'
 import Controls from './controls.jsx'
@@ -117,7 +118,7 @@ const App = connect(
   },
   handleMouseUp() {
     if (!this.getConnecting()) return;
-    
+
     const in_handle = this.getInHandle();
     if (in_handle) {
       const out_handle = this.getOutHandle();
@@ -140,11 +141,15 @@ const App = connect(
     const divClassName = this.getConnecting() ? 'connecting' : null;
     const title = this.props.state.getIn(['graph', 'title']);
     return (
-      <div className={className}>
+      <div id='main-wrapper' className={className}>
+        {/* <SplashPage /> */}
+        <header id='header-bar'>
+          <h1>Emergency Market Map Diagram Builder</h1>
+        </header>
+
         <div
           id='display'
           className={divClassName}
-          style={{height: window.innerHeight}}
           onMouseUp={this.handleMouseUp}
         >
           {title !== null && <h1 id='graph-title'>{title}</h1>}

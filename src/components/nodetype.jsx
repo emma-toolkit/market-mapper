@@ -11,7 +11,7 @@ export default createClass({
         <h2 className='nodetype-title'>
           {nodetypes[this.props.nodetype]}
         </h2>
-        <a className='add' href='#' onClick={this.addNode}>+</a>
+        <a className='button add-entity-button' href='#' onClick={this.addNode}>+</a>
       </div>
     );
   }

@@ -60,7 +60,8 @@ export default {
       {test: /\.jsx$/, loaders: ['react-hot', 'babel']},
       {test: /\.json$/, loader: 'json'},
       {test: /^((?!graph).)*\.styl$/, loaders: ['style', 'css', 'stylus']},
-      {test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus']}
+      {test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus']},
+      {test: /\.(png|jpg|gif)$/, loader: 'url?limit=25000'}
     ]
   },
   plugins,

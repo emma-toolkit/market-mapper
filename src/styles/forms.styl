@@ -1,0 +1,179 @@
+$input-border-radius=2px
+
+.form
+  background #546E7A
+  color #FFF
+  position: relative
+
+  h3
+    color white
+    padding 8px 15px
+    font-size: 16px
+    width: 100%
+    background: #37474F
+    display: block
+    position: relative
+
+.form-section
+  padding 15px 15px
+
+.form-section-note
+  font-style: italic
+  font-size: 12px
+  text-align center
+  margin-bottom 1em
+  border-top 1px solid #CCC
+  color #CCC
+
+
+
+// Basic input styles
+input[type="text"], textarea, select, .button
+  font-size 13px
+  padding .3rem .5rem
+  border 1px solid #ccc
+  -webkit-appearance none
+  border-radius $input-border-radius
+  border none
+  background-clip padding-box
+  display inline-block
+  line-height 1.2rem
+
+input[type="text"], textarea, select
+  background-color #FFF
+  color: #333
+  &:focus
+    outline none
+    box-shadow 0px 0px 0px 3px #37474F
+
+input[type="checkbox"]
+  width auto
+  display inline-block
+
+
+.form-input
+  margin-bottom 1.2em
+  display block
+  font-size: 13px
+  input[type="text"], textarea, select, .button
+    width 100%
+
+.form-label
+  display block
+  text-transform uppercase
+  font-size 11px
+  font-weight bold
+  margin-bottom 4px
+
+.form-hr
+  margin .2em 0
+  border-top 1px solid #AAA
+
+.input-bar
+  width 100%
+  clear both
+  position relative
+  text-align left
+  display table
+  table-layout fixed
+
+  .form-input
+    display table-cell
+    width 100%
+    padding-left 1px
+    padding-right 1px
+    padding-bottom 1rem
+
+    &:first-child
+      padding-left 0
+      input
+        border-top-left-radius $input-border-radius
+        border-bottom-left-radius $input-border-radius
+      .button
+        border-top-right-radius 0px
+        border-bottom-right-radius 0px
+    &:last-child
+      padding-right 0
+      input
+        border-top-right-radius $input-border-radius
+        border-bottom-right-radius $input-border-radius
+      .button
+        border-top-left-radius 0px
+        border-bottom-left-radius 0px
+
+    input, select
+      width 100%
+      display block
+      border-radius 0px
+
+
+.form-input
+  input[type="radio"], input[type="checkbox"]
+    margin-right .3em
+    vertical-align baseline
+
+.form-radio-group
+  display block
+
+.form-radio-item
+  margin-right 1em
+  display inline-block
+
+
+
+
+.form-swatch-group
+  display inline-block
+.form-swatch-item
+  display inline-block
+  border none
+  width 20px
+  height 20px
+  margin-right 5px
+  cursor pointer
+  &.selected
+    border 3px solid #000
+
+
+
+.button
+  width auto
+  height 40px
+  line-height 40px
+  display inline-block
+  background red
+  color white
+  font-size 11px
+  font-weight: bold
+  text-transform uppercase
+  background-color #039BE5
+  text-decoration none
+  padding 0
+  padding-left 2em
+  padding-right 2em
+  border-radius 30px
+
+  &.multiline
+    line-height: 16px
+    padding-top: 10px
+    padding-bottom: 10px
+
+  &.magenta
+    background-color $emma-magenta
+  &.green
+    background-color #4CAF50
+  &.blue
+    background-color #2196F3
+  &.red
+    background-color #BF360C
+  &.purple
+    background-color #3F51B5
+
+
+
+// .controls-heading
+//   margin 0 0 small_margin
+//   font-size 1em
+//   text-transform uppercase
+//   color #425882
+//   border-bottom 1px solid #bbb

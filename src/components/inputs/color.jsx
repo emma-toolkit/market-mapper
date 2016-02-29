@@ -12,10 +12,10 @@ export default createClass({
   },
   render() {
     return (
-      <div id='swatches' className='controls-input'>
+      <div className='form-swatch-group'>
         {colors.map(color =>
           <a
-            className={'swatch ' + this.getClass(color)}
+            className={'form-swatch-item ' + this.getClass(color)}
             key={color}
             style={{backgroundColor: color}}
             onClick={() => this.setColor(color)}

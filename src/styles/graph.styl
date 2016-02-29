@@ -1,4 +1,6 @@
-node_padding = 20
+// This is a special css file + format used by cytoscape
+// - see http://js.cytoscape.org/#style
+
 max_label_width = 150
 selected_color = blue
 inactive_opacity = 0.4
@@ -26,10 +28,11 @@ node
   text-valign center
   text-halign center
   text-max-width max_label_width
-  padding-top node_padding
-  padding-right node_padding
-  padding-bottom node_padding
-  padding-left node_padding
+  padding-top 15px
+  padding-bottom 15px
+  padding-right 20px
+  padding-left 20px
+  font-size 13px
   &.parent
     background-opacity 0
     border-width 0
@@ -41,8 +44,6 @@ node
       shape rectangle
   &.infrastructure
     shape octagon
-  &:selected
-    border-color selected_color
 
 edge
   line-color gray
@@ -55,6 +56,10 @@ edge
     target-arrow-shape triangle
   &.infrastructure
     target-arrow-shape circle
-  &:selected
-    line-color selected_color
-    target-arrow-color selected_color
+
+
+node:selected, edge:selected
+  border-color #660033
+  line-color #660033
+  target-arrow-color #660033
+  border-width 2px

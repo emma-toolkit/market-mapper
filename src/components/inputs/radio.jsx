@@ -7,10 +7,10 @@ export default createClass({
   },
   render() {
     return (
-      <fieldset className='controls-input'>
+      <fieldset className='form-radio-group'>
         {Object.keys(this.props.options).map((key) => {
           return (
-            <label key={key} className='controls-radio'>
+            <label key={key} className='form-radio-item'>
               <input
                 type='radio'
                 name={this.props.attribute}
