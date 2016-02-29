@@ -5,11 +5,15 @@ const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {
-    return {x: 0, y: 0};
+    return {x: null, y: null};
   },
   componentDidUpdate() {
     const onMouseMove = this.props.connecting && !this.props.in_handle ?
-      throttle(e => this.setState({x: e.clientX, y: e.clientY})) :
+      throttle(e => {
+        if (e.target.className !== 'handle') {
+          this.setState({x: e.offsetX, y: e.offsetY});
+        }
+      }) :
       null;
     window.onmousemove = onMouseMove;
   },
