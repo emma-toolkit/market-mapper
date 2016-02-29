@@ -19,7 +19,6 @@ export default createClass({
     return (
       <input
         type='text'
-        className='controls-input'
         placeholder={this.props.placeholder}
         value={this.props.value}
         onChange={this.handleChange}
@@ -30,7 +29,6 @@ export default createClass({
   renderTextArea() {
     return (
       <textarea
-        className='controls-input'
         placeholder={this.props.placeholder}
         value={this.props.value}
         onChange={this.handleChange}

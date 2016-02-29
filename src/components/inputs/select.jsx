@@ -7,18 +7,20 @@ export default createClass({
   },
   render() {
     return (
-      <select
-        className='controls-input'
-        value={this.props.value}
-        onChange={this.handleChange}
-      >
-        {
-          Object.keys(this.props.options).map((key) => {
-            const value = this.props.options[key];
-            return <option key={key} value={value}>{value}</option>;
-          })
-        }
-      </select>
+      <div className='form-select-container'>
+        <span className='select-down-arrow'/>
+        <select
+          value={this.props.value}
+          onChange={this.handleChange}
+        >
+          {
+            Object.keys(this.props.options).map((key) => {
+              const value = this.props.options[key];
+              return <option key={key} value={value}>{value}</option>;
+            })
+          }
+        </select>
+      </div>
     );
   }
 });

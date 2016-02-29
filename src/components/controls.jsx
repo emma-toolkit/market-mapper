@@ -44,10 +44,10 @@ export default createClass({
       <div>
         <div className='form-section'>
           <h4>Create New Elements</h4>
-
-          <a className='button magenta' href='#' onClick={this.props.addNode}>Add Diagram Entity</a>
-          <a className='button' href='#' onClick={this.props.addNote}>Add Text Box</a>
-
+          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Environment</a><br/>
+          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Chain</a><br/>
+          <a className='button magenta' href='#' onClick={this.props.addNode}>+ Infrastructure</a><br/>
+          <a className='button magenta' href='#' onClick={this.props.addNote}>+ Text Field</a>
         </div>
 
         <div className='form-section'>
@@ -205,25 +205,29 @@ export default createClass({
   _edgeOnlyInputs() {
     return (
       <div>
-        <div className='form-input'>
-          <span className='form-label'>Line Width</span>
-          <NumberInput
-            attribute='width'
-            value={this.getAttribute('width')}
-            setAttribute={this.setAttribute}
-          />
-        </div>
+        <div className='input-bar'>
+          <div className='form-input'>
+            <span className='form-label'>Line Width</span>
+            <NumberInput
+              attribute='width'
+              min='1'
+              max='15'
+              value={this.getAttribute('width')}
+              setAttribute={this.setAttribute}
+            />
+          </div>
 
-        <div className='form-input'>
-          <span className='form-label'>Line Style</span>
-          <SelectInput
-            attribute='linestyle'
-            value={this.getAttribute('linestyle')}
-            setAttribute={this.setAttribute}
-            options={
-              [].concat(config.linestyles)
-            }
-          />
+          <div className='form-input'>
+            <span className='form-label'>Line Style</span>
+            <SelectInput
+              attribute='linestyle'
+              value={this.getAttribute('linestyle')}
+              setAttribute={this.setAttribute}
+              options={
+                [].concat(config.linestyles)
+              }
+            />
+          </div>
         </div>
       </div>
     );

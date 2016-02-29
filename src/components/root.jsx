@@ -60,7 +60,7 @@ const App = connect(
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
       exportJSON(state) {dispatch(creators.exportJSON(state))},
-      exportPNG(el, title) {dispatch(creators.exportPNG(el, title))} 
+      exportPNG(el, title) {dispatch(creators.exportPNG(el, title))}
    }
   }
 )(createClass({
@@ -76,7 +76,7 @@ const App = connect(
       switch (e.code) {
         case 'Backspace':
           const active_type = document.activeElement.type;
-          if (active_type !== 'text' && active_type !== 'textarea') {
+          if (active_type !== 'text' && active_type !== 'textarea' && active_type !== 'number') {
             e.preventDefault();
             this.removeElement();
           }
@@ -102,7 +102,7 @@ const App = connect(
   removeElement() {
     const selected = this.getSelected();
     if (selected === null) return;
-    const element = selected.element === 'nodes' ? 'node' : 'edge';
+    const element = selected.element === 'nodes' ? 'entity' : 'connection';
     if (confirm(`Are you sure you want to delete the selected ${element}?`)) {
       this.props.removeElement(selected);
     }

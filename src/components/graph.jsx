@@ -20,7 +20,7 @@ export default class Graph extends React.Component {
     ) {
       this.graph.elements(':selected').deselect();
     }
-    
+
     if (
       next_props.state.getIn(['app', 'last_layout']) !==
       this.props.state.getIn(['app', 'last_layout'])
@@ -271,7 +271,7 @@ export default class Graph extends React.Component {
   }
 
   pushElements(element, nodetype, converter, arr) {
-    this.props.state.getIn([element, nodetype]).forEach((record, id) => 
+    this.props.state.getIn([element, nodetype]).forEach((record, id) =>
       arr.push(converter(record, id, nodetype, this))
     );
   }
@@ -281,16 +281,16 @@ export default class Graph extends React.Component {
     if (!record.get('active')) {
       classes.push('inactive');
     }
-    
+
     const position = record.get('position');
     if (position !== null) classes.push(position);
-    
+
     const disruption = record.get('disruption');
     if (disruption !== '') classes.push(disruption);
-    
+
     const data = record.toObject();
     data.parent = data.nodetype;
-    
+
     data.label = record.get('name') || record.get('subtype') ||
       record.get('type') || '<new node>';
 
@@ -309,7 +309,7 @@ export default class Graph extends React.Component {
       }
       data.label += examples;
     }
-    
+
     return {
       group: 'nodes',
       data,
@@ -338,7 +338,8 @@ export default class Graph extends React.Component {
       group: 'edges',
       data,
       style: {
-        width: `${record.width}px`
+        width: `${record.width}px`,
+        'line-style': record.linestyle
       },
       classes: classes.join(' ')
     };

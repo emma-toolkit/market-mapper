@@ -9,7 +9,6 @@ export default createClass({
     return (
       <input
         type='checkbox'
-        className='controls-input'
         checked={this.props.value}
         onChange={this.handleChange}
       />
