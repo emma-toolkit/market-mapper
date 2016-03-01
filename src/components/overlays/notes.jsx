@@ -7,6 +7,7 @@ export default createClass({
     return {x: null, y: null};
   },
   componentDidUpdate() {
+    if (!this.props.dragging && window.onmousemove !== null) return;
     const box = this.refs.div.getBoundingClientRect();
     const onMouseMove = this.props.dragging ?
       throttle(e => {
