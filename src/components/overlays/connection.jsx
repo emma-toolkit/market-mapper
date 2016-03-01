@@ -7,16 +7,16 @@ export default createClass({
   getInitialState() {
     return {x: null, y: null};
   },
-  componentDidUpdate() {
-    const onMouseMove = this.props.connecting && !this.props.in_handle ?
-      throttle(e => {
-        if (e.target.className !== 'handle') {
-          this.setState({x: e.offsetX, y: e.offsetY});
-        }
-      }) :
-      null;
-    window.onmousemove = onMouseMove;
-  },
+  // componentDidUpdate() {
+  //   const onMouseMove = this.props.connecting && !this.props.in_handle ?
+  //     throttle(e => {
+  //       if (e.target.className !== 'handle') {
+  //         this.setState({x: e.offsetX, y: e.offsetY});
+  //       }
+  //     }) :
+  //     null;
+  //   window.onmousemove = onMouseMove;
+  // },
   handleMouseDown() {
     this.setState({
       x: this.props.out_handle.x,

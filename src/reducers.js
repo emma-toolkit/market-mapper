@@ -78,11 +78,14 @@ export default combineReducers({
         out_handle: null,
         connecting: false
       }),
-    [actions.SELECT_ELEMENT]: (state, action) =>
-      state.merge({
-        selected: action.payload.element,
-        controls: 'element'
-      }),
+    [actions.SELECT_ELEMENT]: (state, action) => {
+      const element = action.payload.element;
+      const controls = element.get(element) === 'notes' ? 'note' : 'element';
+      return state.merge({
+        selected: element,
+        controls
+      });
+    },
     [actions.DESELECT_ELEMENT]: (state, action) =>
       state.merge({
         selected: null,
@@ -172,21 +175,23 @@ export default combineReducers({
     infrastructure: createReducer(new IMap(), edgeHandlers('infrastructure'))
   }),
 
-  // notes: createReducer(new IMap(), {
-  //   [actions.LOAD_DONE]: (state, action) =>
-  //     action.payload.state.get('notes'),
-  //   [actions.ADD_NOTE]: (state, action) => {
-  //     const id = action.payload.id;
-  //     const note = Note({
-  //       id,
-  //       text: DEFAULT_NOTE_TEXT
-  //     });
-  //     return state.set(id, note);
-  //   },
-  //   [actions.END_DRAGGING_NOTE]: (state, action) => {
-  //     return state.mergeIn([action.payload.id], action.payload.position)
-  //   }
-  // })
+  notes: createReducer(new IMap(), {
+    [actions.LOAD_DONE]: (state, action) =>
+      action.payload.state.get('notes'),
+    [actions.RESET_GRAPH]: (state, action) =>
+      action.payload.state.get('notes'),
+    [actions.ADD_NOTE]: (state, action) => {
+      const id = action.payload.id;
+      const note = Note({
+        id,
+        text: DEFAULT_NOTE_TEXT
+      });
+      return state.set(id, note);
+    },
+    [actions.END_DRAGGING_NOTE]: (state, action) => {
+      return state.mergeIn([action.payload.id], action.payload.position)
+    }
+  })
 });
 
 function nodeHandlers(nodetype) {
