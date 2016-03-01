@@ -195,7 +195,9 @@ const App = connect(
           ref='display'
         >
           <div id='graph-header'>
-            <h1 id='graph-title' onClick={this.props.showGraphControls}>{title}</h1>
+            <h1 id='graph-title' onClick={this.props.showGraphControls}>
+              {title}
+            </h1>
             <StateRadioInput
               states={this.props.state.getIn(['graph', 'states'])}
               state={this.getAppProp('state')}

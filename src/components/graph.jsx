@@ -178,6 +178,11 @@ export default class Graph extends React.Component {
         e.cy.elements(':selected').deselect();
       }
     });
+    this.graph.on('click', e => {
+      if (e.cyTarget === e.cy) {
+        this.props.deselectElement();
+      }
+    });
 
     this.graph.ready(() => {
       const selected = this.props.getSelected();

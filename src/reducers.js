@@ -232,6 +232,9 @@ function nodeHandlers(nodetype) {
       while (i < num_nodes) {
         i = state.forEach(node => {
           if (Math.abs(node.get('x') - x) < x_int) {
+            if (x + x_int > config.layout.w - x_int) {
+              return true;
+            }
             x += x_int;
             return false;
           }
