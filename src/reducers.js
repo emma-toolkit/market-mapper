@@ -9,6 +9,8 @@ const DEFAULT_NODETYPE = 'chain';
 const DEFAULT_STATE_NAME = '';
 const DEFAULT_NOTE_TEXT = 'New note.'
 
+const now = Date.now();
+
 export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
@@ -141,7 +143,9 @@ export default combineReducers({
 
   graph: createReducer(new IMap({
     title: 'Market Assessment',
-    states: new List(['Base'])
+    states: new List(['Base']),
+    created_at: now,
+    edited_at: now
   }), {
     [actions.RESET_GRAPH]: (state, action) =>
       action.payload.state.get('graph'),
@@ -365,7 +369,8 @@ function setState(state, num, stateful) {
     for (const prop of stateful) {
       const state_value = el.getIn(['states', state_num, prop]);
       if (state_value !== undefined) {
-        state = state.set(el.id, el.set(prop, state_value));
+        el = el.set(prop, state_value);
+        state = state.set(el.id, el);
       }
     }
   });

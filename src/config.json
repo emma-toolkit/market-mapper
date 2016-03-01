@@ -19,6 +19,7 @@
     "edges": [
       "active",
       "width",
+      "linestyle",
       "quantities",
       "disruption"
     ]

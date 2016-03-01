@@ -38,6 +38,7 @@ export const Edge = Record({
     0: new IMap({
       active: true,
       width: 1,
+      linestyle: 'solid',
       quantities: '',
       disruption: ''
     })

@@ -9,8 +9,8 @@ export default class SplashPage extends React.Component {
 
   render() {
     const title = this.props.graph.get('title');
-    const created_at = formatDate(this.props.graph.get('created'));
-    const updated_at = formatDate(this.props.graph.get('updated'));
+    const created_at = formatDate(this.props.created_at);
+    // const updated_at = formatDate(this.props.graph.get('updated'));
     return (
       <div id="splash">
         <div id="splash-inner">
@@ -30,7 +30,7 @@ export default class SplashPage extends React.Component {
                   {this.props.graph.get}
                   <div><b>Project Title:</b> {title}</div>
                   <div><b>Created:</b> {created_at}</div>
-                  <div><b>Last updated:</b> {updated_at}</div>
+                  {/*<div><b>Last updated:</b> {updated_at}</div>*/}
                 </div>
               </div>
             }
@@ -83,7 +83,7 @@ export default class SplashPage extends React.Component {
   }
 }
 
-function formatDate(date) {
-  if (!date) return null;
-  return date.toISOString().slice(0,19).replace('T',' - ');
+function formatDate(unix) {
+  if (!unix) return null;
+  return new Date(unix).toISOString().slice(0,19).replace('T',' - ');
 }
