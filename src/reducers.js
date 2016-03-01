@@ -80,7 +80,7 @@ export default combineReducers({
       }),
     [actions.SELECT_ELEMENT]: (state, action) => {
       const element = action.payload.element;
-      const controls = element.get(element) === 'notes' ? 'note' : 'element';
+      const controls = element.get('element') === 'notes' ? 'note' : 'element';
       return state.merge({
         selected: element,
         controls
@@ -190,6 +190,24 @@ export default combineReducers({
     },
     [actions.END_DRAGGING_NOTE]: (state, action) => {
       return state.mergeIn([action.payload.id], action.payload.position)
+    },
+    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
+      if (action.payload.element.element === 'notes') {
+        const el = action.payload.element;
+        let record = state.get(el.id);
+        const attribute = action.payload.attribute;
+        const value = action.payload.value;
+        record = record.set(attribute, value);
+        state = state.set(el.id, record);
+      }
+      return state;
+    },
+    [actions.REMOVE_ELEMENT]: (state, action) => {
+      const element = action.payload.element;
+      if (element.element === 'notes') {
+        state = state.delete(element.id);
+      }
+      return state;
     }
   })
 });

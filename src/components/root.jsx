@@ -105,7 +105,18 @@ const App = connect(
   removeElement() {
     const selected = this.getSelected();
     if (selected === null) return;
-    const element = selected.element === 'nodes' ? 'entity' : 'connection';
+    let element;
+    switch (selected.element) {
+      case 'nodes':
+        element = 'entity';
+        break;
+      case 'edges':
+        element = 'connection';
+        break;
+      case 'notes':
+        element = 'note';
+        break;
+    }
     if (confirm(`Are you sure you want to delete the selected ${element}?`)) {
       this.props.removeElement(selected);
     }
@@ -199,6 +210,7 @@ const App = connect(
           <NotesOverlay
             notes={this.props.state.get('notes')}
             dragging={this.getAppProp('dragging_note')}
+            selected={this.getSelected()}
             startDragging={this.props.startDraggingNote}
             endDragging={this.props.endDraggingNote}
             setPosition={this.props.setNotePosition}
@@ -251,6 +263,7 @@ const App = connect(
           toggleControls={this.toggleControls}
           removeElement={this.removeElement}
           setElementAttribute={this.setElementAttribute}
+          setNoteAttribute={this.setNoteAttribute}
           addNode={this.props.addNode}
           addNote={this.props.addNote}
           setStateName={this.props.setStateName}

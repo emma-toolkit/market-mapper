@@ -241,6 +241,33 @@ export default createClass({
     );
   },
 
+  noteControls() {
+    return (
+      <div className='controls-section'>
+        <h3>Edit Note Properties</h3>
+
+        <div className='form-section'>
+
+          <label className='form-input'>
+            <span className='form-label'>Number, Price, Volume</span>
+            <TextInput
+              placeholder='note text'
+              is_textarea={true}
+              attribute='text'
+              value={this.getAttribute('text')}
+              setAttribute={this.setAttribute}
+            />
+          </label>
+
+        </div>
+
+        <div className='form-section'>
+          <button className='red inline button' onClick={this.props.removeElement}>Remove Note</button>
+        </div>
+      </div>
+    );
+  },
+
   getSetStateName(num) {
     return (e) => this.props.setStateName(num, e.target.value);
   },
@@ -299,33 +326,6 @@ export default createClass({
         </div>
       </div>
     );
-    // return (
-    //   <div id="graph-controls" className='controls-section'>
-    //     <h3 className='controls-heading'>Graph</h3>
-    //     <div className='form-input'>State</div>
-    //     <StateRadioInput
-    //       attribute='state'
-    //       value={this.props.state}
-    //       setState={this.props.setState}
-    //       setStateName={this.props.setStateName}
-    //       options={this.props.graph.get('states')}
-    //     />
-    //     <label className='form-input'>Graph Title</label>
-    //     <TextInput
-    //       attribute='title'
-    //       value={this.props.graph.get('title')}
-    //       setAttribute={this.props.setGraphAttribute}
-    //     />
-    //     <div className='controls-buttons'>
-    //       <button onClick={this.props.doLayout}>Auto Layout Graph</button>
-    //       <button onClick={this.props.clear}>Clear Graph</button>
-    //     </div>
-    //     <div className='controls-buttons'>
-    //       <button onClick={this.props.exportJSON}>Export</button>
-    //       <input type='file' name='csv' onChange={this.props.loadJSON} />
-    //     </div>
-    //   </div>
-    // );
   },
 
   renderControls() {
@@ -341,6 +341,9 @@ export default createClass({
         break;
       case 'element':
         controls = this.nodeControls();
+        break;
+      case 'note':
+        controls = this.noteControls();
         break;
     }
     return <div>{controls}</div>;

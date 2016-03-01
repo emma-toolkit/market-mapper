@@ -18,7 +18,13 @@ export default createClass({
     window.onmousemove = onMouseMove;
   },
   getHandleMouseDown(id) {
-    return () => this.props.startDragging(id);
+    return () => {
+      this.setState({
+        x: this.props.notes.getIn([id, 'x']),
+        y: this.props.notes.getIn([id, 'y'])
+      });
+      this.props.startDragging(id);
+    }
   },
   
   handleMouseUp() {
@@ -45,6 +51,9 @@ export default createClass({
       } else {
         position = {top: note.get('y'), left: note.get('x')};
       }
+      if (this.props.selected && this.props.selected.get('id') === id) {
+        classes.push('selected');
+      }
       return (
         <div
           key={id}
@@ -52,7 +61,9 @@ export default createClass({
           style={position}
           onMouseDown={this.getHandleMouseDown(id)}
         >
-          {note.get('text')}
+          {note.get('text').split("\n").map((line, i) => {
+            return <p key={i}>{line}</p>;
+          })}
         </div>
       );
     });
