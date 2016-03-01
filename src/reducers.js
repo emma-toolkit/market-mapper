@@ -2,6 +2,7 @@ import { Map as IMap, Set as ISet, List } from 'immutable'
 import { createReducer, combineReducers } from 'redux-immutablejs'
 import actions from './actions'
 import { Node, Edge, Note } from './records'
+import layout from './layout'
 import config from './config.json'
 
 const DEFAULT_NODETYPE = 'chain';
@@ -238,20 +239,8 @@ function nodeHandlers(nodetype) {
         });
       }
 
-      let y;
-      switch (nodetype) {
-        case 'environment':
-          y = (config.layout.h / 6) - (config.layout.h / 20);
-          break;
-        case 'chain':
-          y = config.layout.h / 2;
-          break;
-        case 'infrastructure':
-          y = (config.layout.h * (5/6)) + (config.layout.h / 20);
-          break;
-      }
-
       const id = action.payload.id;
+      const y = layout[nodetype];
       state = state.set(id, Node({
         nodetype,
         id,

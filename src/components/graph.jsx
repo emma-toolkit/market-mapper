@@ -5,6 +5,7 @@ import Dagre from 'dagre'
 import CytoscapeDagre from 'cytoscape-dagre'
 import debounce from 'lodash.debounce'
 import Promise from 'bluebird'
+import layout from '../layout'
 import config from '../config.json'
 import graph_style from '../styles/graph.styl'
 
@@ -85,6 +86,12 @@ export default class Graph extends React.Component {
       boxSelectionEnabled: false
     });
 
+    const boundaries = {
+      environment: layout['environment'] * this.refs.div.offsetHeight * 2 / config.layout.h,
+      chain: layout['chain'] * this.refs.div.offsetHeight * (3/2) / config.layout.h,
+      infrastructure: this.refs.div.offsetHeight
+    };
+
     this.graph.on('mouseover', 'node', e => {
       const hovered = e.cyTarget;
       const nodetype = hovered.data('nodetype');
@@ -133,6 +140,33 @@ export default class Graph extends React.Component {
         this.normalize(e.cyTarget);
       }
     }));
+    this.graph.on('position', 'node', e => {
+      const target = e.cyTarget;
+      const nodetype = target.data('nodetype');
+      let upper, lower;
+      switch (nodetype) {
+        case 'environment':
+          upper = 0;
+          lower = boundaries.environment;
+          break;
+        case 'chain':
+          upper = boundaries.environment;
+          lower = boundaries.chain;
+          break;
+        case 'infrastructure':
+          upper = boundaries.chain;
+          lower = boundaries.infrastructure;
+          break;
+      }
+      const box = target.boundingBox();
+      if (box.y1 < upper) {
+        target.position('y', upper + box.h / 2);
+      } else if (box.y2 > lower) {
+        target.position('y', lower - box.h / 2);
+      } else if (box.y1 === upper || box.y2 === lower) {
+        return;
+      }
+    });
     this.graph.on('select', e => {
       this.props.selectElement(e.cyTarget);
     });
