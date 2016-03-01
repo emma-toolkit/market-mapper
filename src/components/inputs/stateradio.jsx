@@ -2,27 +2,25 @@ import React from 'react'
 const createClass = React.createClass;
 
 export default createClass({
-  handleChange(e) {
-    this.props.setState(parseInt(e.target.value));
+  handleClick(key) {
+    this.props.setState(key);
   },
   render() {
+
+    if (this.props.states.size === 1){
+      return (<div/>);
+    }
     return (
-      <fieldset id='state-toggle'>
+      <div id='state-toggle'>
         {Array.from(this.props.states.keys()).map((key) => {
+          const active_class = key === this.props.state ? ' is-active' : ''
           return (
-            <label key={key}>
-              <input
-                type='radio'
-                name='state'
-                value={key}
-                checked={key === this.props.state}
-                onChange={this.handleChange}
-              />
-              {this.props.states.get(key)}
-            </label>
+            <div className={'state-toggle-item'+active_class} key={key} onClick={this.handleClick.bind(null, key)}>
+              {this.props.states.get(key) || 'unnamed state'}
+            </div>
           );
         })}
-      </fieldset>
+      </div>
     );
   }
 });

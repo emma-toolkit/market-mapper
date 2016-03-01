@@ -136,7 +136,7 @@ export default combineReducers({
   }),
 
   graph: createReducer(new IMap({
-    title: 'New Market Map',
+    title: 'Market Assessment',
     states: new List(['Base'])
   }), {
     [actions.RESET_GRAPH]: (state, action) =>

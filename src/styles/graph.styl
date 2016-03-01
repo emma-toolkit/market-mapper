@@ -2,6 +2,7 @@
 // - see http://js.cytoscape.org/#style
 
 $line-color = #666
+$line-color-inactive = #AAA
 $selected-color = #660033
 
 core
@@ -14,15 +15,21 @@ node, edge
   text-wrap wrap
   overlay-color white
   overlay-opacity 0
+  line-color $line-color
+  target-arrow-color $line-color
+  border-color $line-color
   &.inactive
-    opacity 0.4
+    opacity 0.3
+    line-color $line-color-inactive
+    target-arrow-color $line-color-inactive
+    border-color $line-color-inactive
 
 node
   width label
   height label
   background-color white
   border-width 1px
-  border-color $line-color
+
   text-valign center
   text-halign center
   text-max-width 150
@@ -44,8 +51,6 @@ node
     shape octagon
 
 edge
-  line-color $line-color
-  target-arrow-color $line-color
   text-valign bottom
   text-border-opacity 0
   text-outline-color white

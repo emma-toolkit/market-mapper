@@ -185,11 +185,11 @@ const App = connect(
         >
           <div id='graph-header'>
             <h1 id='graph-title' onClick={this.props.showGraphControls}>{title}</h1>
-            [<StateRadioInput
+            <StateRadioInput
               states={this.props.state.getIn(['graph', 'states'])}
               state={this.getAppProp('state')}
               setState={this.props.setState}
-            />]
+            />
           </div>
           <div id='background'>
             <NodeType nodetype='environment' />

@@ -97,13 +97,10 @@ export default createClass({
 
   nodeControls() {
     const selected = this.props.selected;
-    const section_title = selected.element === 'nodes' ?
-      'Entity Properties' : 'Connection Properties';
-    const remove_label = selected.element === 'nodes' ?
-      'Delete Entity' : 'Remove Connection';
+    const el_type = selected.element === 'nodes' ? 'Entity' : 'Connection'
     return (
       <div className='controls-section'>
-        <h3>Edit {section_title}</h3>
+        <h3>Edit {el_type} Properties</h3>
 
         <div className='form-section'>
           {selected.element === 'nodes' && this._nodeOnlyInputs()}
@@ -144,15 +141,13 @@ export default createClass({
               value={this.getAttribute('active')}
               setAttribute={this.setAttribute}
             />
-            <span>This element is active</span>
+            <span>{el_type} is active in this state</span>
           </label>
         </div>
 
         <div className='form-section'>
-          <button className='red inline button' onClick={this.props.removeElement}>{remove_label}</button>
+          <button className='red inline button' onClick={this.props.removeElement}>Remove {el_type}</button>
         </div>
-
-
       </div>
     );
   },
