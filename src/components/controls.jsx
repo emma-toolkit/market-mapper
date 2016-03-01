@@ -316,13 +316,14 @@ export default createClass({
           >
             Add state
           </a>
+          {this.props.graph.get('states').size > 1 &&
           <a
             className='button'
             href='#'
             onClick={this.props.removeState}
           >
             Remove state
-          </a>
+          </a>}
         </div>
       </div>
     );
