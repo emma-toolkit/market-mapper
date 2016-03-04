@@ -68,6 +68,13 @@ export default combineReducers({
         }),
         last_redraw: action.payload.last_redraw
       }),
+    [actions.ADD_NOTE]: (state, action) =>
+      state.merge({
+        controls: 'note',
+        selected: Note({
+          id: action.payload.id
+        })
+      }),
     [actions.REMOVE_ELEMENT]: (state, action) =>
       state.merge({
         controls: 'app',
@@ -209,7 +216,9 @@ export default combineReducers({
       const id = action.payload.id;
       const note = Note({
         id,
-        text: DEFAULT_NOTE_TEXT
+        text: DEFAULT_NOTE_TEXT,
+        x: config.layout.w / 2,
+        y: config.layout.h / 2
       });
       return state.set(id, note);
     },
