@@ -5,6 +5,16 @@ import { Node, Edge, Note } from './records'
 import config from './config'
 
 const NAME = 'emma-toolkit';
+const APP_PERSIST = [
+  'show_controls',
+  'state'
+];
+const GRAPH_PERSIST = [
+  'title',
+  'created_at',
+  'edited_at',
+  'state'
+];
 
 const stores = {
   app: createInstance({
@@ -16,11 +26,6 @@ const stores = {
     storeName: 'graph'
   })
 };
-
-const app_persist = [
-  'show_controls',
-  'state'
-];
 
 export default {
   set(store, state) {
@@ -48,20 +53,22 @@ function setStore(store, state) {
   switch (store) {
     case 'app':
       state.get('app').forEach((value, key) => {
-        if (app_persist.indexOf(key) > -1) {
+        if (APP_PERSIST.indexOf(key) > -1) {
           stores[store].setItem(key, value)
         }
       });
       break;
     case 'graph':
-      stores.graph.setItem('title', {
-        type: 'meta',
-        value: state.getIn(['graph', 'title'])
-      });
-      stores.graph.setItem('states', {
-        type: 'meta',
-        value: state.getIn(['graph', 'states']).toArray()
-      });
+      for (const prop of GRAPH_PERSIST) {
+        let value = state.getIn(['graph', prop]);
+        if (List.isList(value)) {
+          value = value.toArray();
+        }
+        stores.graph.setItem(prop, {
+          type: 'meta',
+          value
+        });
+      }
       setElements('nodes', 'environment', state);
       setElements('nodes', 'chain', state);
       setElements('nodes', 'infrastructure', state);

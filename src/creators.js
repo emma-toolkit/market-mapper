@@ -14,7 +14,16 @@ const reader = new FileReader();
 
 const resetGraph = createAction(
   actions.RESET_GRAPH,
-  () => {return {state: reducers()}}
+  () => {
+    const now = Date.now();
+    let state = reducers();
+    state = state.mergeIn(['graph'], {
+      created_at: now,
+      edited_at: now
+    });
+    return {state};
+  },
+  persistGraph
 );
 
 const showSplash = createAction(

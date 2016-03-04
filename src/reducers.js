@@ -144,8 +144,8 @@ export default combineReducers({
   graph: createReducer(new IMap({
     title: 'Market Assessment',
     states: new List(['Base']),
-    created_at: now,
-    edited_at: now
+    created_at: null,
+    edited_at: null
   }), {
     [actions.RESET_GRAPH]: (state, action) =>
       action.payload.state.get('graph'),

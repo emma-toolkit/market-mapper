@@ -21,7 +21,7 @@ export default class SplashPage extends React.Component {
 
           <div id='splash-file-options'>
 
-            { title &&
+            { created_at &&
               <div id='file-option-continue'>
                 <a className='button magenta' href='#' onClick={this.props.hideSplash}>
                   Continue with existing project
