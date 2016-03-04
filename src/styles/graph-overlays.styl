@@ -6,6 +6,10 @@ title_color = #37474F
   width 100%
   padding small_margin
   z-index 100
+
+#graph-title, .section-title
+  letter-spacing 1px
+
 #graph-title
   font-size 1.3em
   color title_color
@@ -14,10 +18,12 @@ title_color = #37474F
   margin-right small_margin
 
 #state-toggle
-  display inline-block
+  display block
+  float right
+
   .state-toggle-item
     display inline-block
-    padding 0 1em
+    padding-left 1.6em
     opacity .2
     font-family header_fonts
     text-transform uppercase

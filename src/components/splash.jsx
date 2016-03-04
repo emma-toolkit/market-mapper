@@ -14,9 +14,9 @@ export default class SplashPage extends React.Component {
     return (
       <div id="splash">
         <div id="splash-inner">
-          <h1>Market Map Diagramming Tool</h1>
+          <h1>Market System Mapping Tool</h1>
           <p className='subtitle'>
-            for market assessments such as EMMA & PCMA
+            For humanitarian market assessments including EMMA, PCMA and others
           </p>
 
           <div id='splash-file-options'>
@@ -57,10 +57,9 @@ export default class SplashPage extends React.Component {
           </div>
 
 
-
           <h2>About this tool</h2>
           <p className='splash-small-p'>
-            The EMMA methodology aims to improve and support market-appropriate responses in disaster preparedness and emergency contexts. (For more on EMMA and the market assessment process, please visit <a href='http://www.emma-toolkit.org/' target='_blank'>www.emma-toolkit.org</a>).
+            This tool aims to help people involved in market assessments to quickly build visually appealing market system maps for display in reports and report summary documents. It assumes that users already have a hand-drawn version of the map to work with. This tool is intended to be intuitive and easy-to-use. Basic guidance on its use is embedded in the tool itself, and additional information is available on the <a href='http://www.emma-toolkit.org/' target='_blank'>EMMA website</a>. If you have questions about the tool or are interested in developing or adapting it, please write to <a href='mailto:livelihoodsadmin@rescue.org' target='_blank'>livelihoodsadmin@rescue.org</a>.
           </p>
 
           <div className='splash-logos'>
@@ -71,10 +70,10 @@ export default class SplashPage extends React.Component {
               <img src={require('../images/usaid.png')} />
             </a>
             <p className='splash-small-p'>
-              The tool was developed with support from the <a href='https://www.usaid.gov' target='_blank'>United States Agency for International Development (USAID)</a> as part of the Strengthening Global Capacity for Markets in Crises project Office for Foreign Disaster Assistance (OFDA).
+              The development of this market mapping tool was made possible with the generous support of the American people through the <a href='https://www.usaid.gov' target='_blank'>United States Agency for International Development (USAID)</a>.
             </p>
             <p className='small-text'>
-              The contents of this site are the responsibility of the IRC and do not necessarily reflect the views of USAID or the United States Government.
+              The contents are the responsibility of the IRC and do not necessarily reflect the views of USAID or the United States Government.
             </p>
           </div>
         </div>

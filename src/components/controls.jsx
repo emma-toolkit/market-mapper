@@ -6,6 +6,8 @@ import RadioInput from './inputs/radio.jsx'
 import StateRadioInput from './inputs/stateradio.jsx'
 import NumberInput from './inputs/number.jsx'
 import CheckBoxInput from './inputs/checkbox.jsx'
+import ToolTip from './tooltip.jsx'
+import Icon from './icon.jsx'
 import config from '../config.json'
 const createClass = React.createClass;
 
@@ -42,58 +44,61 @@ export default createClass({
   generalControls() {
     return (
       <div>
-        <div className='form-section'>
-          <h4>Create New Elements</h4>
+        <div className='add-entity-buttons'>
           <a
-            className='button magenta'
+            className='add-entity-button settings button magenta'
+            href='#'
+            onClick={this.props.showGraphControls}
+          >
+            Map Settings
+            <Icon name='cog'/>
+          </a>
+
+
+          <a
+            className='add-entity-button environment button magenta'
             href='#'
             onClick={() => this.props.addNode('environment')}
-          >+ Environment</a><br/>
+          >
+            Environment
+            <Icon name='plus'/>
+          </a>
           <a
-            className='button magenta'
+            className='add-entity-button chain button magenta'
             href='#'
             onClick={() => this.props.addNode('chain')}
-          >+ Chain</a><br/>
+          >Market Chain <Icon name='plus'/></a>
           <a
-            className='button magenta'
+            className='add-entity-button infrastructure button magenta'
             href='#'
             onClick={() => this.props.addNode('infrastructure')}
-          >+ Infrastructure</a><br/>
+          >Infrastructure <Icon name='plus'/></a>
           <a
-            className='button magenta'
+            className='add-entity-button note button magenta'
             href='#'
             onClick={this.props.addNote}
-          >+ Text Field</a>
-        </div>
-
-        <div className='form-section'>
-          <h4>Settings</h4>
-
-          <a className='button' href='#' onClick={this.props.showGraphControls}>Edit Diagram Settings</a>
+          >Note <Icon name='plus'/></a>
         </div>
 
 
         <div className='form-section'>
           <h4>Save / Export</h4>
-          <a
-            className='button'
-            href='#'
-            onClick={this.props.exportPNG}
-          >
+
+          <a className='button' href='#' onClick={this.props.exportPNG}>
             Export Image (PNG)
           </a>
-          <a
-            className='button'
-            href='#'
-            onClick={this.props.exportJSON}
-          >
-            Export Data File
-          </a>
-          <p className='small-text'>
-            <b>NOTE:</b>Your work is automatically saved in your browser!
-            <br/>
-          </p>
+          <ToolTip>
+            Save an image of your finalized map for inclusion in reports
+          </ToolTip>
 
+          <br/>
+
+          <a className='button' href='#' onClick={this.props.exportJSON}>
+            Export Project File
+          </a>
+          <ToolTip>
+            Save an export of your map project for backup or to share with someone else for editing. When you are ready to work on it again, return to the welcome page, click on "LOAD A SAVED PROJECT FILE", and upload the exported file.
+          </ToolTip>
         </div>
       </div>
     );
@@ -112,11 +117,6 @@ export default createClass({
         </div>
 
         <div className='form-section'>
-
-          <div className='form-section-note'>
-            ↓ These properties may differ between states ↓
-          </div>
-
           <label className='form-input'>
             <span className='form-label'>Number, Price, Volume</span>
             <TextInput
@@ -249,7 +249,7 @@ export default createClass({
         <div className='form-section'>
 
           <label className='form-input'>
-            <span className='form-label'>Number, Price, Volume</span>
+            <span className='form-label'>Note contents</span>
             <TextInput
               placeholder='note text'
               is_textarea={true}
@@ -281,13 +281,13 @@ export default createClass({
   graphControls() {
     return (
       <div>
-        <h3>Graph Settings</h3>
+        <h3>Map Settings</h3>
         <div className='form-section'>
           <label className='form-input'>
-            <span className='form-label'>Diagram Title</span>
+            <span className='form-label'>Title</span>
             <TextInput
               attribute='title'
-              placeholder='graph title'
+              placeholder='Ex: Commodity Name in Someplace, Country'
               value={this.props.graph.get('title')}
               setAttribute={this.props.setGraphAttribute}
             />
@@ -295,7 +295,7 @@ export default createClass({
         </div>
 
         <div className='form-section'>
-          <span className='form-label'>States</span>
+          <span className='form-label'>Possible Market States</span>
           {this.props.graph.get('states').map((state, i) => {
             return (
               <div key={i} className='form-input'>
