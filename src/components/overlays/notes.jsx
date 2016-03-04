@@ -5,10 +5,13 @@ const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {
-    return {x: null, y: null};
+    return {x: null, y: null, last_render: Date.now()};
   },
 
   componentDidUpdate() {
+    if (this.unrendered) {
+      this.setState({last_render: Date.now()});
+    }
     if (!this.props.dragging && window.onmousemove !== null) return;
     const box = this.refs.div.getBoundingClientRect();
     const onMouseMove = this.props.dragging ?
@@ -46,17 +49,29 @@ export default createClass({
   },
 
   getNotes() {
+    this.unrendered = false;
     return this.props.notes.toArray().map(note => {
       const id = note.get('id');
       const classes = ['note'];
       let position;
-      const halfHeight = this.refs[id] ? this.refs[id].offsetHeight / 2 : 0;
-      const halfWidth = this.refs[id] ? this.refs[id].offsetWidth / 2 : 0;
+      let offset;
+      if (!this.refs[id]) {
+        this.unrendered = true;
+        offset = {
+          x: 10000,
+          y: 10000
+        };
+      } else {
+        offset = {
+          x: this.refs[id].offsetWidth / 2,
+          y: this.refs[id].offsetHeight / 2
+        };
+      }
       if (this.props.dragging === id) {
         classes.push('grabbed');
         position = {
-          top: this.state.y - halfHeight,
-          left: this.state.x - halfWidth
+          top: this.state.y - offset.y,
+          left: this.state.x - offset.x
         };
       } else {
         const denormalized = this.denormalize({
@@ -64,8 +79,8 @@ export default createClass({
           y: note.get('y')
         });
         position = {
-          top: denormalized.y - halfHeight,
-          left: denormalized.x - halfWidth
+          top: denormalized.y - offset.y,
+          left: denormalized.x - offset.x
         };
       }
       if (this.props.selected && this.props.selected.get('id') === id) {
