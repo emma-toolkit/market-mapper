@@ -210,8 +210,12 @@ export default combineReducers({
   }),
 
   notes: createReducer(new IMap(), {
-    [actions.LOAD_DONE]: (state, action) =>
-      action.payload.state.get('notes'),
+    [actions.LOAD_DONE]: (state, action) => {
+      if (action.payload.state.has('notes')) {
+        return action.payload.state.get('notes');
+      }
+      return state;
+    },
     [actions.RESET_GRAPH]: (state, action) =>
       action.payload.state.get('notes'),
     [actions.ADD_NOTE]: (state, action) => {

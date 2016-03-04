@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions'
 import Promise from 'bluebird'
-import { Map as IMap } from 'immutable'
-import { Node, Edge } from './records'
+import { Map as IMap, List } from 'immutable'
+import { Node, Edge, Note } from './records'
 import ShortID from 'shortid'
 import html2canvas from 'html2canvas'
 import reducers from './reducers'
@@ -240,18 +240,24 @@ const exportJSON = createAction(
   actions.EXPORT_JSON,
   state => {
     const title = state.getIn(['graph', 'title']);
+    const edited_at = state.getIn(['graph', 'edited_at']);
     const data = {
       title,
+      created_at: state.getIn(['graph', 'created_at']),
+      edited_at,
+      states: state.getIn(['graph', 'states']).toArray(),
       nodes: [],
-      edges: []
+      edges: [],
+      notes: []
     };
     jsonAddNodes('environment', data, state);
     jsonAddNodes('chain', data, state);
     jsonAddNodes('infrastructure', data, state);
     jsonAddEdges('chain', data, state);
     jsonAddEdges('infrastructure', data, state);
+    jsonAddNotes(data, state);
 
-    const filename = getFilename(title, 'json');
+    const filename = getFilename(title, edited_at, 'json');
     const json = JSON.stringify(data, null, 2);
     const dataURL = `data:application/octet-stream;charset=utf-8,${escape(json)}`;
     download(dataURL, filename);
@@ -261,8 +267,8 @@ const exportJSON = createAction(
 
 const exportPNG = createAction(
   actions.EXPORT_PNG,
-  (el, title) => {
-    const filename = getFilename(title, 'png');
+  (el, title, edited_at) => {
+    const filename = getFilename(title, edited_at, 'png');
     html2canvas(el, {
       background: '#FFFFFF',
       // onclone(new_el) {
@@ -328,7 +334,12 @@ const loadJSON = files => {
     const data = JSON.parse(str);
     let state = new IMap({
       app: new IMap({show_splash: false}),
-      graph: new IMap({title: data.title}),
+      graph: new IMap({
+        title: data.title,
+        created_at: data.created_at,
+        edited_at: data.edited_at,
+        states: new List(data.states)
+      }),
       nodes: new IMap({
         environment: new IMap(),
         chain: new IMap(),
@@ -337,22 +348,37 @@ const loadJSON = files => {
       edges: new IMap({
         chain: new IMap(),
         infrastructure: new IMap()
-      })
+      }),
+      notes: new IMap()
     });
 
     for (var i in data.nodes) {
-      const node = Node(data.nodes[i]);
+      const obj = data.nodes[i];
+      for (var j in obj.states) {
+        obj.states[j] = new IMap(obj.states[j]);
+      }
+      obj.states = new IMap(obj.states);
+      const node = Node(obj);
       state = state.setIn(
         ['nodes', node.get('nodetype'), node.get('id')],
         node
       );
     }
     for (var i in data.edges) {
-      const edge = Edge(data.edges[i]);
+      const obj = data.edges[i];
+      for (var j in obj.states) {
+        obj.states[j] = new IMap(obj.states[j]);
+      }
+      obj.states = new IMap(obj.states);
+      const edge = Edge(obj);
       state = state.setIn(
         ['edges', edge.get('nodetype'), edge.get('id')],
         edge
       );
+    }
+    for (var i in data.notes) {
+      const note = Note(data.notes[i]);
+      state = state.setIn(['notes', note.get('id')], note);
     }
 
     return {state};
@@ -410,9 +436,9 @@ function persistAll() {
   };
 }
 
-function getFilename(title, extension) {
+function getFilename(title, edited_at, extension) {
   let filename = title ? `${title} ` : '';
-  return `${filename}${new Date().toISOString()}.${extension}`;
+  return `${filename}${new Date(edited_at).toISOString()}.${extension}`;
 }
 
 function download(dataURL, filename) {
@@ -424,6 +450,10 @@ function download(dataURL, filename) {
 
 function jsonAddNodes(nodetype, data, state) {
   state.getIn(['nodes', nodetype]).forEach(node => {
+    const states = {};
+    node.get('states').forEach((stateMap, key) => {
+      states[key] = stateMap.toObject();
+    });
     data.nodes.push({
       id: node.get('id'),
       nodetype,
@@ -431,22 +461,42 @@ function jsonAddNodes(nodetype, data, state) {
       color: node.get('color'),
       quantities: node.get('quantities'),
       disruption: node.get('disruption'),
+      active: node.get('active'),
       x: node.get('x'),
-      y: node.get('y')
+      y: node.get('y'),
+      states
     });
   });
 }
 
 function jsonAddEdges(nodetype, data, state) {
   state.getIn(['edges', nodetype]).forEach(edge => {
+    const states = {};
+    edge.get('states').forEach((stateMap, key) => {
+      states[key] = stateMap.toObject();
+    });
     data.edges.push({
       id: edge.get('id'),
       nodetype,
       from: edge.get('from'),
       to: edge.get('to'),
       width: edge.get('width'),
+      linestyle: edge.get('linestyle'),
       quantities: edge.get('quantities'),
-      disruption: edge.get('disruption')
+      disruption: edge.get('disruption'),
+      active: edge.get('active'),
+      states
+    });
+  });
+}
+
+function jsonAddNotes(data, state) {
+  state.get('notes').forEach(note => {
+    data.notes.push({
+      id: note.get('id'),
+      text: note.get('text'),
+      x: note.get('x'),
+      y: note.get('y')
     });
   });
 }

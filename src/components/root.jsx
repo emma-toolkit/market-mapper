@@ -63,7 +63,9 @@ const App = connect(
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
       exportJSON(state) {dispatch(creators.exportJSON(state))},
-      exportPNG(el, title) {dispatch(creators.exportPNG(el, title))}
+      exportPNG(el, title, edited_at) {
+        dispatch(creators.exportPNG(el, title, edited_at));
+      }
    }
   }
 )(createClass({
@@ -99,7 +101,11 @@ const App = connect(
     this.props.exportJSON(this.props.state);
   },
   exportPNG() {
-    this.props.exportPNG(this.refs.display, this.props.state.getIn(['graph', 'title']));
+    this.props.exportPNG(
+      this.refs.display,
+      this.props.state.getIn(['graph', 'title']),
+      this.props.state.getIn(['graph', 'edited_at'])
+    );
   },
   toggleControls() {this.props.toggleControls(!this.controlsShown())},
   removeElement() {
