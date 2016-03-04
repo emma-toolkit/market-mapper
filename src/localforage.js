@@ -13,7 +13,8 @@ const GRAPH_PERSIST = [
   'title',
   'created_at',
   'edited_at',
-  'state'
+  'state',
+  'legend'
 ];
 
 const stores = {
@@ -64,6 +65,9 @@ function setStore(store, state) {
         if (List.isList(value)) {
           value = value.toArray();
         }
+        if (IMap.isMap(value)) {
+          value = value.toObject();
+        }
         stores.graph.setItem(prop, {
           type: 'meta',
           value
@@ -113,6 +117,8 @@ function loadType(type, state) {
                 path = ['graph', key];
                 if (key === 'states') {
                   new_value = new List(value.value);
+                } else if (key === 'legend') {
+                  new_value = new IMap(value.value);
                 } else {
                   new_value = value.value;
                 }

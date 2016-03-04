@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import creators from '../creators'
 import NodeType from './nodetype.jsx'
 import Graph from './graph.jsx'
+import Legend from './legend.jsx'
 import SplashPage from './splash.jsx'
 import ConnectionOverlay from './overlays/connection.jsx'
 import DisruptionOverlay from './overlays/disruption.jsx'
@@ -252,6 +253,9 @@ const App = connect(
             clearInHandle={this.props.clearInHandle}
             setDisruptions={this.props.setDisruptions}
           />
+          {/*<Legend
+            legend={this.props.state.getIn(['graph', 'legend'])}
+          />*/}
         </div>
         <Controls
           graph={this.props.state.get('graph')}
