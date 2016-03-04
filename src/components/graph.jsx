@@ -11,6 +11,8 @@ import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
 
+const EDGE_DISRUPTION_OFFSET = 0.7;
+
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
 
@@ -203,8 +205,23 @@ export default class Graph extends React.Component {
           location.x = box.x2 - 15;
           location.y = box.y1 + 15;
         } else {
-          location.x = (box.x1 + box.x2) / 2;
-          location.y = (box.y1 + box.y2) / 2;
+          const edgeNodes = element.connectedNodes();
+          const n1 = edgeNodes[0].position();
+          const n2 = edgeNodes[1].position();
+          let x_factor;
+          let y_factor;
+          if (n1.x < n2.x) {
+            x_factor = EDGE_DISRUPTION_OFFSET;
+          } else {
+            x_factor = 1 - EDGE_DISRUPTION_OFFSET;
+          }
+          if (n1.y < n2.y) {
+            y_factor = EDGE_DISRUPTION_OFFSET;
+          } else {
+            y_factor = 1 - EDGE_DISRUPTION_OFFSET;
+          }
+          location.x = box.x1 + (box.x2 - box.x1) * x_factor;
+          location.y = box.y1 + (box.y2 - box.y1) * y_factor;
         }
         disruptions.push(location);
       });
