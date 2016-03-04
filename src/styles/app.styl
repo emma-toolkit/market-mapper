@@ -240,18 +240,6 @@ h1, h2, h3, h4, h5
       opacity .97
       transform translate3d(0,0,0) rotate3d(0,0,0,0)
 
-.icon
-  width 16px
-  height 16px
-
-.button
-  .icon
-    fill white
-    width 12px
-    height 12px
-    vertical-align baseline
-    margin-bottom -2px
-
 .add-entity-buttons
   position absolute
   // height 100%
@@ -266,6 +254,13 @@ h1, h2, h3, h4, h5
   z-index 1
   right 0px
   margin 0
+  width: 36px
+  height: 36px
+  line-height 36px
+  border-radius 50%
+  text-align center
+  padding 0
+
   &.settings
     top 3px
   &.environment
@@ -278,7 +273,18 @@ h1, h2, h3, h4, h5
     bottom 0%
 
   .icon
-    margin-left 8px
+    width inherit
+    height inherit
+    vertical-align baseline
+    text-align center
+    line-height inherit
+    display block
+    svg
+      display inline-block
+      vertical-align middle
+      fill white
+      width 18px
+      height 18px
 
 @import './notes.styl'
 @import './forms.styl'

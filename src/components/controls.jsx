@@ -50,7 +50,6 @@ export default createClass({
             href='#'
             onClick={this.props.showGraphControls}
           >
-            Map Settings
             <Icon name='cog'/>
           </a>
 
@@ -60,24 +59,23 @@ export default createClass({
             href='#'
             onClick={() => this.props.addNode('environment')}
           >
-            Environment
             <Icon name='plus'/>
           </a>
           <a
             className='add-entity-button chain button magenta'
             href='#'
             onClick={() => this.props.addNode('chain')}
-          >Market Chain <Icon name='plus'/></a>
+          ><Icon name='plus'/></a>
           <a
             className='add-entity-button infrastructure button magenta'
             href='#'
             onClick={() => this.props.addNode('infrastructure')}
-          >Infrastructure <Icon name='plus'/></a>
+          ><Icon name='plus'/></a>
           <a
             className='add-entity-button note button magenta'
             href='#'
             onClick={this.props.addNote}
-          >Note <Icon name='plus'/></a>
+          ><Icon name='add-text'/></a>
         </div>
       </div>
     );
