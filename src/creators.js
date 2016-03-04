@@ -37,7 +37,11 @@ const hideSplash = createAction(
 const loadDone = createAction(
   actions.LOAD_DONE,
   payload => {
-    payload.last_redraw = Date.now();
+    const now = Date.now();
+    payload.state = payload.state.mergeDeep({
+      app: { last_redraw: now },
+      graph: { edited_at: now }
+    });
     return payload;
   },
   persistGraph
@@ -50,7 +54,12 @@ const doLayout = createAction(
 
 const layoutDone = createAction(
   actions.LAYOUT_DONE,
-  data => data,
+  nodes => {
+    return {
+      nodes,
+      edited_at: Date.now()
+    }
+  },
   persistGraph
 );
 
@@ -61,7 +70,13 @@ const redraw = createAction(
 
 const clear = createAction(
   actions.CLEAR,
-  () => {return {last_layout: Date.now()}},
+  () => {
+    const now = Date.now();
+    return {
+      last_layout: now,
+      edited_at: now
+    };
+  },
   persistGraph
 );
 
@@ -83,10 +98,12 @@ const showGraphControls = createAction(
 const addNode = createAction(
   actions.ADD_NODE,
   nodetype => {
+    const now = Date.now();
     return {
       nodetype,
       id: ShortID.generate(),
-      last_redraw: Date.now()
+      last_redraw: now,
+      edited_at: now
     }
   },
   persistGraph
@@ -95,9 +112,11 @@ const addNode = createAction(
 const addNote = createAction(
   actions.ADD_NOTE,
   () => {
+    const now = Date.now();
     return {
       id: ShortID.generate(),
-      last_redraw: Date.now()
+      last_redraw: now,
+      edited_at: now
     }
   },
   persistGraph
@@ -106,9 +125,11 @@ const addNote = createAction(
 const removeElement = createAction(
   actions.REMOVE_ELEMENT,
   element => {
+    const now = Date.now();
     return {
       element,
-      last_redraw: Date.now()
+      last_redraw: now,
+      edited_at: now
     };
   },
   persistGraph
@@ -156,7 +177,13 @@ const startDraggingNote = createAction(
 
 const endDraggingNote = createAction(
   actions.END_DRAGGING_NOTE,
-  (id, position) => {return {id, position}},
+  (id, position) => {
+    return {
+      id,
+      position,
+      edited_at: Date.now()
+    };
+  },
   persistGraph
 );
 
@@ -168,12 +195,14 @@ const setDisruptions = createAction(
 const addEdge = createAction(
   actions.ADD_EDGE,
   (nodetype, from_id, to_id) => {
+    const now = Date.now();
     return {
       nodetype,
       id: ShortID.generate(),
       from_id,
       to_id,
-      last_redraw: Date.now()
+      last_redraw: now,
+      edited_at: now
     }
   },
   persistGraph
@@ -182,12 +211,14 @@ const addEdge = createAction(
 const setElementAttribute = createAction(
   actions.SET_ELEMENT_ATTRIBUTE,
   (element, attribute, value, state_num) => {
+    const now = Date.now();
     return {
       element,
       attribute,
       value,
       state_num,
-      last_redraw: Date.now()
+      last_redraw: now,
+      edited_at: now
     };
   },
   persistGraph
@@ -195,7 +226,13 @@ const setElementAttribute = createAction(
 
 const setGraphAttribute = createAction(
   actions.SET_GRAPH_ATTRIBUTE,
-  (attribute, value) => {return {attribute, value}},
+  (attribute, value) => {
+    return {
+      attribute,
+      value,
+      edited_at: Date.now()
+    };
+  },
   persistGraph
 );
 
@@ -240,27 +277,31 @@ const exportPNG = createAction(
 const setState = createAction(
   actions.SET_STATE,
   num => {
+    const now = Date.now();
     return {
       num,
-      last_redraw: Date.now()
-    }
+      last_redraw: now,
+      edited_at: now
+    };
   },
   persistAll
 );
 
 const addState = createAction(
   actions.ADD_STATE,
-  () => {},
+  () => {return {edited_at: Date.now()}},
   persistGraph
 );
 
 const removeState = createAction(
   actions.REMOVE_STATE,
   num => {
+    const now = Date.now();
     return {
       num,
-      last_redraw: Date.now()
-    }
+      last_redraw: now,
+      edited_at: now
+    };
   },
   persistAll
 );

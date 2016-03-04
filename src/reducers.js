@@ -9,8 +9,6 @@ const DEFAULT_NODETYPE = 'chain';
 const DEFAULT_STATE_NAME = '';
 const DEFAULT_NOTE_TEXT = 'New note.'
 
-const now = Date.now();
-
 export default combineReducers({
   app: createReducer(new IMap({
     last_redraw: null,
@@ -34,10 +32,8 @@ export default combineReducers({
       state.set('show_splash', true),
     [actions.HIDE_SPLASH]: (state, action) =>
       state.set('show_splash', false),
-    [actions.LOAD_DONE]: (state, action) => {
-      state = state.merge(action.payload.state.get('app'));
-      return state.set('last_redraw', action.payload.last_redraw);
-    },
+    [actions.LOAD_DONE]: (state, action) =>
+      state.merge(action.payload.state.get('app')),
     [actions.DO_LAYOUT]: (state, action) =>
       state.set('last_layout', action.payload.last_layout),
     [actions.REDRAW]: (state, action) =>
@@ -167,7 +163,31 @@ export default combineReducers({
       let states = state.get('states');
       states = states.pop();
       return state.set('states', states);
-    }
+    },
+    [actions.LAYOUT_DONE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.CLEAR]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.ADD_NODE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.ADD_NOTE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.REMOVE_ELEMENT]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.END_DRAGGING_NOTE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.ADD_EDGE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.SET_STATE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.ADD_STATE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
+    [actions.REMOVE_STATE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at)
   }),
 
   nodes: combineReducers({
@@ -220,7 +240,7 @@ export default combineReducers({
 function nodeHandlers(nodetype) {
   const handlers = commonHandlers('nodes', nodetype);
   handlers[actions.LAYOUT_DONE] = (state, action) => {
-    for (let [id, coordinates] of action.payload) {
+    for (let [id, coordinates] of action.payload.nodes) {
       if (state.has(id)) {
         state = state.mergeIn([id], coordinates);
       }

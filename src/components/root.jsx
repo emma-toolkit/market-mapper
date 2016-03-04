@@ -178,6 +178,7 @@ const App = connect(
         <SplashPage
           graph={this.props.state.get('graph')}
           created_at={this.props.state.getIn(['graph', 'created_at'])}
+          edited_at={this.props.state.getIn(['graph', 'edited_at'])}
           hideSplash={this.props.hideSplash}
           loadJSON={this.props.loadJSON}
           newGraph={this.props.newGraph}
