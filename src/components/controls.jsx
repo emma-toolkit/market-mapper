@@ -47,7 +47,6 @@ export default createClass({
         <div className='add-entity-buttons'>
           <a
             className='add-entity-button settings button magenta'
-            href='#'
             onClick={this.props.showGraphControls}
           >
             <Icon name='cog'/>
@@ -56,24 +55,20 @@ export default createClass({
 
           <a
             className='add-entity-button environment button magenta'
-            href='#'
             onClick={() => this.props.addNode('environment')}
           >
             <Icon name='plus'/>
           </a>
           <a
             className='add-entity-button chain button magenta'
-            href='#'
             onClick={() => this.props.addNode('chain')}
           ><Icon name='plus'/></a>
           <a
             className='add-entity-button infrastructure button magenta'
-            href='#'
             onClick={() => this.props.addNode('infrastructure')}
           ><Icon name='plus'/></a>
           <a
             className='add-entity-button note button magenta'
-            href='#'
             onClick={this.props.addNote}
           ><Icon name='add-text'/></a>
         </div>
@@ -288,7 +283,6 @@ export default createClass({
           })}
           <a
             className='button'
-            href='#'
             onClick={this.props.addState}
           >
             Add state
@@ -296,7 +290,6 @@ export default createClass({
           {this.props.graph.get('states').size > 1 &&
           <a
             className='button'
-            href='#'
             onClick={this.props.removeState}
           >
             Remove state
@@ -306,7 +299,7 @@ export default createClass({
         <div className='form-section'>
           <h4>Save / Export</h4>
 
-          <a className='button' href='#' onClick={this.props.exportPNG}>
+          <a className='button' onClick={this.props.exportPNG}>
             Export Image (PNG)
           </a>
           <ToolTip>
@@ -315,7 +308,7 @@ export default createClass({
 
           <br/>
 
-          <a className='button' href='#' onClick={this.props.exportJSON}>
+          <a className='button' onClick={this.props.exportJSON}>
             Export Project File
           </a>
           <ToolTip>
@@ -354,7 +347,6 @@ export default createClass({
       <div id='controls' className='form'>
         <a
           id='toggle-controls'
-          href='#'
           onClick={this.props.toggleControls}
         >
           {toggle_icon}

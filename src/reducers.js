@@ -164,12 +164,18 @@ export default combineReducers({
     [actions.ADD_STATE]: (state, action) => {
       let states = state.get('states');
       states = states.push(DEFAULT_STATE_NAME);
-      return state.set('states', states);
+      return state.merge({
+        states,
+        edited_at: action.payload.edited_at
+      });
     },
     [actions.REMOVE_STATE]: (state, action) => {
       let states = state.get('states');
       states = states.pop();
-      return state.set('states', states);
+      return state.merge({
+        states,
+        edited_at: action.payload.edited_at
+      });
     },
     [actions.LAYOUT_DONE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
@@ -190,10 +196,6 @@ export default combineReducers({
     [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
     [actions.SET_STATE]: (state, action) =>
-      state.set('edited_at', action.payload.edited_at),
-    [actions.ADD_STATE]: (state, action) =>
-      state.set('edited_at', action.payload.edited_at),
-    [actions.REMOVE_STATE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at)
   }),
 

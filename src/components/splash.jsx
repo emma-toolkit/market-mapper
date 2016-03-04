@@ -23,7 +23,7 @@ export default class SplashPage extends React.Component {
 
             { created_at &&
               <div id='file-option-continue'>
-                <a className='button magenta' href='#' onClick={this.props.hideSplash}>
+                <a className='button magenta' onClick={this.props.hideSplash}>
                   Continue with existing project
                 </a>
                 <div className='existing-project-info'>
@@ -36,13 +36,12 @@ export default class SplashPage extends React.Component {
             }
 
             <div id='file-options-other'>
-              <a className='button magenta' href='#' onClick={this.props.newGraph}>
+              <a className='button magenta' onClick={this.props.newGraph}>
                 Start a new project
               </a>
               <br/>
               <a
                 className='button magenta'
-                href='#'
                 onClick={() => this.refs.file_input.click()}
               >
                 Load a saved project file

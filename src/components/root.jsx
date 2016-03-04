@@ -185,7 +185,7 @@ const App = connect(
         />}
         <header id='header-bar'>
           <h1>
-            <a href='#' onClick={this.props.showSplash}>
+            <a onClick={this.props.showSplash}>
               Market System Map Builder
             </a>
           </h1>
