@@ -155,7 +155,10 @@ export default combineReducers({
     [actions.LOAD_DONE]: (state, action) =>
       state.merge(action.payload.state.get('graph')),
     [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
-      state.set(action.payload.attribute, action.payload.value),
+      state.merge({
+        [action.payload.attribute]: action.payload.value,
+        edited_at: action.payload.edited_at
+    }),
     [actions.SET_STATE_NAME]: (state, action) => {
       let states = state.get('states');
       states = states.set(action.payload.num, action.payload.name);
@@ -192,8 +195,6 @@ export default combineReducers({
     [actions.ADD_EDGE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
     [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) =>
-      state.set('edited_at', action.payload.edited_at),
-    [actions.SET_GRAPH_ATTRIBUTE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
     [actions.SET_STATE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at)
