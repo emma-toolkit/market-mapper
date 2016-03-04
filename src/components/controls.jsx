@@ -79,27 +79,6 @@ export default createClass({
             onClick={this.props.addNote}
           >Note <Icon name='plus'/></a>
         </div>
-
-
-        <div className='form-section'>
-          <h4>Save / Export</h4>
-
-          <a className='button' href='#' onClick={this.props.exportPNG}>
-            Export Image (PNG)
-          </a>
-          <ToolTip>
-            Save an image of your finalized map for inclusion in reports
-          </ToolTip>
-
-          <br/>
-
-          <a className='button' href='#' onClick={this.props.exportJSON}>
-            Export Project File
-          </a>
-          <ToolTip>
-            Save an export of your map project for backup or to share with someone else for editing. When you are ready to work on it again, return to the welcome page, click on "LOAD A SAVED PROJECT FILE", and upload the exported file.
-          </ToolTip>
-        </div>
       </div>
     );
   },
@@ -325,6 +304,27 @@ export default createClass({
             Remove state
           </a>}
         </div>
+
+        <div className='form-section'>
+          <h4>Save / Export</h4>
+
+          <a className='button' href='#' onClick={this.props.exportPNG}>
+            Export Image (PNG)
+          </a>
+          <ToolTip>
+            Save an image of your finalized map for inclusion in reports
+          </ToolTip>
+
+          <br/>
+
+          <a className='button' href='#' onClick={this.props.exportJSON}>
+            Export Project File
+          </a>
+          <ToolTip>
+            Save an export of your map project for backup or to share with someone else for editing. When you are ready to work on it again, return to the welcome page, click on "LOAD A SAVED PROJECT FILE", and upload the exported file.
+          </ToolTip>
+        </div>
+
       </div>
     );
   },
