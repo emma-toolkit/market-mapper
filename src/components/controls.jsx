@@ -89,6 +89,7 @@ export default createClass({
         </div>
 
         <div className='form-section'>
+          {(selected.element === 'edges' || selected.nodetype === 'chain') &&
           <label className='form-input'>
             <span className='form-label'>Number, Price, Volume</span>
             <TextInput
@@ -99,6 +100,7 @@ export default createClass({
               setAttribute={this.setAttribute}
             />
           </label>
+          }
 
           <div className='form-input'>
             <span className='form-label'>Disruption</span>
