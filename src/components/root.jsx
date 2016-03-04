@@ -186,7 +186,7 @@ const App = connect(
         <header id='header-bar'>
           <h1>
             <a href='#' onClick={this.props.showSplash}>
-              Emergency Market Map Diagram Builder
+              Market System Map Builder
             </a>
           </h1>
         </header>

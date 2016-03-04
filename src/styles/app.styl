@@ -1,4 +1,4 @@
-@import '~html5-reset/assets/css/reset.css'
+@import './reset.css'
 
 controls_width = 30%
 controls_background = #333
@@ -168,6 +168,123 @@ h1, h2, h3, h4, h5
   color #B2DFDB
   font-size 10px
   font-style italic
+
+.tooltip-bubble
+
+
+.tooltip
+  display inline-block
+  position relative
+  border-radius 50%
+  width 25px
+  height 25px
+  cursor pointer
+  text-align center
+  background: rgba(0,0,0,0.3);
+
+  &:after
+    content: '?'
+    font-weight bold
+    color white
+    font-size 14px
+    line-height 25px
+
+  .tooltip-text
+    // visibility hidden
+    position absolute
+    left 100%
+    width 250px
+    min-height 50px
+    margin-left 10px
+    top -10px
+    z-index 500
+    // background-color black
+    color white
+    padding 10px 15px
+    font-size 12px
+    line-height 1.4em
+    background: rgba(0,0,0,0.3);
+
+    box-shadow: 5px 5px 15px rgba(48,54,61,0.3)
+    background: #2a3035
+    opacity: 0
+    cursor: default
+    pointer-events: none
+    text-align left
+    font-style italic
+
+    transform: translate3d(-10px,0px,10px) scale(.97, .97)
+    transition: opacity 0.3s, transform 0.3s
+
+
+    &:after
+      content: '';
+      top: 15px;
+      left: 0px;
+      border: solid transparent;
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: transparent;
+      border-right-color: #2a3035;
+      border-width: 10px;
+      margin-left: -20px;
+
+  &:hover
+    color $emma-green-bright
+    background #333
+
+    .tooltip-text
+      pointer-events auto
+      opacity .97
+      transform translate3d(0,0,0) rotate3d(0,0,0,0)
+
+.add-entity-buttons
+  position absolute
+  // height 100%
+  left 0
+  top 4px
+  bottom 4px
+  right 5px
+
+.button.add-entity-button
+  display block
+  position absolute
+  z-index 1
+  right 0px
+  margin 0
+  width: 36px
+  height: 36px
+  line-height 36px
+  border-radius 50%
+  text-align center
+  padding 0
+
+  &.settings
+    top 3px
+  &.environment
+    bottom 75%
+  &.note
+    top 50%
+  &.chain
+    bottom 25%
+  &.infrastructure
+    bottom 0%
+
+  .icon
+    width inherit
+    height inherit
+    vertical-align baseline
+    text-align center
+    line-height inherit
+    display block
+    svg
+      display inline-block
+      vertical-align middle
+      fill white
+      width 18px
+      height 18px
 
 @import './notes.styl'
 @import './forms.styl'

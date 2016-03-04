@@ -52,6 +52,11 @@ export default {
     path: './build',
     filename: '[name].js'
   },
+  resolve: {
+    alias: {
+      'icons': __dirname + '/src/images/icons'
+    }
+  },
   module: {
     preLoaders: [
       {test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader'}
@@ -62,7 +67,8 @@ export default {
       {test: /\.json$/, loader: 'json'},
       {test: /^((?!graph).)*\.styl$/, loaders: ['style', 'css', 'stylus']},
       {test: /graph\.styl$/, loaders: ['css?-minimize', 'stylus']},
-      {test: /\.(png|jpg|gif)$/, loader: 'url?limit=25000'}
+      {test: /\.(png|jpg|gif)$/, loader: 'url?limit=25000'},
+      {test: /\.(svg)$/, loader: 'svg-inline'}
     ]
   },
   plugins,

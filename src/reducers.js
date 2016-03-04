@@ -145,8 +145,8 @@ export default combineReducers({
   }),
 
   graph: createReducer(new IMap({
-    title: 'Market Assessment',
-    states: new List(['Base']),
+    title: 'Title',
+    states: new List(['Baseline']),
     created_at: null,
     edited_at: null
   }), {
