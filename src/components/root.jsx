@@ -253,9 +253,9 @@ const App = connect(
             clearInHandle={this.props.clearInHandle}
             setDisruptions={this.props.setDisruptions}
           />
-          {/*<Legend
+          <Legend
             legend={this.props.state.getIn(['graph', 'legend'])}
-          />*/}
+          />
         </div>
         <Controls
           graph={this.props.state.get('graph')}
