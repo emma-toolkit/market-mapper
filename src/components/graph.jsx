@@ -25,7 +25,7 @@ export default class Graph extends React.Component {
       } else {
         if (next_selected.get('element') === 'notes') {
           const this_element = this_selected.get('element');
-          if (this_element === 'notes' || this_element === 'edges') {
+          if (this_element === 'nodes' || this_element === 'edges') {
             return true;
           }
         }
