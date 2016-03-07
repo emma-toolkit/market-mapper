@@ -11,6 +11,8 @@ import Icon from './icon.jsx'
 import config from '../config.json'
 const createClass = React.createClass;
 
+const DEFAULT_COLOR_LABEL = 'Color label';
+
 export default createClass({
   // shouldComponentUpdate(next_props) {
   //   return next_props.show_controls !== this.props.show_controls ||
@@ -246,6 +248,10 @@ export default createClass({
     return (e) => this.props.setStateName(num, e.target.value);
   },
 
+  getSetColorLabel(color) {
+    return (e) => this.props.setColorLabel(color, e.target.value);
+  },
+
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       e.target.blur();
@@ -322,6 +328,35 @@ export default createClass({
     );
   },
 
+  legendControls() {
+    return (
+      <div>
+        <h3>Legend Settings</h3>
+        <div className='form-section'>
+          <span className='form-label'>Color labels</span>
+          {this.props.colors.map((color) => {
+            return (
+              <div key={color} className='form-input'>
+                <div
+                  className='form-legend-swatch'
+                  style={{backgroundColor: color}}
+                />
+                <input
+                  placeholder={DEFAULT_COLOR_LABEL}
+                  className='form-legend-swatch-label'
+                  type='text'
+                  value={this.props.legend.get(color)}
+                  onChange={this.getSetColorLabel(color)}
+                  onKeyPress={this.handleKeyPress}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  },
+
   renderControls() {
     if (!this.props.show_controls) return null;
     const selected = this.props.selected;
@@ -329,6 +364,9 @@ export default createClass({
     switch (this.props.controls_state) {
       case 'app':
         controls = this.generalControls();
+        break;
+      case 'legend':
+        controls = this.legendControls();
         break;
       case 'graph':
         controls = this.graphControls();

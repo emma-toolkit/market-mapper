@@ -30,6 +30,7 @@ const App = connect(
         dispatch(creators.toggleControls(show_controls));
       },
       showGraphControls() {dispatch(creators.showGraphControls())},
+      showLegendControls() {dispatch(creators.showLegendControls())},
       setState(num) {dispatch(creators.setState(num))},
       addState() {dispatch(creators.addState())},
       removeState(num) {dispatch(creators.removeState(num))},
@@ -61,6 +62,9 @@ const App = connect(
       setGraphAttribute(attribute, value) {
         dispatch(creators.setGraphAttribute(attribute, value));
       },
+      setColorLabel(color, label) {
+        dispatch(creators.setColorLabel(color, label));
+      },
       loadLocal(state) {dispatch(creators.loadLocal(state))},
       loadJSON(e) {dispatch(creators.loadJSON(e.target.files))},
       exportJSON(state) {dispatch(creators.exportJSON(state))},
@@ -75,6 +79,9 @@ const App = connect(
   },
   controlsShown() {
     return this.getAppProp('show_controls');
+  },
+  legendControlsShown() {
+    return this.getAppProp('controls') === 'legend';
   },
   componentDidMount() {
     window.addEventListener('resize', throttle(this.props.redraw));
@@ -154,6 +161,18 @@ const App = connect(
   getRecordFromElement(element) {
     const data = element.data();
     return this.props.state.getIn([data.element, data.nodetype, data.id]);
+  },
+  getUsedColors() {
+    const colors = [];
+    this.props.state.get('nodes').forEach(nodetype => {
+      nodetype.forEach(node => {
+        const color = node.get('color');
+        if (colors.indexOf(color) === -1) {
+          colors.push(color);
+        }
+      });
+    });
+    return colors;
   },
   handleMouseUp() {
     if (!this.getConnecting()) return;
@@ -255,7 +274,9 @@ const App = connect(
           />
           <Legend
             legend={this.props.state.getIn(['graph', 'legend'])}
-            nodes={this.props.state.get('nodes')}
+            colors={this.getUsedColors()}
+            showLegendControls={this.props.showLegendControls}
+            legend_controls_shown={this.legendControlsShown()}
           />
         </div>
         <Controls
@@ -282,6 +303,9 @@ const App = connect(
           addNode={this.props.addNode}
           addNote={this.props.addNote}
           setStateName={this.props.setStateName}
+          colors={this.getUsedColors()}
+          legend={this.props.state.getIn(['graph', 'legend'])}
+          setColorLabel={this.props.setColorLabel}
         />
       </div>
     );

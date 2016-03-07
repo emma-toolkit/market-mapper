@@ -5,16 +5,7 @@ const DEFAULT_COLOR_LABEL = 'Color label';
 
 export default createClass({
   getColors() {
-    const colors = [];
-    this.props.nodes.forEach(nodetype => {
-      nodetype.forEach(node => {
-        const color = node.get('color');
-        if (colors.indexOf(color) === -1) {
-          colors.push(color);
-        }
-      });
-    });
-    return colors.map(color => {
+    return this.props.colors.map(color => {
       const label = this.props.legend.has(color) ?
         this.props.legend.get(color) : DEFAULT_COLOR_LABEL;
       return (
@@ -29,8 +20,13 @@ export default createClass({
   },
 
   render() {
+    const class_name = this.props.legend_controls_shown ? 'selected' : '';
     return (
-      <div id='legend'>
+      <div
+        id='legend'
+        className={class_name}
+        onClick={this.props.showLegendControls}
+      >
         <table>
           <tbody>
             <tr>

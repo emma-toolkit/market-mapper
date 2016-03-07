@@ -50,6 +50,11 @@ export default combineReducers({
         controls: 'graph',
         selected: null
       }),
+    [actions.SHOW_LEGEND_CONTROLS]: (state, action) =>
+      state.merge({
+        controls: 'legend',
+        selected: null
+      }),
     [actions.ADD_NODE]: (state, action) =>
       state.merge({
         controls: 'element',
@@ -198,7 +203,13 @@ export default combineReducers({
     [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
     [actions.SET_STATE]: (state, action) =>
-      state.set('edited_at', action.payload.edited_at)
+      state.set('edited_at', action.payload.edited_at),
+    [actions.SET_COLOR_LABEL]: (state, action) => {
+      state = state.setIn(
+        ['legend', action.payload.color], action.payload.label
+      );
+      return state.set('edited_at', action.payload.edited_at);
+    }
   }),
 
   nodes: combineReducers({

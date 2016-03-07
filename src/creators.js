@@ -95,6 +95,10 @@ const showGraphControls = createAction(
   actions.SHOW_GRAPH_CONTROLS
 );
 
+const showLegendControls = createAction(
+  actions.SHOW_LEGEND_CONTROLS
+);
+
 const addNode = createAction(
   actions.ADD_NODE,
   nodetype => {
@@ -235,6 +239,18 @@ const setGraphAttribute = createAction(
   persistGraph
 );
 
+const setColorLabel = createAction(
+  actions.SET_COLOR_LABEL,
+  (color, label) => {
+    return {
+      color,
+      label,
+      edited_at: Date.now()
+    };
+  },
+  persistGraph
+);
+
 const exportJSON = createAction(
   actions.EXPORT_JSON,
   state => {
@@ -245,6 +261,7 @@ const exportJSON = createAction(
       created_at: state.getIn(['graph', 'created_at']),
       edited_at,
       states: state.getIn(['graph', 'states']).toArray(),
+      legend: state.getIn(['graph', 'legend']).toObject(),
       nodes: [],
       edges: [],
       notes: []
@@ -337,7 +354,8 @@ const loadJSON = files => {
         title: data.title,
         created_at: data.created_at,
         edited_at: data.edited_at,
-        states: new List(data.states)
+        states: new List(data.states),
+        legend: new IMap(data.legend)
       }),
       nodes: new IMap({
         environment: new IMap(),
@@ -397,6 +415,7 @@ export default {
   clear,
   toggleControls,
   showGraphControls,
+  showLegendControls,
   addNode,
   addNote,
   removeElement,
@@ -414,6 +433,7 @@ export default {
   addEdge,
   setElementAttribute,
   setGraphAttribute,
+  setColorLabel,
   loadLocal,
   loadJSON,
   exportJSON,

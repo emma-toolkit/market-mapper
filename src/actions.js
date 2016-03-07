@@ -8,6 +8,7 @@ const actions = [
   'REDRAW',
   'CLEAR',
   'TOGGLE_CONTROLS',
+  'SHOW_LEGEND_CONTROLS',
   'SHOW_GRAPH_CONTROLS',
   'ADD_NODE',
   'ADD_NOTE',
@@ -31,7 +32,8 @@ const actions = [
   'SET_STATE',
   'ADD_STATE',
   'REMOVE_STATE',
-  'SET_STATE_NAME'
+  'SET_STATE_NAME',
+  'SET_COLOR_LABEL'
 ];
 
 export default actions.reduce((prev, cur) => {
