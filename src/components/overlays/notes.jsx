@@ -5,19 +5,27 @@ const createClass = React.createClass;
 
 export default createClass({
   getInitialState() {
-    return {x: null, y: null, last_render: Date.now()};
+    return {
+      x: null,
+      y: null,
+      offsetX: null,
+      offsetY: null,
+      last_render: Date.now()
+    };
   },
 
   componentDidUpdate() {
     if (this.unrendered) {
       this.setState({last_render: Date.now()});
     }
-    if (!this.props.dragging && window.onmousemove !== null) return;
     const box = this.refs.div.getBoundingClientRect();
     const onMouseMove = this.props.dragging ?
       throttle(e => {
-        const x = e.pageX - box.left;
-        const y = e.pageY - box.top;
+        const note = this.refs[this.props.dragging];
+        const x = e.pageX - box.left + note.offsetWidth / 2 -
+          this.state.offsetX;
+        const y = e.pageY - box.top + note.offsetHeight / 2 -
+          this.state.offsetY;
         this.setState({x, y})
       }) :
       null;
@@ -25,11 +33,17 @@ export default createClass({
   },
 
   getHandleMouseDown(id) {
-    return () => {
+    const box = this.refs.div.getBoundingClientRect();
+    const noteDiv = this.refs[id];
+    return (e) => {
       this.setState(this.denormalize({
         x: this.props.notes.getIn([id, 'x']),
         y: this.props.notes.getIn([id, 'y'])
       }));
+      this.setState({
+        offsetX: e.pageX - box.left - noteDiv.offsetLeft,
+        offsetY: e.pageY - box.top - noteDiv.offsetTop
+      });
       this.props.startDragging(id);
     }
   },
