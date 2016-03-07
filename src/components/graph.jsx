@@ -169,12 +169,19 @@ export default class Graph extends React.Component {
           break;
       }
       const box = target.boundingBox();
+      const pos = {};
       if (box.y1 < upper) {
-        target.position('y', upper + box.h / 2);
+        pos.y = upper + box.h / 2;
       } else if (box.y2 > lower) {
-        target.position('y', lower - box.h / 2);
-      } else if (box.y1 === upper || box.y2 === lower) {
-        return;
+        pos.y = lower - box.h / 2;
+      }
+      if (box.x1 < 0) {
+        pos.x = box.w / 2;
+      } else if (box.x2 > this.refs.div.offsetWidth) {
+        pos.x = this.refs.div.offsetWidth - box.w / 2;
+      }
+      if (Object.keys(pos).length > 0) {
+        target.position(pos);
       }
     });
     this.graph.on('select', e => {
@@ -186,7 +193,6 @@ export default class Graph extends React.Component {
     this.graph.on('click', 'node', e => {
       if (e.cyTarget.isParent()) {
         this.props.deselectElement();
-        // e.cy.elements(':selected').deselect();
       }
     });
     this.graph.on('click', e => {
