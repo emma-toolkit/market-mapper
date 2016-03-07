@@ -17,11 +17,19 @@ export default class Graph extends React.Component {
   constructor(props) {super(props)}
 
   shouldComponentUpdate(next_props) {
-    if (
-      next_props.state.getIn(['app', 'selected']) === null &&
-      this.props.state.getIn(['app', 'selected']) !== null
-    ) {
-      this.graph.elements(':selected').deselect();
+    const this_selected = this.props.state.getIn(['app', 'selected']);
+    const next_selected = next_props.state.getIn(['app', 'selected']);
+    if (this_selected !== null) {
+      if (next_selected === null) {
+        this.graph.elements(':selected').deselect();
+      } else {
+        if (next_selected.get('element') === 'notes') {
+          const this_element = this_selected.get('element');
+          if (this_element === 'notes' || this_element === 'edges') {
+            return true;
+          }
+        }
+      }
     }
 
     if (
@@ -177,7 +185,8 @@ export default class Graph extends React.Component {
     });
     this.graph.on('click', 'node', e => {
       if (e.cyTarget.isParent()) {
-        e.cy.elements(':selected').deselect();
+        this.props.deselectElement();
+        // e.cy.elements(':selected').deselect();
       }
     });
     this.graph.on('click', e => {
