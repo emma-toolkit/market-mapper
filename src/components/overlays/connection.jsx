@@ -9,10 +9,14 @@ export default createClass({
   },
   componentDidUpdate() {
     if (!this.props.connecting && window.onmousemove !== null) return;
+    const box = this.refs.div.getBoundingClientRect();
     const onMouseMove = this.props.connecting && !this.props.in_handle ?
       throttle(e => {
         if (e.target.className !== 'handle') {
-          this.setState({x: e.offsetX, y: e.offsetY});
+          this.setState({
+            x: e.pageX - box.left,
+            y: e.pageY - box.top
+          });
         }
       }) :
       null;
@@ -66,7 +70,7 @@ export default createClass({
   },
   render() {
     return (
-      <div className='overlay'>
+      <div className='overlay' ref='div'>
         {this.getOutHandle()}
         {this.getInHandle()}
         {this.getLine()}
