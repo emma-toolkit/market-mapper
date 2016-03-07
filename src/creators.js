@@ -220,8 +220,7 @@ const setElementAttribute = createAction(
       last_redraw: now,
       edited_at: now
     };
-  },
-  persistGraph
+  }
 );
 
 const setGraphAttribute = createAction(

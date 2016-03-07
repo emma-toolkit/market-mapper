@@ -8,7 +8,6 @@ import config from './config.json'
 const DEFAULT_NODETYPE = 'chain';
 const DEFAULT_STATE_NAME = '';
 const DEFAULT_NOTE_TEXT = 'New note.'
-const DEFAULT_LEGEND_LABEL = 'Color label';
 
 export default combineReducers({
   app: createReducer(new IMap({
@@ -196,20 +195,8 @@ export default combineReducers({
       state.set('edited_at', action.payload.edited_at),
     [actions.ADD_EDGE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at),
-    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) => {
-      if (
-        action.payload.element.get('element') === 'nodes' &&
-          action.payload.attribute === 'color'
-      ) {
-        let legend = state.get('legend');
-        const color = action.payload.value;
-        if (!legend.keySeq().includes(color)) {
-          legend = legend.set(color, DEFAULT_LEGEND_LABEL);
-          state = state.set('legend', legend);
-        }
-      }
-      return state.set('edited_at', action.payload.edited_at);
-    },
+    [actions.SET_ELEMENT_ATTRIBUTE]: (state, action) =>
+      state.set('edited_at', action.payload.edited_at),
     [actions.SET_STATE]: (state, action) =>
       state.set('edited_at', action.payload.edited_at)
   }),

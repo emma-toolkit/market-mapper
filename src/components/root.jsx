@@ -255,6 +255,7 @@ const App = connect(
           />
           <Legend
             legend={this.props.state.getIn(['graph', 'legend'])}
+            nodes={this.props.state.get('nodes')}
           />
         </div>
         <Controls
