@@ -11,7 +11,7 @@ import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
 
-const EDGE_DISRUPTION_OFFSET = 0.7;
+const EDGE_DISRUPTION_OFFSET = 0.65;
 
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
