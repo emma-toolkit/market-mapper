@@ -10,7 +10,7 @@ export const Node = Record({
   disruption: '',
   x: 0,
   y: 0,
-  color: '#ffffff',
+  color: '#FFFFFF',
   quantities: '',
   active: true,
   states: new IMap({
