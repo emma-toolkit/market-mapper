@@ -110,6 +110,12 @@ export default class Graph extends React.Component {
       const connecting = this.props.getConnecting();
       if (connecting && nodetype === 'infrastructure') return;
 
+      const out_record = this.props.getOutHandle();
+      if (out_record) {
+        const out_node = this.graph.getElementById(out_record.id);
+        if (out_node.edgesWith(hovered).length) return;
+      }
+
       const position = hovered.renderedPosition();
       const bounding_box = hovered.renderedBoundingBox();
       if (connecting) {

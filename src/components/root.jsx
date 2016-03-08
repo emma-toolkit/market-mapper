@@ -167,7 +167,7 @@ const App = connect(
     this.props.state.get('nodes').forEach(nodetype => {
       nodetype.forEach(node => {
         const color = node.get('color');
-        if (colors.indexOf(color) === -1) {
+        if (color !== '#FFFFFF' && colors.indexOf(color) === -1) {
           colors.push(color);
         }
       });
