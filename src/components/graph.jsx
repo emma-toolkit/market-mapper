@@ -11,7 +11,7 @@ import graph_style from '../styles/graph.styl'
 
 CytoscapeDagre(Cytoscape, Dagre);
 
-const EDGE_DISRUPTION_OFFSET = 0.53;
+const EDGE_DISRUPTION_OFFSET = 0.7;
 
 export default class Graph extends React.Component {
   constructor(props) {super(props)}
@@ -227,22 +227,18 @@ export default class Graph extends React.Component {
           location.y = box.y1 + 15;
         } else {
           const edgeNodes = element.connectedNodes();
-          const n1 = edgeNodes[0].position();
-          const n2 = edgeNodes[1].position();
-          let x_factor;
-          let y_factor;
-          if (n1.x < n2.x) {
-            x_factor = EDGE_DISRUPTION_OFFSET;
-          } else {
-            x_factor = 1 - EDGE_DISRUPTION_OFFSET;
-          }
-          if (n1.y < n2.y) {
-            y_factor = EDGE_DISRUPTION_OFFSET;
-          } else {
-            y_factor = 1 - EDGE_DISRUPTION_OFFSET;
-          }
-          location.x = box.x1 + (box.x2 - box.x1) * x_factor;
-          location.y = box.y1 + (box.y2 - box.y1) * y_factor;
+          const c1 = edgeNodes[0].position();
+          const c2 = edgeNodes[1].position();
+          const b1 = edgeNodes[0].boundingBox();
+          const b2 = edgeNodes[1].boundingBox();
+          const end1 = getIntersection(
+            c2, c1, {x: b1.x1, y: b1.y1}, {x: b1.x2, y: b1.y2}
+          );
+          const end2 = getIntersection(
+            c1, c2, {x: b2.x1, y: b2.y1}, {x: b2.x2, y: b2.y2}
+          );
+          location.x = end1.x + (end2.x - end1.x) * EDGE_DISRUPTION_OFFSET;
+          location.y = end1.y + (end2.y - end1.y) * EDGE_DISRUPTION_OFFSET;
         }
         disruptions.push(location);
       });
@@ -485,5 +481,37 @@ export default class Graph extends React.Component {
 
   render() {
     return <div id='graph' ref='div' />;
+  }
+}
+
+function getIntersection(end, center, min, max) {
+  const m = (center.y - end.y) / (center.x - end.x);
+
+  if (end.x <= center.x) {
+    const y = m * (min.x - end.x) + end.y;
+    if (min.y < y && y < max.y) {
+      return {x: min.x, y};
+    }
+  }
+
+  if (end.x >= center.x) {
+    const y = m * (max.x - end.x) + end.y;
+    if (min.y < y && y < max.y) {
+      return {x: max.x, y};
+    }
+  }
+
+  if (end.y <= center.y) {
+    const x = (min.y - end.y) / m + end.x;
+    if (min.x < x && x < max.x) {
+      return {x, y: min.y};
+    }
+  }
+
+  if (end.y >= center.y) {
+    const x = (max.y - end.y) / m + end.x;
+    if (min.x < x && x < max.x) {
+      return {x, y: max.y};
+    }
   }
 }
