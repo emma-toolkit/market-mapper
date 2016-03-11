@@ -13,7 +13,7 @@ export default createClass({
           <td className='legend-swatch'>
             <div style={{backgroundColor: color}} />
           </td>
-          <td className='legend-label'>{label}</td>
+          <td className='legend-label'>{label || 'Color label'}</td>
         </tr>
       );
     });
