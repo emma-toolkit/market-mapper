@@ -52,27 +52,37 @@ export default createClass({
             onClick={this.props.showGraphControls}
           >
             <Icon name='cog'/>
+            <span className='tooltip-text left small'>Edit map settings + save/export</span>
           </a>
-
 
           <a
             className='add-entity-button environment button magenta'
             onClick={() => this.props.addNode('environment')}
           >
             <Icon name='plus'/>
+            <span className='tooltip-text left small'>Add section element</span>
           </a>
           <a
             className='add-entity-button chain button magenta'
             onClick={() => this.props.addNode('chain')}
-          ><Icon name='plus'/></a>
+          >
+            <Icon name='plus'/>
+            <span className='tooltip-text left small'>Add section element</span>
+          </a>
           <a
             className='add-entity-button infrastructure button magenta'
             onClick={() => this.props.addNode('infrastructure')}
-          ><Icon name='plus'/></a>
+          >
+            <Icon name='plus'/>
+            <span className='tooltip-text left small'>Add section element</span>
+          </a>
           <a
             className='add-entity-button note button magenta'
             onClick={this.props.addNote}
-          ><Icon name='add-text'/></a>
+          >
+            <Icon name='add-text'/>
+            <span className='tooltip-text left small'>Add text note</span>
+          </a>
         </div>
       </div>
     );
@@ -114,15 +124,22 @@ export default createClass({
             />
           </div>
 
-          <label className='form-input'>
-            <span className='form-label'>Active</span>
-            <CheckBoxInput
-              attribute='active'
-              value={this.getAttribute('active')}
-              setAttribute={this.setAttribute}
-            />
-            <span>{el_type} is active in this state</span>
-          </label>
+          {(this.props.graph.get('states').length > 1) &&
+            <label className='form-input'>
+              <span className='form-label'>
+                Active
+                <ToolTip>
+                  Uncheck this box if this element does not exist in this "state" (for example, a disaster relief organization may not exist in the baseline state).
+                </ToolTip>
+              </span>
+              <CheckBoxInput
+                attribute='active'
+                value={this.getAttribute('active')}
+                setAttribute={this.setAttribute}
+              />
+              <span>{el_type} is active in this state</span>
+            </label>
+          }
         </div>
 
         <div className='form-section'>
@@ -166,17 +183,24 @@ export default createClass({
         </div>
 
         <label className='form-input'>
-          <span className='form-label'>Name</span>
+          <span className='form-label'>
+            Name
+          </span>
           <TextInput
             attribute='name'
-            placeholder='(optional)'
+            placeholder=''
             value={this.getAttribute('name')}
             setAttribute={this.setAttribute}
           />
         </label>
 
         <div className='form-input'>
-          <span className='form-label'>Color</span>
+          <span className='form-label'>
+            Color
+            <ToolTip>
+              Use colors to represent any concept you want. All colors (except white) that you use will appear in the legend at the bottom right. Click the legend to edit their labels.
+            </ToolTip>
+          </span>
           <ColorInput
             value={this.getAttribute('color')}
             setAttribute={this.setAttribute}
@@ -191,7 +215,12 @@ export default createClass({
       <div>
         <div className='input-bar'>
           <div className='form-input'>
-            <span className='form-label'>Line Width</span>
+            <span className='form-label'>
+              Line Width
+              <ToolTip>
+                Use lines of different thicknesses as a visual cue of the relative strength of connections.
+              </ToolTip>
+            </span>
             <NumberInput
               attribute='width'
               min='1'
@@ -202,7 +231,12 @@ export default createClass({
           </div>
 
           <div className='form-input'>
-            <span className='form-label'>Line Style</span>
+            <span className='form-label'>
+              Line Style
+              <ToolTip>
+                 Use styles as you see fit - there is no standardized meaning of these line styles.
+              </ToolTip>
+            </span>
             <SelectInput
               attribute='linestyle'
               value={this.getAttribute('linestyle')}
@@ -275,7 +309,14 @@ export default createClass({
         </div>
 
         <div className='form-section'>
-          <span className='form-label'>Possible Market States</span>
+          <span className='form-label'>
+            Possible Market States
+            <ToolTip>
+              Add multiple states to show how the market system reacts to different situations - for example "Baseline" vs "Disaster". The elements of the system will remain constant, but you can change the properties of the elements by toggling to each state and setting them.
+            </ToolTip>
+          </span>
+
+
           {this.props.graph.get('states').map((state, i) => {
             return (
               <div key={i} className='form-input'>
@@ -333,23 +374,28 @@ export default createClass({
       <div>
         <h3>Legend Settings</h3>
         <div className='form-section'>
-          <span className='form-label'>Color labels</span>
+          <span className='form-label'>
+            Color labels
+            <ToolTip>
+              You can choose to use colors to represent any concepts you like.
+            </ToolTip>
+          </span>
           {this.props.colors.map((color) => {
             return (
-              <div key={color} className='form-input'>
+              <label key={color} className='form-input'>
                 <div
                   className='form-legend-swatch'
                   style={{backgroundColor: color}}
                 />
                 <input
-                  placeholder={DEFAULT_COLOR_LABEL}
+                  placeholder='ex: Target group'
                   className='form-legend-swatch-label'
                   type='text'
                   value={this.props.legend.get(color)}
                   onChange={this.getSetColorLabel(color)}
                   onKeyPress={this.handleKeyPress}
                 />
-              </div>
+              </label>
             );
           })}
         </div>

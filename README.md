@@ -1,21 +1,35 @@
-# EMMA Toolkit
+## Market System Mapping Tool
 
-[![Circle CI](https://circleci.com/gh/theoephraim/emma-toolkit.svg?style=svg)](https://circleci.com/gh/theoephraim/emma-toolkit)
+This is a browser-based diagramming tool for use in humanitarian market assessments including EMMA, PCMA and others.
+More information on the methodology is available on the [EMMA website](http://www.emma-toolkit.org/).
 
-Sample data can be loaded from `dev/data`.
+**To use this tool, simply go to http://emma-toolkit.github.io/emma-toolkit/ and start building your market map!**
 
-- `npm run dev`
+---------------------------------
 
-    Runs dev server with hot loading at `http://localhost:8080`.
+### Credits
 
-    DevTool is hidden by default, `ctrl-h` to show.
+This tool was developed under the leadership of the [International Rescue Committee](http://rescue.org) and made possible by a generous grant from the [United States Agency for International Development (USAID)](https://www.usaid.gov).
 
-- `npm run build`
+<img src="https://raw.githubusercontent.com/emma-toolkit/emma-toolkit/master/src/images/usaid.png" height="120">
+<img src="https://raw.githubusercontent.com/emma-toolkit/emma-toolkit/master/src/images/irc.gif" height="120">
 
-    Builds for production to `build` directory.
+---------------------------------
 
-    Automatically cleans previous build.
+### Contributing
 
-- `npm run clean`
+This tool was built to support a wide array of organizations conducting humanitarian market assessments, and it is our hope that this community continues to help maintain and develop the tool further. If you are interested in helping, either through funding, software development, or even just ideas and feedback, please contact [livelihoodsadmin@rescue.org](mailto:livelihoodsadmin@rescue.org).
 
-    Removes `build` directory and contents.
+Pull requests, issues, and feedback welcome!
+
+---------------------------------
+
+### Developing Locally
+
+To run the tool locally for development purposes, simply clone the repo, run `npm install` and then `npm run dev`.
+
+- Runs a dev server with hot loading at `http://localhost:8080`
+- DevTool is hidden by default, `ctrl-h` to show
+- Sample data can be loaded from `dev/data`
+
+Deployments are handled automatically by CircleCI when commits are merged into master.

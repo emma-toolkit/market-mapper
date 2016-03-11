@@ -6,9 +6,10 @@ export default class ToolTip extends React.Component {
   }
 
   render() {
+    const dir = this.props.direction || 'right';
     return (
       <div className='tooltip'>
-        <span className='tooltip-text'>
+        <span className={'tooltip-text '+dir}>
           {this.props.children}
         </span>
       </div>
