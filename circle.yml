@@ -7,6 +7,7 @@ deployment:
     branch: master
     commands:
       - npm run build
+      - echo "market-mapper.emma-toolkit.org" > build/CNAME  # CNAME for github pages
       - git config --global user.email "theozero@gmail.com"
       - git config --global user.name "Autodeploy"
       - wget https://github.com/X1011/git-directory-deploy/raw/master/deploy.sh && chmod +x deploy.sh
