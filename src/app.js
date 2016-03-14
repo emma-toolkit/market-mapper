@@ -9,6 +9,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  const is_mac = !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i);
+  document.body.classList.add(is_mac ? 'mac' : 'not-mac');
+
   // Append wrapper.
   const div = document.createElement('DIV');
   document.body.appendChild(div);

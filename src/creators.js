@@ -284,14 +284,15 @@ const exportJSON = createAction(
 const exportPNG = createAction(
   actions.EXPORT_PNG,
   (el, title, edited_at) => {
+    el.classList.add('rendering');
     const filename = getFilename(title, edited_at, 'png');
     html2canvas(el, {
       background: '#FFFFFF',
-      // onclone(new_el) {
-      // }
+      letterRendering: true,
     }).then(canvas => {
       const dataURL = canvas.toDataURL('image/png');
       download(dataURL, filename);
+      el.classList.remove('rendering');
     });
   }
 );
