@@ -15,8 +15,10 @@ disruption_size = 20px
 
 header_bar_height = 36px
 
-header_fonts = Futura, 'Trebuchet MS', Arial, sans-serif;
-body_fonts = 'Helvetica Neue', Helvetica, Arial, sans-serif
+header_fonts = Futura, Arial, sans-serif;
+header_fonts_windows = 'Trebuchet MS', Arial, sans-serif;
+body_fonts = 'Helvetica Neue', Helvetica, "Arial Narrow", sans-serif
+body_fonts_windows = Arial, sans-serif
 
 $emma-green = #008080
 $emma-green-dark = #006666
@@ -32,10 +34,17 @@ html, body
 
 body
   color body_color
-  font-family: body_fonts
 
+body
+  font-family: body_fonts
 input, button
   font-family: body_fonts
+
+body.not-mac
+  font-family: body_fonts_windows
+  input, button
+    font-family: body_fonts_windows
+
 
 a
   color ui_color
@@ -58,6 +67,9 @@ ui_button()
 
 h1, h2, h3, h4, h5
   font-family: header_fonts
+body.not-mac
+  h1, h2, h3, h4, h5
+    font-family: header_fonts_windows
 
 #main-wrapper
   width 100%
@@ -90,6 +102,9 @@ h1, h2, h3, h4, h5
   border 3px solid #004D40
   &.connecting
     cursor -webkit-grabbing
+
+  // &.rendering
+
 
 #controls
   position absolute

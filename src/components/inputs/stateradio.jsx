@@ -15,9 +15,9 @@ export default createClass({
         {Array.from(this.props.states.keys()).map((key) => {
           const active_class = key === this.props.state ? ' is-active' : ''
           return (
-            <div className={'state-toggle-item'+active_class} key={key} onClick={this.handleClick.bind(null, key)}>
+            <h3 className={'state-toggle-item'+active_class} key={key} onClick={this.handleClick.bind(null, key)}>
               {this.props.states.get(key) || 'unnamed state'}
-            </div>
+            </h3>
           );
         })}
       </div>
