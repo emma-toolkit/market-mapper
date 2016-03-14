@@ -3,7 +3,7 @@
 This is a browser-based diagramming tool for use in humanitarian market assessments including EMMA, PCMA and others.
 More information on the methodology is available on the [EMMA website](http://www.emma-toolkit.org/).
 
-**To use this tool, simply go to http://emma-toolkit.github.io/emma-toolkit/ and start building your market map!**
+**To use this tool, simply go to http://market-mapper.emma-toolkit.org and start building your market map!**
 
 ---------------------------------
 
