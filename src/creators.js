@@ -284,15 +284,25 @@ const exportJSON = createAction(
 const exportPNG = createAction(
   actions.EXPORT_PNG,
   (el, title, edited_at) => {
-    el.classList.add('rendering');
+    // el.classList.add('rendering');
     const filename = getFilename(title, edited_at, 'png');
     html2canvas(el, {
       background: '#FFFFFF',
       letterRendering: true,
+      onclone(new_doc) {
+        // const body = new_doc.getElementsByTagName('BODY')[0];
+        const body = new_doc.getElementById('display');
+        body.style.position = 'absolute';
+        body.style.top = 0;
+        body.style.left = 0;
+        console.log(body.offsetLeft, body.offsetTop);
+        console.log(body.offsetWidth, body.offsetHeight);
+        console.log(body.style.width, body.style.height);
+      }
     }).then(canvas => {
       const dataURL = canvas.toDataURL('image/png');
       download(dataURL, filename);
-      el.classList.remove('rendering');
+      // el.classList.remove('rendering');
     });
   }
 );
