@@ -284,25 +284,58 @@ const exportJSON = createAction(
 const exportPNG = createAction(
   actions.EXPORT_PNG,
   (el, title, edited_at) => {
-    // el.classList.add('rendering');
     const filename = getFilename(title, edited_at, 'png');
     html2canvas(el, {
       background: '#FFFFFF',
       letterRendering: true,
       onclone(new_doc) {
-        // const body = new_doc.getElementsByTagName('BODY')[0];
-        const body = new_doc.getElementById('display');
-        body.style.position = 'absolute';
-        body.style.top = 0;
-        body.style.left = 0;
-        console.log(body.offsetLeft, body.offsetTop);
-        console.log(body.offsetWidth, body.offsetHeight);
-        console.log(body.style.width, body.style.height);
+        const display = new_doc.getElementById('display');
+        display.style.position = 'absolute';
+        display.style.top = 0;
+        display.style.left = 0;
+        display.style.height = `${display.offsetHeight}px`;
+        display.style.width = `${display.offsetWidth}px`;
+
+        const environment = new_doc.getElementById('environment');
+        const environment_top = `${environment.offsetTop}px`;
+        const environment_width = `${environment.offsetWidth}px`;
+        const environment_height = `${environment.offsetHeight}px`;
+
+        const chain = new_doc.getElementById('chain');
+        const chain_top = `${chain.offsetTop}px`;
+        const chain_width = `${chain.offsetWidth}px`;
+        const chain_height = `${chain.offsetHeight}px`;
+
+        const infrastructure = new_doc.getElementById('infrastructure');
+        const infrastructure_top = `${infrastructure.offsetTop}px`;
+        const infrastructure_width = `${infrastructure.offsetWidth}px`;
+        const infrastructure_height = `${infrastructure.offsetHeight}px`;
+
+        const legend = new_doc.getElementById('legend');
+        const legend_width = `${legend.offsetWidth}px`;
+        const legend_height = `${legend.offsetHeight}px`;
+
+        environment.style.position = 'absolute';
+        environment.style.top = environment_top;
+        environment.style.width = environment_width
+        environment.style.height = environment_height;
+
+        chain.style.position = 'absolute';
+        chain.style.top = chain_top;
+        chain.style.width = chain_width
+        chain.style.height = chain_height;
+
+        infrastructure.style.position = 'absolute';
+        infrastructure.style.top = infrastructure_top;
+        infrastructure.style.width = infrastructure_width
+        infrastructure.style.height = infrastructure_height;
+
+        legend.style.width = legend_width;
+        legend.style.height = legend_height;
       }
     }).then(canvas => {
       const dataURL = canvas.toDataURL('image/png');
       download(dataURL, filename);
-      // el.classList.remove('rendering');
     });
   }
 );
