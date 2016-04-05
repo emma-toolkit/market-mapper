@@ -1,7 +1,7 @@
 ## Market System Mapping Tool
 
 This is a browser-based diagramming tool for use in humanitarian market assessments including EMMA, PCMA and others.
-More information on the methodology is available on the [EMMA website](http://www.emma-toolkit.org/).
+More information on the tool and the methodology is available on the [EMMA website](http://www.emma-toolkit.org/market-system-mapping-tool).
 
 **To use this tool, simply go to http://market-mapper.emma-toolkit.org and start building your market map!**
 

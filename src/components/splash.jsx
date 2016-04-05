@@ -58,7 +58,7 @@ export default class SplashPage extends React.Component {
 
           <h2>About this tool</h2>
           <p className='splash-small-p'>
-            This tool was built to enable people conducting market assessments to quickly build visually appealing market system maps for use in their reports. It assumes some familiarity with the EMMA methodology and that users already have a clear idea of the elements of their market map. It is intended to be intuitive enough to use without much instruction, but additional information is available on the <a href='http://www.emma-toolkit.org/' target='_blank'>EMMA website</a>.
+            This tool was built to enable people conducting market assessments to quickly build visually appealing market system maps for use in their reports. It assumes some familiarity with the EMMA methodology and that users already have a clear idea of the elements of their market map. It is intended to be intuitive enough to use without much instruction, but additional information is available on the <a href='http://www.emma-toolkit.org/market-system-mapping-tool' target='_blank'>EMMA website</a>.
             <br/><br/>
             This tool is open source, and we hope the community will continue to develop it further. If you have questions about the tool or are interested in contributing to its development, please write to <a href='mailto:livelihoodsadmin@rescue.org' target='_blank'>livelihoodsadmin@rescue.org</a> and check out our <a href='https://github.com/emma-toolkit/emma-toolkit' target='_blank'>github page</a>.
           </p>
