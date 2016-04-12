@@ -13,7 +13,10 @@ import StateRadioInput from './inputs/stateradio.jsx'
 import Controls from './controls.jsx'
 import DevTools from '../../dev/devtools.jsx'
 import throttle from 'lodash.throttle'
+import ga from 'react-ga'
 const createClass = React.createClass
+
+ga.initialize('UA-61753346-2');
 
 const App = connect(
   state => {return {state}},
@@ -84,6 +87,7 @@ const App = connect(
     return this.getAppProp('controls') === 'legend';
   },
   componentDidMount() {
+    ga.pageview('/');
     window.addEventListener('resize', throttle(this.props.redraw));
     window.onkeydown = e => {
       switch (e.code) {
