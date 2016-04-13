@@ -1,10 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import analytics from 'react-ga'
+import offline_plugin from 'offline-plugin/runtime'
 import Root from './components/root.jsx'
 import store from './store'
-import offline_plugin from 'offline-plugin/runtime'
+import config from './config.json'
 
 if (process.env.NODE_ENV === 'production') {
+  analytics.initialize(config.analytics)
   offline_plugin.install();
 }
 
@@ -20,4 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Render app.
   const root = React.createElement(Root, {store: store});
   ReactDOM.render(root, div);
+
+  if (process.env.NODE_ENV === 'production') {
+    analytics.pageview('/');
+  }
 });
